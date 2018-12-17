@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail as MustVerifyEmailContract;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Lumen\Auth\Authorizable;
+use Laravel\Passport\HasApiTokens;
 
 class User extends Model implements
     AuthenticatableContract,
@@ -19,7 +20,12 @@ class User extends Model implements
     CanResetPasswordContract,
     MustVerifyEmailContract
 {
-    use Authenticatable, Authorizable, Notifiable, CanResetPassword, MustVerifyEmail;
+    use Authenticatable,
+        Authorizable,
+        Notifiable,
+        CanResetPassword,
+        MustVerifyEmail,
+        HasApiTokens;
 
     /**
      * The attributes that are mass assignable.

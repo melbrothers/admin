@@ -1,0 +1,47 @@
+version: '3'
+services:
+  web:
+    build:
+      context: ./docker
+    container_name: tasker-api.local
+    ports:
+      - "8000:80"
+    links:
+      - mysql
+    volumes:
+      - .:/var/www/html
+      - ./docker/php.ini:/usr/local/etc/php/php.ini"
+    environment:
+      DB_HOST: mysql
+    networks:
+      - app-network
+
+  mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_DATABASE: homestead
+      MYSQL_USER: homestead
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: secret
+    ports:
+      - "33061:3306"
+    volumes:
+      - mysqldata:/var/lib/mysql
+    networks:
+      - app-network
+
+  redis:
+    image: redis
+    volumes:
+      - redisdata:/data
+    networks:
+      - app-network
+
+volumes:
+  mysqldata:
+    driver: "local"
+  redisdata:
+    driver: "local"
+networks:
+  app-network:
+    driver: "bridge"

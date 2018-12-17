@@ -12,5 +12,17 @@
 */
 
 $router->get('/', function () use ($router) {
-    return $router->app->version();
+    return str_random(32);
 });
+
+//$router->group(['prefix' => 'api'], function() use (&$router) {
+//
+//    $router->group(['prefix' => 'v1'], function() use (&$router) {
+//
+//        // Test Route
+//        $router->group(['prefix' => 'test'], function() use (&$router) {
+//
+//            echo "routing stuff...";
+//        });
+//    });
+//});
