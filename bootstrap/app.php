@@ -90,6 +90,7 @@ $app->register(Laravel\Passport\PassportServiceProvider::class);
 $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
 $app->register(SocialiteProviders\Manager\ServiceProvider::class);
+$app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

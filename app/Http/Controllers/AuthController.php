@@ -4,7 +4,11 @@ namespace App\Http\Controllers;
 
 use App\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
@@ -67,5 +71,42 @@ class AuthController extends Controller
                 'provider_user' => $providerUser
             ]
         );
+    }
+
+    public function register(Request $request)
+    {
+        $this->validate($request, [
+            'username' => 'required|email|unique:users',
+            'password' => 'required|alpha'
+        ]);
+
+        $data = $request->only('username', 'password');
+        $client = \Laravel\Passport\Client::where('password_client', 1)->first();
+        $user = User::create([
+            'username' => $data['username'],
+            'password' => Hash::make($data['password']),
+        ]);
+
+        $request->request->add([
+            'grant_type'    => 'password',
+            'client_id'     => $client->id,
+            'client_secret' => $client->secret,
+            'username'      => $user->email,
+            'password'      => $user->password,
+            'scope'         => null,
+        ]);
+
+        // Fire off the internal request.
+        $proxy = Request::create(
+            'oauth/token',
+            'POST'
+        );
+        dd($proxy);
+        return Route::dispatch($proxy);
+    }
+
+    public function login(Request $request)
+    {
+        Auth::attempt();
     }
 }

@@ -15,6 +15,10 @@ $router->get('/', function () use ($router) {
     return str_random(32);
 });
 
+$router->post('/register', 'AuthController@register');
+
+$router->get('auth/login', 'AuthController@redirectToProvider');
+$router->get('auth/login/callback', 'AuthController@handleProviderCallback');
 //$router->group(['prefix' => 'api'], function() use (&$router) {
 //
 //    $router->group(['prefix' => 'v1'], function() use (&$router) {
