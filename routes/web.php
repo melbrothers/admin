@@ -12,13 +12,23 @@
 */
 
 $router->get('/', function () use ($router) {
-    return str_random(32);
+    return $router->app->version();
 });
 
-$router->post('/register', 'AuthController@register');
+$router->post('register', 'AuthController@register');
+$router->post('login', 'AuthController@login');
 
-$router->get('auth/login', 'AuthController@redirectToProvider');
-$router->get('auth/login/callback', 'AuthController@handleProviderCallback');
+$router->get('social/{provider}/login', 'SocialController@redirectToProvider');
+$router->get('social/{provider}/callback', 'SocialController@handleProviderCallback');
+
+$router->group(['middleware' => 'auth:api'], function () use ($router) {
+    $router->post('users', 'UserController@store');
+    $router->get('users', 'UserController@index');
+    $router->get('users/{id}', 'UserController@show');
+    $router->put('users/{id}', 'UserController@update');
+    $router->delete('users/{id}', 'UserController@destroy');
+});
+
 //$router->group(['prefix' => 'api'], function() use (&$router) {
 //
 //    $router->group(['prefix' => 'v1'], function() use (&$router) {

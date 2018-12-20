@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\ExampleEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Support\Carbon;
 
 class ExampleListener
 {

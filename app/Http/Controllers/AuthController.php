@@ -6,9 +6,9 @@ use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
@@ -22,91 +22,62 @@ class AuthController extends Controller
     {
         //
     }
-    /**
-     * Redirect the user to the Facebook authentication page.
-     *
-     * @return Response
-     */
-    public function redirectToProvider()
-    {
-        /**
-         * Use this if you want to do the redirect portion from your Lumen App.  You can also do this portion from your frontend app... for example you
-         * could be using https://github.com/sahat/satellizer in angular for the redirect portion, and then have it CALLBACK to your lumen app.
-         * In other words, this "redirectToProvider" method is optional on the backend (you can do it from your frontend)
-         */
-        return Socialite::driver('facebook')->stateless()->redirect();
-    }
-    /**
-     * Obtain the user information from Facebook.
-     *
-     * @return JsonResponse
-     */
-    public function handleProviderCallback()
-    {
-        // this user we get back is not our user model, but a special user object that has all the information we need
-        $providerUser = Socialite::driver('facebook')->stateless()->user();
-        // we have successfully authenticated via facebook at this point and can use the provider user to log us in.
-        // for example we might do something like... Check if a user exists with the email and if so, log them in.
-        $user = User::query()->firstOrNew(['email' => $providerUser->getEmail()]);
-        // maybe we can set all the values on our user model if it is new... right now we only have name
-        // but you could set other things like avatar or gender
-        if (!$user->exists) {
-            $user->name = $providerUser->getName();
-            $user = $user->save(); // just because I want it to return the user id in my example
-        }
-        /**
-         * At this point we done.  You can use whatever you are using for authentication here...
-         * for example you might do something like this if you were using JWT
-         *
-         * $token = JWTAuth::fromUser($user);
-         *
-         * return new JsonResponse([
-         *     'token' => $token
-         * ]);
-         */
-        // since I'm not actually using JWT or something in this demo, then I'll just return the user, and the provider user:
-        return new JsonResponse(
-            [
-                'user' => $user,
-                'provider_user' => $providerUser
-            ]
-        );
-    }
+
 
     public function register(Request $request)
     {
         $this->validate($request, [
-            'username' => 'required|email|unique:users',
+            'email' => 'required|email',
             'password' => 'required|alpha'
         ]);
 
-        $data = $request->only('username', 'password');
-        $client = \Laravel\Passport\Client::where('password_client', 1)->first();
-        $user = User::create([
-            'username' => $data['username'],
+
+        $data = $request->only('email', 'password');
+        User::create([
+            'name' => 'Lixing Zhang',
+            'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
 
-        $request->request->add([
-            'grant_type'    => 'password',
-            'client_id'     => $client->id,
-            'client_secret' => $client->secret,
-            'username'      => $user->email,
-            'password'      => $user->password,
-            'scope'         => null,
-        ]);
-
         // Fire off the internal request.
-        $proxy = Request::create(
+        $proxy = $request->create(
             'oauth/token',
-            'POST'
+            'POST',
+            [
+                'grant_type'    => 'password',
+                'client_id'     => 2,
+                'client_secret' => 'tMIhcBzlOTVIIrhX9bSVqsL26t0nR2ohycDS7Fkg',
+                'username'      => $data['email'],
+                'password'      => $data['password'],
+                'scope'         => '*',
+            ]
         );
-        dd($proxy);
-        return Route::dispatch($proxy);
+
+        return app()->dispatch($proxy);
     }
 
     public function login(Request $request)
     {
-        Auth::attempt();
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        // Verify the password and generate the token
+        $credentials = $request->only('email', 'password');
+        $proxy = Request::create(
+            'oauth/token',
+            'POST',
+            [
+                'grant_type'    => 'password',
+                'client_id'     => 2,
+                'client_secret' => 'tMIhcBzlOTVIIrhX9bSVqsL26t0nR2ohycDS7Fkg',
+                'username'      => $credentials['email'],
+                'password'      => $credentials['password'],
+                'scope'         => '*',
+            ]
+        );
+
+        return app()->dispatch($proxy);
     }
 }
