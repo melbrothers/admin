@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
+use App\Policies\UserPolicy;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Dusterio\LumenPassport\LumenPassport;
-use Laravel\Passport\Client;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -40,6 +40,8 @@ class AuthServiceProvider extends ServiceProvider
             }
         });
 
+        //Register all policies here
+        Gate::policy(User::class, UserPolicy::class);
     }
 
 }

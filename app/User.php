@@ -27,6 +27,9 @@ class User extends Model implements
         MustVerifyEmail,
         HasApiTokens;
 
+    const ADMIN_ROLE = 'ADMIN_USER';
+    const BASIC_ROLE = 'BASIC_USER';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -44,4 +47,17 @@ class User extends Model implements
     protected $hidden = [
         'created_at', 'updated_at', 'password',
     ];
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAdmin()
+    {
+        return (isset($this->role) ? $this->role : self::BASIC_ROLE) == self::ADMIN_ROLE;
+    }
 }

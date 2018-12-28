@@ -8,6 +8,8 @@ use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Handler extends ExceptionHandler
 {
@@ -28,8 +30,10 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $exception
+     * @param  \Exception $exception
+     *
      * @return void
+     * @throws Exception
      */
     public function report(Exception $exception)
     {
@@ -45,6 +49,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof AuthorizationException) {
+            return response()->json((['status' => 403, 'message' => 'Insufficient privileges to perform this action']), 403);
+        }
+        if ($exception instanceof MethodNotAllowedHttpException) {
+            return response()->json((['status' => 405, 'message' => 'Method Not Allowed']), 405);
+        }
+        if ($exception instanceof NotFoundHttpException) {
+            return response()->json((['status' => 404, 'message' => 'The requested resource was not found']), 404);
+        }
+
         return parent::render($request, $exception);
     }
 }
