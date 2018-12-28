@@ -114,6 +114,7 @@ $app->configure('mail');
 // load database configurations
 $app->configure('database');
 $app->configure('apidoc');
+$app->configure('logging');
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
