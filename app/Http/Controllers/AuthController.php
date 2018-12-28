@@ -27,7 +27,7 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email',
+            'email' => 'required|email|unique:users',
             'password' => 'required|alpha'
         ]);
 
