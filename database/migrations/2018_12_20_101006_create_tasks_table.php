@@ -19,7 +19,7 @@ class CreateTasksTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('location');
-            $table->dateTime('due_at');
+            $table->timestamp('due_at');
             $table->double('budget');
             $table->timestamps();
             $table->foreign('user_id')

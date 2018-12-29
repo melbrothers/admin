@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Notifications\ResetPassword as ResetPasswordNotification;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -59,5 +60,16 @@ class User extends Model implements
     public function isAdmin()
     {
         return (isset($this->role) ? $this->role : self::BASIC_ROLE) == self::ADMIN_ROLE;
+    }
+
+    /**
+     * Send the password reset notification.
+     *
+     * @param  string  $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }
