@@ -1,12 +1,8 @@
 <?php
 
-require_once __DIR__.'/../vendor/autoload.php';
+use Symfony\Component\Console\Input\ArgvInput;
 
-try {
-    (new Dotenv\Dotenv(dirname(__DIR__)))->load();
-} catch (Dotenv\Exception\InvalidPathException $e) {
-    //
-}
+require_once __DIR__ . '/../vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
@@ -23,6 +19,21 @@ $app = new Laravel\Lumen\Application(
     dirname(__DIR__)
 );
 
+//Load env file
+
+if ($app->runningInConsole() && ($input = new ArgvInput)->hasParameterOption('--env')) {
+    $envFile = '.env.' . $input->getParameterOption('--env');
+} else if ('testing' === env('APP_ENV')) {
+    $envFile = '.env.testing';
+} else {
+    $envFile = '.env';
+}
+
+try {
+    (new Dotenv\Dotenv(dirname(__DIR__), $envFile))->load();
+} catch (Dotenv\Exception\InvalidPathException $e) {
+    //
+}
 
 $app->withFacades();
 
@@ -99,6 +110,7 @@ $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
 $app->register(\SocialiteProviders\Manager\ServiceProvider::class);
 $app->register(\Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | add config values
@@ -107,6 +119,7 @@ $app->register(\Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class);
 | Add configuration files to load
 |
 */
+$app->configure('app');
 $app->configure('auth');
 $app->configure('services');
 // load cors configurations

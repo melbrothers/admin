@@ -1,21 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Lixing
- * Date: 2018-12-19
- * Time: 20:24
- */
 
 namespace App\Http\Controllers;
 
 
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     public function index()
     {
-        return Auth::user();
+        //
     }
 
     public function store()
@@ -23,9 +18,9 @@ class UserController extends Controller
 
     }
 
-    public function show()
+    public function show($id)
     {
-
+        return User::findOrFail($id);
     }
 
     public function update()
