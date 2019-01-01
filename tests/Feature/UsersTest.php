@@ -12,19 +12,19 @@ class UsersTest extends \TestCase
     public function testGettingSpecificUser()
     {
         // without authentication should give 401
-        $this->call('GET', 'users/12345');
+        $this->call('GET', '/v1/users/12345');
         $this->seeStatusCode(401);
         $user = factory(User::class)->create();
         // authenticate
         $user->withAccessToken(new Token(['scopes' => ['*']]));
-        $this->actingAs($user);
+        $this->actingAs($user, 'api');
         // should work
-        $this->call('GET', '/users/'.$user->id);
+        $this->call('GET', '/v1/users/'.$user->id);
         $this->seeStatusCode(200);
         // test json response
         $this->seeJson(['email' => $user->email]);
         // accessing invalid user should give 404
-        $this->call('GET', '/users/13232323');
+        $this->call('GET', '/v1/users/13232323');
         $this->assertResponseStatus(404);
     }
 }

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Lixing
- * Date: 2018-12-29
- * Time: 12:59
- */
 
 namespace App\Http\Controllers\Auth;
 
@@ -13,11 +7,21 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
+/**
+ * Class LoginController
+ *
+ * @package App\Http\Controllers\Auth
+ * @group Login
+ *
+ * Log in user
+ */
 class LoginController extends Controller
 {
 
     /**
      * Handle an authentication attempt.
+     * @bodyParam email string required User'email
+     * @bodyParam password string required User's password
      *
      * @param  \Illuminate\Http\Request $request
      *
@@ -36,7 +40,7 @@ class LoginController extends Controller
             [
                 'grant_type'    => 'password',
                 'client_id'     => 2,
-                'client_secret' => 'tMIhcBzlOTVIIrhX9bSVqsL26t0nR2ohycDS7Fkg',
+                'client_secret' => 'gwqmG8r8rz8LuVSgDmpey7kZY0wVUqiZRKm0F4tq',
                 'username'      => $credentials['email'],
                 'password'      => $credentials['password'],
                 'scope'         => '*',

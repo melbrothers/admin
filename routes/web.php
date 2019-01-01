@@ -24,19 +24,22 @@ $router->get('email/verify', ['as' => 'verification.notice' , 'uses' => 'Auth\Ve
 $router->get('email/verify/{id}', ['as' => 'verification.verify' , 'uses' => 'Auth\VerificationController@verify']);
 $router->get('email/resend', ['as' => 'verification.resend' , 'uses' => 'Auth\VerificationController@resend']);
 
-$router->get('social/{provider}/login', 'SocialController@redirectToProvider');
-$router->get('social/{provider}/callback', 'SocialController@handleProviderCallback');
+$router->get('social/{provider}/login', 'Auth\SocialLoginController@redirectToProvider');
+$router->get('social/{provider}/callback', 'Auth\SocialLoginController@handleProviderCallback');
 
 
 //users
-$router->group(['middleware' => 'auth:api'], function () use ($router) {
-    $router->post('users', 'UserController@store');
-    $router->get('users/{id}', 'UserController@show');
-    $router->get('users', 'UserController@index');
-    $router->put('users/{id}', 'UserController@update');
-    $router->delete('users/{id}', 'UserControlle r@destroy');
-});
 
+
+$router->group(['prefix' => 'v1'], function () use ($router) {
+    $router->group(['middleware' => 'auth:api'], function () use ($router) {
+        $router->post('users', 'UserController@store');
+        $router->get('users/{id}', 'UserController@show');
+        $router->get('users', 'UserController@index');
+        $router->put('users/{id}', 'UserController@update');
+        $router->delete('users/{id}', 'UserController@destroy');
+    });
+});
 //$router->group(['prefix' => 'api'], function() use (&$router) {
 //
 //    $router->group(['prefix' => 'v1'], function() use (&$router) {

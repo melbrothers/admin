@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Lixing
- * Date: 2018-12-21
- * Time: 20:27
- */
 
 namespace App\Http\Controllers;
 
@@ -12,6 +6,12 @@ namespace App\Http\Controllers;
 use App\Task;
 use Illuminate\Http\Request;
 
+/**
+ * Class TaskController
+ *
+ * @package App\Http\Controllers
+ * @group Task Management
+ */
 class TaskController extends Controller
 {
     public function index()
@@ -37,10 +37,5 @@ class TaskController extends Controller
     public function destroy()
     {
 
-    }
-
-    public function me()
-    {
-        return Auth::user();
     }
 }

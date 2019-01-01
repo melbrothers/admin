@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Lixing
- * Date: 2018-12-29
- * Time: 21:24
- */
 
 namespace App\Traits;
 
@@ -16,6 +10,7 @@ trait SendsPasswordResetEmails
 {
     /**
      * Send a reset link to the given user.
+     * @bodyParam email string required User'email
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

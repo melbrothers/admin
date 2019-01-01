@@ -6,6 +6,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Traits\SendsPasswordResetEmails;
 
+/**
+ * Class ForgotPasswordController
+ *
+ * @package App\Http\Controllers\Auth
+ * @group Forgot Password
+ *
+ * Send password reset email
+ */
 class ForgotPasswordController extends Controller
 {
     /*

@@ -1,23 +1,29 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Lixing
- * Date: 2018-12-20
- * Time: 19:25
- */
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
 
+use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Response;
 use Laravel\Socialite\Facades\Socialite;
 
-class SocialController extends Controller
+/**
+ * Class SocialLoginController
+ *
+ * @package App\Http\Controllers\Auth
+ * @group Socaial Login
+ *
+ * Social login
+ */
+class SocialLoginController extends Controller
 {
+
     /**
      * Redirect the user to the Facebook authentication page.
+     *
+     * @param $provider
      *
      * @return Response
      */
@@ -30,8 +36,11 @@ class SocialController extends Controller
          */
         return Socialite::driver($provider)->stateless()->redirect();
     }
+
     /**
      * Obtain the user information from Facebook.
+     *
+     * @param $provider
      *
      * @return JsonResponse
      */

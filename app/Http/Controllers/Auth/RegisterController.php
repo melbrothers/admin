@@ -1,17 +1,31 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * Class RegisterController
+ *
+ * @package App\Http\Controllers\Auth
+ * @group Register
+ *
+ * Register a user
+ */
 class RegisterController extends Controller
 {
 
     /**
+     * @bodyParam email string required User'email
+     * @bodyParam password string required User's password
+     * @bodyParam name string required User's name
+     * @bodyParam password_confirmation string required User's password confirmation
+     *
      * @param Request $request
      *
      * @return JsonResponse
@@ -26,28 +40,31 @@ class RegisterController extends Controller
             );
         }
 
-        $data = $request->only('email', 'password');
-        User::create([
-            'name' => 'Lixing Zhang',
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
+        $data = $request->only('name','email', 'password');
+        try {
+            User::create([
+                'name' => $data['name'],
+                'email' => $data['email'],
+                'password' => Hash::make($data['password']),
+            ]);
 
-        // Fire off the internal request.
-        $proxy = $request->create(
-            'oauth/token',
-            'POST',
-            [
-                'grant_type'    => 'password',
-                'client_id'     => 2,
-                'client_secret' => 'tMIhcBzlOTVIIrhX9bSVqsL26t0nR2ohycDS7Fkg',
-                'username'      => $data['email'],
-                'password'      => $data['password'],
-                'scope'         => '*',
-            ]
-        );
+            // Fire off the internal request.
+            $proxy = $request->create(
+                'oauth/token',
+                'POST',
+                [
+                    'grant_type'    => 'password',
+                    'client_id'     => 2,
+                    'client_secret' => 'gwqmG8r8rz8LuVSgDmpey7kZY0wVUqiZRKm0F4tq',
+                    'username'      => $data['email'],
+                    'password'      => $data['password'],
+                    'scope'         => '*',
+                ]
+            );
 
-        return app()->dispatch($proxy);
+            return app()->dispatch($proxy);
+        } catch (\Exception  $exception) {
+        }
     }
 
     /**

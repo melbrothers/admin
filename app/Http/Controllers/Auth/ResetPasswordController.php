@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Lixing
- * Date: 2018-12-28
- * Time: 21:49
- */
 
 namespace App\Http\Controllers\Auth;
 
@@ -12,6 +6,14 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Traits\ResetsPasswords;
 
+/**
+ * Class ResetPasswordController
+ *
+ * @package App\Http\Controllers\Auth
+ * @group Reset Password
+ *
+ * Rest user password
+ */
 class ResetPasswordController extends Controller
 {
     /*
