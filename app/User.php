@@ -54,6 +54,11 @@ class User extends Model implements
         return $this->hasMany(Task::class);
     }
 
+    public function profile()
+    {
+        return $this->hasOne(Profile::class);
+    }
+
     /**
      * @return bool
      */

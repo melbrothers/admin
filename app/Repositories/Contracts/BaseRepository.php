@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Lixing
- * Date: 2018-12-21
- * Time: 21:03
- */
 
 namespace App\Repositories\Contracts;
 

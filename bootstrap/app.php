@@ -21,7 +21,8 @@ $app = new Laravel\Lumen\Application(
 
 //Load env file
 
-if ($app->runningInConsole() && ($input = new ArgvInput)->hasParameterOption('--env') && file_exists(dirname(__DIR__) . DIRECTORY_SEPARATOR. '.env.' . $input->getParameterOption('--env'))) {
+if ($app->runningInConsole() && ($input = new ArgvInput)->hasParameterOption('--env')
+    && file_exists(dirname(__DIR__) . DIRECTORY_SEPARATOR. '.env.' . $input->getParameterOption('--env'))) {
     $envFile = '.env.' . $input->getParameterOption('--env');
 } else if ('testing' === env('APP_ENV')) {
     $envFile = '.env.testing';

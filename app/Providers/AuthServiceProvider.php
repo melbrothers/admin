@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Policies\TaskPolicy;
 use App\Policies\UserPolicy;
+use App\Task;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
@@ -34,14 +36,15 @@ class AuthServiceProvider extends ServiceProvider
         // the User instance via an API token or any other method necessary.
 
         LumenPassport::routes($this->app);
-        $this->app['auth']->viaRequest('api', function (Request $request) {
-            if ($request->input('api_token')) {
-                return User::where('api_token', $request->input('api_token'))->first();
-            }
-        });
+//        $this->app['auth']->viaRequest('api', function (Request $request) {
+//            if ($request->input('api_token')) {
+//                return User::where('api_token', $request->input('api_token'))->first();
+//            }
+//        });
 
         //Register all policies here
         Gate::policy(User::class, UserPolicy::class);
+        Gate::policy(Task::class, TaskPolicy::class);
     }
 
 }

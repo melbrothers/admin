@@ -23,31 +23,19 @@ $router->post('password/reset', ['as' => 'password.update' , 'uses' => 'Auth\Res
 $router->get('email/verify', ['as' => 'verification.notice' , 'uses' => 'Auth\VerificationController@show']);
 $router->get('email/verify/{id}', ['as' => 'verification.verify' , 'uses' => 'Auth\VerificationController@verify']);
 $router->get('email/resend', ['as' => 'verification.resend' , 'uses' => 'Auth\VerificationController@resend']);
-
 $router->get('social/{provider}/login', 'Auth\SocialLoginController@redirectToProvider');
 $router->get('social/{provider}/callback', 'Auth\SocialLoginController@handleProviderCallback');
 
 
 //users
-
-
 $router->group(['prefix' => 'v1'], function () use ($router) {
-    $router->group(['middleware' => 'auth:api'], function () use ($router) {
-        $router->post('users', 'UserController@store');
-        $router->get('users/{id}', 'UserController@show');
-        $router->get('users', 'UserController@index');
-        $router->put('users/{id}', 'UserController@update');
-        $router->delete('users/{id}', 'UserController@destroy');
-    });
+    $router->get('users/{id}', 'UserController@show');
+    $router->put('users/{id}', 'UserController@update');
+
+    $router->get('tasks', 'TaskController@index');
+    $router->post('tasks', 'TaskController@store');
+    $router->get('task/{task}', 'TaskController@show');
+    $router->put('task/{task}', 'TaskController@update');
+    $router->delete('task/{task}', 'TaskController@destroy');
 });
-//$router->group(['prefix' => 'api'], function() use (&$router) {
-//
-//    $router->group(['prefix' => 'v1'], function() use (&$router) {
-//
-//        // Test Route
-//        $router->group(['prefix' => 'test'], function() use (&$router) {
-//
-//            echo "routing stuff...";
-//        });
-//    });
-//});
+

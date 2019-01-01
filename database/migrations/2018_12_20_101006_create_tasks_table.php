@@ -19,12 +19,12 @@ class CreateTasksTable extends Migration
             $table->string('title');
             $table->text('description');
             $table->string('location');
-            $table->timestamp('due_at');
+            $table->enum('status', ['OPEN', 'ASSIGNED', 'COMPLETED']);
+            $table->date('due_date');
+            $table->string('due_time');
             $table->double('budget');
             $table->timestamps();
-            $table->foreign('user_id')
-                  ->references('id')->on('users')
-                  ->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

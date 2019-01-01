@@ -16,14 +16,14 @@ use Illuminate\Support\Facades\Auth;
  */
 class UserController extends Controller
 {
-    public function index()
-    {
-        //
-    }
 
-    public function store()
+    /**
+     * Instantiate a new controller instance.
+     *
+     */
+    public function __construct()
     {
-
+        $this->middleware('auth:api');
     }
 
     /**
@@ -46,11 +46,6 @@ class UserController extends Controller
     }
 
     public function update()
-    {
-
-    }
-
-    public function destroy()
     {
 
     }

@@ -17,7 +17,7 @@ class UsersTest extends \TestCase
         $user = factory(User::class)->create();
         // authenticate
         $user->withAccessToken(new Token(['scopes' => ['*']]));
-        $this->actingAs($user, 'api');
+        $this->actingAs($user);
         // should work
         $this->call('GET', '/v1/users/'.$user->id);
         $this->seeStatusCode(200);

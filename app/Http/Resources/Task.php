@@ -17,10 +17,12 @@ class Task extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
+            'title' => $this->title,
+            'description' => $this->description,
+            'budget' => $this->budget,
+            'location' => $this->location,
+           // 'due_date' => (string) $this->due_date,
+            'due_time' => (string) $this->due_time,
         ];
     }
 }

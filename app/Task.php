@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Lixing
- * Date: 2018-12-20
- * Time: 21:11
- */
 
 namespace App;
 
@@ -13,8 +7,18 @@ use Illuminate\Database\Eloquent\Model;
 class Task extends Model
 {
 
+    /**
+     * The attributes that are mass assignable.
+     *
+     * @var array
+     */
+    protected $fillable = [
+        'title', 'description', 'location', 'due_date', 'due_time', 'budget'
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
 }
