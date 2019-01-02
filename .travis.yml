@@ -4,13 +4,13 @@ services:
   - mysql
 php:
   - 7.1
-  - hhvm
 
 before_script:
   - cp .env.travis .env
   - mysql -e 'CREATE DATABASE homestead_test;'
   - composer self-update
   - composer install --no-interaction
+  - php artisan migrate
 
 script:
   - vendor/bin/phpunit
