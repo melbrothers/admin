@@ -20,7 +20,6 @@ $router->post('register', 'Auth\RegisterController@postRegister');
 $router->post('login', 'Auth\LoginController@postLogin');
 $router->post('password/email', ['as' => 'password.email' , 'uses' => 'Auth\ForgotPasswordController@postEmail']);
 $router->post('password/reset', ['as' => 'password.update' , 'uses' => 'Auth\ResetPasswordController@postReset']);
-$router->get('email/verify', ['as' => 'verification.notice' , 'uses' => 'Auth\VerificationController@show']);
 $router->get('email/verify/{id}', ['as' => 'verification.verify' , 'uses' => 'Auth\VerificationController@verify']);
 $router->get('email/resend', ['as' => 'verification.resend' , 'uses' => 'Auth\VerificationController@resend']);
 $router->get('social/{provider}/login', 'Auth\SocialLoginController@redirectToProvider');
@@ -34,8 +33,8 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
 
     $router->get('tasks', 'TaskController@index');
     $router->post('tasks', 'TaskController@store');
-    $router->get('task/{task}', 'TaskController@show');
-    $router->put('task/{task}', 'TaskController@update');
-    $router->delete('task/{task}', 'TaskController@destroy');
+    $router->get('tasks/{id}', 'TaskController@show');
+    $router->put('tasks/{id}', 'TaskController@update');
+    $router->delete('tasks/{id}', 'TaskController@destroy');
 });
 

@@ -20,12 +20,12 @@ class VerificationController extends Controller
     use VerifiesEmails;
 
     /**
-     * @param Request $request
+     * Instantiate a new controller instance.
      *
-     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
-    public function postVerify(Request $request)
+    public function __construct()
     {
-        $this->verify($request);
+        $this->middleware('auth:api', ['except' => ['verify']]);
     }
+
 }

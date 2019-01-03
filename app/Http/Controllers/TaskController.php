@@ -26,7 +26,7 @@ class TaskController extends Controller
 
     public function index()
     {
-        return Task::all();
+        return TaskResource::collection(Task::paginate());
     }
 
     /**
@@ -61,36 +61,44 @@ class TaskController extends Controller
 
     /**
      *
-     * @param Task $task
+     * @param $id
      *
      * @return TaskResource
      */
-    public function show(Task $task)
+    public function show($id)
     {
+        $task = Task::findOrFail($id);
+
         return new TaskResource($task);
     }
 
     /**
      * @param Request $request
-     * @param Task    $task
+     * @param         $id
      *
      * @return TaskResource
      */
-    public function update(Request $request, Task $task)
+    public function update(Request $request, $id)
     {
+        /** @var Task $task */
+        $task = Task::findOrFail($id);
+
         $task->update($request->all());
 
         return new TaskResource($task);
     }
 
     /**
-     * @param Task $task
+     * @param $id
      *
      * @return int
      * @throws \Exception
      */
-    public function destroy(Task $task)
+    public function destroy($id)
     {
+        /** @var Task $task */
+        $task = Task::findOrFail($id);
+
         $task->delete();
 
         return response()->json(null, 204);
@@ -102,9 +110,9 @@ class TaskController extends Controller
             'title' => 'string|required',
             'description' => 'string|required',
             'budget' => 'numeric|required',
-            'location' => 'required',
-            'due_date' => 'required',
-            'due_time' => 'required'
+            'location' => 'string|required',
+            'due_date' => 'string|required',
+            'due_time' => 'string|required'
         ];
     }
 }

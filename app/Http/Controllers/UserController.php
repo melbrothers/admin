@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 
 use App\User;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+use App\Http\Resources\User as UserResource;
 
 /**
  * Class UserController
@@ -23,7 +24,7 @@ class UserController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth:api');
+        $this->middleware('auth:api', ['except' => ['show']]);
     }
 
     /**
@@ -38,11 +39,12 @@ class UserController extends Controller
      *
      * @param $id
      *
-     * @return User | null
+     * @return UserResource
      */
     public function show($id)
     {
-        return User::findOrFail($id);
+        $user = User::findOrFail($id);
+        return new UserResource($user);
     }
 
     public function update()
@@ -50,8 +52,13 @@ class UserController extends Controller
 
     }
 
-    public function me()
+    /**
+     * @param Request $request
+     *
+     * @return UserResource
+     */
+    public function me(Request $request)
     {
-        return Auth::user();
+        return new UserResource($request->user());
     }
 }

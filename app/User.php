@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Notifications\ResetPassword as ResetPasswordNotification;
+use App\Notifications\VerifyEmail;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -76,5 +77,15 @@ class User extends Model implements
     public function sendPasswordResetNotification($token)
     {
         $this->notify(new ResetPasswordNotification($token));
+    }
+
+    /**
+     * Send the email verification notification.
+     *
+     * @return void
+     */
+    public function sendEmailVerificationNotification()
+    {
+        $this->notify(new VerifyEmail);
     }
 }

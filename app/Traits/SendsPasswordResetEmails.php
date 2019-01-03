@@ -4,6 +4,7 @@ namespace App\Traits;
 
 
 use Illuminate\Http\Request;
+use Illuminate\Mail\Message;
 use Illuminate\Support\Facades\Password;
 
 trait SendsPasswordResetEmails

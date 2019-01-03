@@ -34,7 +34,8 @@ class LoginController extends Controller
 
         // Verify the password and generate the token
         $credentials = $request->only('email', 'password');
-        $proxy = Request::create(
+
+        $proxy = $request->create(
             'oauth/token',
             'POST',
             [

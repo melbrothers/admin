@@ -15,6 +15,6 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
     public function setUp(): void
     {
         parent::setUp();
-        //$this->artisan('db:seed');
+        $this->artisan('db:seed');
     }
 }

@@ -41,30 +41,28 @@ class RegisterController extends Controller
         }
 
         $data = $request->only('name','email', 'password');
-        try {
-            User::create([
-                'name' => $data['name'],
-                'email' => $data['email'],
-                'password' => Hash::make($data['password']),
-            ]);
 
-            // Fire off the internal request.
-            $proxy = $request->create(
-                'oauth/token',
-                'POST',
-                [
-                    'grant_type'    => 'password',
-                    'client_id'     => 2,
-                    'client_secret' => 'gwqmG8r8rz8LuVSgDmpey7kZY0wVUqiZRKm0F4tq',
-                    'username'      => $data['email'],
-                    'password'      => $data['password'],
-                    'scope'         => '*',
-                ]
-            );
+        User::create([
+            'name' => $data['name'],
+            'email' => $data['email'],
+            'password' => Hash::make($data['password']),
+        ]);
 
-            return app()->dispatch($proxy);
-        } catch (\Exception  $exception) {
-        }
+        // Fire off the internal request.
+        $proxy = $request->create(
+            'oauth/token',
+            'POST',
+            [
+                'grant_type'    => 'password',
+                'client_id'     => 2,
+                'client_secret' => 'gwqmG8r8rz8LuVSgDmpey7kZY0wVUqiZRKm0F4tq',
+                'username'      => $data['email'],
+                'password'      => $data['password'],
+                'scope'         => '*',
+            ]
+        );
+
+        return app()->dispatch($proxy);
     }
 
     /**
