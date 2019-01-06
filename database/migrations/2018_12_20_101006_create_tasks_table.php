@@ -17,12 +17,15 @@ class CreateTasksTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->string('title');
+            $table->string('slug')->nullable();
             $table->text('description');
             $table->string('location');
+            $table->double('latitude')->nullable();
+            $table->double('longitude')->nullable();
             $table->enum('status', ['OPEN', 'ASSIGNED', 'COMPLETED']);
             $table->date('due_date');
             $table->string('due_time');
-            $table->double('budget');
+            $table->unsignedSmallInteger('budget');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

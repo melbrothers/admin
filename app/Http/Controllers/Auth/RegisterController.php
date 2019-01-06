@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -42,7 +43,7 @@ class RegisterController extends Controller
 
         $data = $request->only('name','email', 'password');
 
-        User::create([
+        $user = User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
@@ -61,6 +62,7 @@ class RegisterController extends Controller
                 'scope'         => '*',
             ]
         );
+        event(new Registered($user));
 
         return app()->dispatch($proxy);
     }

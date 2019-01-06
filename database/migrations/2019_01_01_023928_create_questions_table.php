@@ -17,6 +17,7 @@ class CreateQuestionsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('task_id');
+            $table->unsignedInteger('parent_id');
             $table->timestamps();
         });
     }

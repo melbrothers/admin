@@ -61,27 +61,25 @@ class TaskController extends Controller
 
     /**
      *
-     * @param $id
+     * @param Task $task
      *
      * @return TaskResource
      */
-    public function show($id)
+    public function show(Task $task)
     {
-        $task = Task::findOrFail($id);
-
         return new TaskResource($task);
     }
 
     /**
      * @param Request $request
-     * @param         $id
+     * @param Task    $task
      *
      * @return TaskResource
+     * @throws \Illuminate\Validation\ValidationException
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Task $task)
     {
-        /** @var Task $task */
-        $task = Task::findOrFail($id);
+        $this->validate($request, $this->rules());
 
         $task->update($request->all());
 
@@ -89,16 +87,13 @@ class TaskController extends Controller
     }
 
     /**
-     * @param $id
+     * @param Task $task
      *
      * @return int
      * @throws \Exception
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        /** @var Task $task */
-        $task = Task::findOrFail($id);
-
         $task->delete();
 
         return response()->json(null, 204);

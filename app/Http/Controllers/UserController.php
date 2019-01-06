@@ -37,19 +37,26 @@ class UserController extends Controller
      *  "message": "No query results for model [\App\User]"
      * }
      *
-     * @param $id
+     * @param User $user
      *
      * @return UserResource
      */
-    public function show($id)
+    public function show(User $user)
     {
-        $user = User::findOrFail($id);
         return new UserResource($user);
     }
 
-    public function update()
+    /**
+     * @param Request $request
+     * @param User    $user
+     *
+     * @return UserResource
+     */
+    public function update(Request $request, User $user)
     {
+        $user->update($request->all());
 
+        return new UserResource($user);
     }
 
     /**

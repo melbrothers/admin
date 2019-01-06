@@ -60,6 +60,11 @@ class User extends Model implements
         return $this->hasOne(Profile::class);
     }
 
+    public function offers()
+    {
+        return $this->hasMany(Offer::class);
+    }
+
     /**
      * @return bool
      */
@@ -88,4 +93,5 @@ class User extends Model implements
     {
         $this->notify(new VerifyEmail);
     }
+
 }

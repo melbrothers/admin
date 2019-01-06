@@ -14,7 +14,8 @@ class AuthTest extends \TestCase
 {
     use DatabaseMigrations;
 
-    public function testForgotPassword()
+    /** @test  */
+    public function user_can_send_forgot_password_email()
     {
         Notification::fake();
 
@@ -27,7 +28,8 @@ class AuthTest extends \TestCase
         Notification::assertSentTo([$user], ResetPassword::class);
     }
 
-    public function testVerifyEmail()
+    /** @test  */
+    public function user_can_get_verify_email()
     {
         Notification::fake();
 

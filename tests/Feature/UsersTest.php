@@ -9,31 +9,33 @@ class UsersTest extends \TestCase
 {
     use DatabaseMigrations;
 
-
-    public function getNoneExitingUser()
+    /** @test */
+    public function get_a_non_existing_user()
     {
         // accessing invalid user should give 404
-        $this->call('GET', '/v1/users/13232323');
+        $this->get( '/v1/users/13232323');
         $this->assertResponseStatus(404);
     }
 
-    public function testGetAUser()
+    /** @test */
+    public function get_a_user_profile()
     {
         $user = factory(User::class)->create();
         // authenticate
         $user->withAccessToken(new Token(['scopes' => ['*']]));
         $this->actingAs($user);
         // should work
-        $this->call('GET', '/v1/users/'.$user->id);
+        $this->get( '/v1/users/' . $user->id);
         $this->seeStatusCode(200);
         // test json response
         $this->seeJsonContains(['email' => $user->email]);
     }
 
-    public function getCurrentUser()
+    /** @test */
+    public function get_current_user()
     {
         // should work
-        $this->call('GET', '/v1/users/me');
+        $this->get('/v1/users/me');
         $this->seeStatusCode(401);
 
         $user = factory(User::class)->create();
@@ -41,8 +43,7 @@ class UsersTest extends \TestCase
         $user->withAccessToken(new Token(['scopes' => ['*']]));
         $this->actingAs($user);
         // should work
-        $this->call('GET', '/v1/users/me');
-        $this->seeStatusCode(200);
+        $this->get('/v1/users/me');
         // test json response
         $this->seeJsonContains(['email' => $user->email]);
     }

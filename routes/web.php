@@ -28,13 +28,16 @@ $router->get('social/{provider}/callback', 'Auth\SocialLoginController@handlePro
 
 //users
 $router->group(['prefix' => 'v1'], function () use ($router) {
-    $router->get('users/{id}', 'UserController@show');
-    $router->put('users/{id}', 'UserController@update');
+    $router->get('users/me', 'UserController@me');
+    $router->get('users/{user}', 'UserController@show');
+    $router->put('users/{user}', 'UserController@update');
 
     $router->get('tasks', 'TaskController@index');
     $router->post('tasks', 'TaskController@store');
-    $router->get('tasks/{id}', 'TaskController@show');
-    $router->put('tasks/{id}', 'TaskController@update');
-    $router->delete('tasks/{id}', 'TaskController@destroy');
+    $router->get('tasks/{task}', 'TaskController@show');
+    $router->put('tasks/{task}', 'TaskController@update');
+    $router->delete('tasks/{task}', 'TaskController@destroy');
+
+
 });
 

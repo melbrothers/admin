@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use App\Listeners\UserEventsListener;
+use Illuminate\Auth\Events\Registered;
+use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
             // add your listeners (aka providers) here
             'SocialiteProviders\\WeixinWeb\\WeixinWebExtendSocialite@handle',
         ],
+        Registered::class => [
+            SendEmailVerificationNotification::class
+        ]
     ];
 
     /**

@@ -21,30 +21,17 @@ class TasksTest extends \TestCase
         $this->actingAs($user, 'api');
     }
 
-    /**
-     * @throws \Exception
-     */
-    public function testCreateATask()
+    /** @test */
+    public function create_a_task()
     {
-        $this->post('/v1/tasks', [
-            'title' => 'Task Title',
-            'description' => 'Task Description',
-            'budget' => 100,
-            'location' => 'Melbourne, Victoria',
-            'due_date' => '2018-01-01',
-            'due_time' => 'afternoon'
-        ]);
+        $task = factory(Task::class)->raw();
+        $this->post('/v1/tasks', $task);
         $this->seeStatusCode(201);
-        $this->seeJsonContains([
-            'title' => 'Task Title',
-            'description' => 'Task Description',
-            'budget' => 100,
-            'location' => 'Melbourne, Victoria',
-            'due_time' => 'afternoon'
-        ]);
+        $this->seeJson(['title' => $task['title']]);
     }
 
-    public function testGetTasks()
+    /** @test */
+    public function get_all_tasks()
     {
         $task = factory(Task::class)->create();
         $this->get('/v1/tasks');

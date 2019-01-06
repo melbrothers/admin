@@ -8,17 +8,22 @@ class Task extends Model
 {
 
     /**
-     * The attributes that are mass assignable.
-     *
      * @var array
      */
-    protected $fillable = [
-        'title', 'description', 'location', 'due_date', 'due_time', 'budget'
-    ];
+    protected $guarded = [];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
 
+    public function offers()
+    {
+        return $this->hasMany(Offer::class);
+    }
+
+    public function addOffer($offer)
+    {
+        $this->offers()->create($offer);
+    }
 }
