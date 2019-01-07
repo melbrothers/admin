@@ -39,5 +39,8 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->delete('tasks/{task}', 'TaskController@destroy');
 
 
+    $router->get('tasks/{task}/bids', 'BidController@index');
+    $router->post('tasks/{task}/bids', 'BidController@store');
+
 });
 

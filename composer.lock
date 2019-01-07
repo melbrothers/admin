@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "def3fe7351e8e40a699d512185417fcb",
+    "content-hash": "1943384efdda4dac0d94c515c4c37591",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -623,6 +623,55 @@
             "description": "A simple library to encode and decode JSON Web Tokens (JWT) in PHP. Should conform to the current spec.",
             "homepage": "https://github.com/firebase/php-jwt",
             "time": "2017-06-27T22:17:23+00:00"
+        },
+        {
+            "name": "fntneves/laravel-transactional-events",
+            "version": "1.4.6",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fntneves/laravel-transactional-events.git",
+                "reference": "837bbbfa0cfb1b020b931fd50f008b5bdb9719b7"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fntneves/laravel-transactional-events/zipball/837bbbfa0cfb1b020b931fd50f008b5bdb9719b7",
+                "reference": "837bbbfa0cfb1b020b931fd50f008b5bdb9719b7",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/database": "5.5.* || 5.6.* || 5.7.*",
+                "illuminate/events": "5.5.* || 5.6.* || 5.7.*",
+                "illuminate/support": "5.5.* || 5.6.* || 5.7.*",
+                "php": "^7.0"
+            },
+            "require-dev": {
+                "orchestra/testbench": "3.5.* || 3.6.* || 3.7.*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Neves\\Events\\EventServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Neves\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Francisco Neves",
+                    "email": "hi@francisconeves.me"
+                }
+            ],
+            "description": "Transactional layer for Laravel Event Dispatcher",
+            "time": "2018-08-24T10:04:14+00:00"
         },
         {
             "name": "fzaninotto/faker",

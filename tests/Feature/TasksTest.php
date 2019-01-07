@@ -31,7 +31,7 @@ class TasksTest extends \TestCase
     }
 
     /** @test */
-    public function get_all_tasks()
+    public function user_can_view_all_tasks()
     {
         $task = factory(Task::class)->create();
         $this->get('/v1/tasks');
@@ -48,6 +48,27 @@ class TasksTest extends \TestCase
             'location' => $task->location,
             'due_time' => $task->due_time
         ]);
+    }
+
+    /** @test */
+    public function unauthorized_user_may_not_delete_tasks()
+    {
+        $task = factory(Task::class)->create();
+        $this->delete('v1/tasks/'. $task->id);
+        $this->seeStatusCode(403);
+    }
+
+    /** @test */
+    public function authorized_user_can_delete_tasks()
+    {
+        // authenticate
+        $task = factory(Task::class)->create();
+        /** @var User $user */
+        $user = $task->user;
+        $user->withAccessToken(new Token(['scopes' => ['*']]));
+        $this->actingAs($user);
+        $this->delete('v1/tasks/'. $task->id);
+        $this->seeStatusCode(204);
     }
 
 }

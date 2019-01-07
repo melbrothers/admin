@@ -17,13 +17,14 @@ class Task extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function offers()
+    public function bids()
     {
-        return $this->hasMany(Offer::class);
+        return $this->hasMany(Bid::class);
     }
 
-    public function addOffer($offer)
+    public function addBid($offer): Bid
     {
-        $this->offers()->create($offer);
+        return $this->bids()->create($offer);
     }
+
 }

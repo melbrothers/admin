@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Bid;
+use App\Policies\BidPolicy;
 use App\Policies\TaskPolicy;
 use App\Policies\UserPolicy;
 use App\Task;
@@ -45,6 +47,7 @@ class AuthServiceProvider extends ServiceProvider
         //Register all policies here
         Gate::policy(User::class, UserPolicy::class);
         Gate::policy(Task::class, TaskPolicy::class);
+        Gate::policy(Bid::class, BidPolicy::class);
     }
 
 }

@@ -9,6 +9,7 @@
         "algolia/algoliasearch-client-php": "^2.0",
         "barryvdh/laravel-cors": "^0.11.2",
         "dusterio/lumen-passport": "^0.2.9",
+        "fntneves/laravel-transactional-events": "^1.4",
         "illuminate/mail": "5.7.*",
         "illuminate/notifications": "5.7.*",
         "laravel/lumen-framework": "5.7.*",

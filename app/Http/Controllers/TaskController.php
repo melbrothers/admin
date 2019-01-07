@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Events\TaskCreated;
 use App\Task;
 use Illuminate\Http\Request;
 use App\Http\Resources\Task as TaskResource;
@@ -24,6 +25,9 @@ class TaskController extends Controller
         $this->middleware('auth:api', ['except' => ['index', 'show']]);
     }
 
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
     public function index()
     {
         return TaskResource::collection(Task::paginate());
@@ -55,6 +59,7 @@ class TaskController extends Controller
             'due_date' => $data['due_date'],
             'due_time' => $data['due_time'],
         ]);
+        event(new TaskCreated($task));
 
         return new TaskResource($task);
     }
@@ -76,9 +81,11 @@ class TaskController extends Controller
      *
      * @return TaskResource
      * @throws \Illuminate\Validation\ValidationException
+     * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function update(Request $request, Task $task)
     {
+        $this->authorize('update', $task);
         $this->validate($request, $this->rules());
 
         $task->update($request->all());
@@ -87,15 +94,15 @@ class TaskController extends Controller
     }
 
     /**
-     * @param Task $task
+     * @param Task    $task
      *
      * @return int
      * @throws \Exception
      */
     public function destroy(Task $task)
     {
+        $this->authorize('delete', $task);
         $task->delete();
-
         return response()->json(null, 204);
     }
 

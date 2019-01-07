@@ -62,7 +62,7 @@ class User extends Model implements
 
     public function offers()
     {
-        return $this->hasMany(Offer::class);
+        return $this->hasMany(Bid::class);
     }
 
     /**
