@@ -7,12 +7,12 @@ use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
 use App\User;
 use Illuminate\Support\Facades\Notification;
-use Laravel\Lumen\Testing\DatabaseMigrations;
+use Laravel\Lumen\Testing\DatabaseTransactions;
 use Laravel\Passport\Token;
 
 class AuthTest extends \TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     /** @test  */
     public function user_can_send_forgot_password_email()

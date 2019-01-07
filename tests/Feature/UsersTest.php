@@ -2,12 +2,12 @@
 namespace Tests\Feature;
 
 use App\User;
-use Laravel\Lumen\Testing\DatabaseMigrations;
+use Laravel\Lumen\Testing\DatabaseTransactions;
 use Laravel\Passport\Token;
 
 class UsersTest extends \TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     /** @test */
     public function get_a_non_existing_user()

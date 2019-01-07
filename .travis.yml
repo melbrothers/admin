@@ -9,10 +9,10 @@ before_script:
   - cp .env.travis .env
   - composer self-update
   - composer install --no-interaction
-  - php artisan migrate
+  - php artisan migrate --seed
 
 before_install:
-  - mysql -e 'CREATE DATABASE homestead_test;'
+  - mysql -e 'CREATE DATABASE homestead;'
 
 script:
   - vendor/bin/phpunit

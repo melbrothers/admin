@@ -6,12 +6,12 @@ namespace Tests\Feature;
 use App\Bid;
 use App\Task;
 use App\User;
-use Laravel\Lumen\Testing\DatabaseMigrations;
+use Laravel\Lumen\Testing\DatabaseTransactions;
 use Laravel\Passport\Token;
 
 class BidsTest extends \TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     public function setup(): void
     {

@@ -5,12 +5,12 @@ namespace Tests\Feature;
 
 use App\Task;
 use App\User;
-use Laravel\Lumen\Testing\DatabaseMigrations;
+use Laravel\Lumen\Testing\DatabaseTransactions;
 use Laravel\Passport\Token;
 
 class TasksTest extends \TestCase
 {
-    use DatabaseMigrations;
+    use DatabaseTransactions;
 
     public function setup(): void
     {
