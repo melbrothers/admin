@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBidsTable extends Migration
+class CreateCommentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,13 @@ class CreateBidsTable extends Migration
      */
     public function up()
     {
-        Schema::create('bids', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->increments('id');
-            $table->unique(['user_id', 'task_id']);
             $table->unsignedInteger('user_id');
-            $table->unsignedInteger('task_id');
-            $table->boolean('accepted')->default(false);
-            $table->unsignedSmallInteger('price');
-            $table->timestamp('proposed_deadline')->nullable();
-            $table->double('fee');
-            $table->double('gst');
+            $table->unsignedInteger('commentable_id');
+            $table->string('commentable_type');
+            $table->text('body');
+            $table->unsignedInteger('parent_id')->nullable();
             $table->timestamps();
         });
     }
@@ -34,6 +31,6 @@ class CreateBidsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('bids');
+        Schema::dropIfExists('comments');
     }
 }

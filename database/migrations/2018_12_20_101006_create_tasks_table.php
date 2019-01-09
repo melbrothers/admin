@@ -1,5 +1,6 @@
 <?php
 
+use App\Task;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
@@ -16,16 +17,19 @@ class CreateTasksTable extends Migration
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('user_id');
-            $table->string('title');
+            $table->string('name');
             $table->string('slug')->nullable();
             $table->text('description');
-            $table->string('location');
-            $table->double('latitude')->nullable();
-            $table->double('longitude')->nullable();
-            $table->enum('status', ['OPEN', 'ASSIGNED', 'COMPLETED']);
-            $table->date('due_date');
-            $table->string('due_time');
-            $table->unsignedSmallInteger('budget');
+            $table->string('location_id')->nullable();
+            $table->enum('state', Task::STATES);
+            $table->date('deadline')->nullable();
+            $table->string('specified_times')->nullable();
+            $table->boolean('flexible_deadline')->default(false);
+            $table->unsignedSmallInteger('price')->nullable();
+            $table->unsignedSmallInteger('estimate_hourly_rate')->nullable();
+            $table->unsignedSmallInteger('estimate_hours')->nullable();
+            $table->boolean('comment_allowed')->default(true);
+            $table->timestamp('first_posted_at');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });

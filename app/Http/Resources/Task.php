@@ -19,13 +19,11 @@ class Task extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
+            'name' => $this->name,
             'description' => $this->description,
-            'budget' => $this->budget,
-            'location' => $this->location,
-            'due_date' => $this->due_date,
-            'due_time' => (string) $this->due_time,
-            'created_at' => $this->created_at->diffForHumans(),
+            'price' => $this->price,
+            'deadline' => $this->deadline,
+            'created_at' => $this->created_at,
             'user' => new UserResource(User::find($this->user_id))
         ];
     }

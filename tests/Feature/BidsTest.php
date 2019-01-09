@@ -31,7 +31,7 @@ class BidsTest extends \TestCase
             'comment' => 'test comment'
         ]);
         $this->seeStatusCode(201);
-        $this->seeJson(['comment' => 'test comment']);
+        $this->seeJson(['price' => 100]);
     }
 
     /** @test */
@@ -59,7 +59,7 @@ class BidsTest extends \TestCase
         $this->actingAs($user, 'api');
         $this->get(sprintf('/v1/tasks/%s/bids', $bid->task->id));
         $this->seeStatusCode(200);
-        $this->seeJson(['comment' => $bid->comment]);
+        $this->seeJson(['price' => $bid->price]);
     }
 
 }

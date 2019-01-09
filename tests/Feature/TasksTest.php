@@ -27,7 +27,7 @@ class TasksTest extends \TestCase
         $task = factory(Task::class)->raw();
         $this->post('/v1/tasks', $task);
         $this->seeStatusCode(201);
-        $this->seeJson(['title' => $task['title']]);
+        $this->seeJson(['name' => $task['name']]);
     }
 
     /** @test */
@@ -42,11 +42,9 @@ class TasksTest extends \TestCase
             'meta'
         ]);
         $this->seeJsonContains([
-            'title' => $task->title,
+            'name' => $task->name,
             'description' => $task->description,
-            'budget' => $task->budget,
-            'location' => $task->location,
-            'due_time' => $task->due_time
+            'price' => $task->price,
         ]);
     }
 

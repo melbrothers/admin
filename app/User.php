@@ -29,8 +29,8 @@ class User extends Model implements
         MustVerifyEmail,
         HasApiTokens;
 
-    const ADMIN_ROLE = 'ADMIN_USER';
-    const BASIC_ROLE = 'BASIC_USER';
+    const ROLE_SENDER = 'ADMIN_USER';
+    const ROLE_RUNNER = 'BASIC_USER';
 
     /**
      * The attributes that are mass assignable.
@@ -60,9 +60,44 @@ class User extends Model implements
         return $this->hasOne(Profile::class);
     }
 
-    public function offers()
+    public function bids()
     {
         return $this->hasMany(Bid::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * @param Task|Bid $model
+     * @param string $body
+     *
+     * @return Comment
+     */
+    public function comment($model, string $body)
+    {
+        $comment = new Comment;
+        $comment->body = $body;
+        $comment->user()->associate($this);
+        $model->comments()->save($comment);
+
+        return $comment;
+    }
+
+    public function bid(Task $task, $price, $body)
+    {
+        $bid = new Bid;
+        $bid->price = $price;
+        $bid->fee = Bid::fee($price);
+        $bid->gst = Bid::gst($price);
+        $bid->user()->associate($this);
+        $task->bids()->save($bid);
+
+        $this->comment($bid, $body);
+
+        return $bid;
     }
 
     /**
@@ -70,7 +105,7 @@ class User extends Model implements
      */
     public function isAdmin()
     {
-        return (isset($this->role) ? $this->role : self::BASIC_ROLE) == self::ADMIN_ROLE;
+        return (isset($this->role) ? $this->role : self::ROLE_RUNNER) == self::ROLE_RUNNER;
     }
 
     /**

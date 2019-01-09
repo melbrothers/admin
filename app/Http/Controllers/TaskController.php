@@ -48,16 +48,14 @@ class TaskController extends Controller
     {
         $this->validate($request, $this->rules());
 
-        $data = $request->only(['title', 'description', 'budget', 'location', 'due_date', 'due_time']);
+        $data = $this->extractInputFromRules($request, $this->rules());
         $user = $request->user();
 
         $task = $user->tasks()->create([
-            'title' => $data['title'],
-            'budget' => $data['budget'],
+            'name' => $data['name'],
+            'price' => $data['price'],
             'description' => $data['description'],
-            'location' => $data['location'],
-            'due_date' => $data['due_date'],
-            'due_time' => $data['due_time'],
+            'deadline' => $data['deadline'],
         ]);
         event(new TaskCreated($task));
 
@@ -109,12 +107,10 @@ class TaskController extends Controller
     protected function rules()
     {
         return [
-            'title' => 'string|required',
+            'name' => 'string|required',
             'description' => 'string|required',
-            'budget' => 'numeric|required',
-            'location' => 'string|required',
-            'due_date' => 'string|required',
-            'due_time' => 'string|required'
+            'price' => 'numeric|required',
+            'deadline' => 'string|required',
         ];
     }
 }
