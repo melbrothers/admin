@@ -8,7 +8,6 @@ use App\Notifications\VerifyEmail;
 use App\User;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Lumen\Testing\DatabaseTransactions;
-use Laravel\Passport\Token;
 
 class AuthTest extends \TestCase
 {
@@ -34,9 +33,7 @@ class AuthTest extends \TestCase
         Notification::fake();
 
         $user = factory(User::class)->create(['email_verified_at' => null]);
-        // authenticate
-        $user->withAccessToken(new Token(['scopes' => ['*']]));
-        $this->actingAs($user);
+        $this->signIn($user);
         $this->get('/email/resend');
         $this->seeStatusCode(200);
         $this->seeJson(['success' => true]);

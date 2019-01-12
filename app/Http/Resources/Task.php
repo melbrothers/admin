@@ -5,7 +5,6 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\User as UserResource;
-use App\User;
 
 class Task extends JsonResource
 {
@@ -24,7 +23,7 @@ class Task extends JsonResource
             'price' => $this->price,
             'deadline' => $this->deadline,
             'created_at' => $this->created_at,
-            'user' => new UserResource(User::find($this->user_id))
+            'user' => new UserResource($this->user)
         ];
     }
 }

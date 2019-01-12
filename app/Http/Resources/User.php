@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\Task as TaskResource;
 
 class User extends JsonResource
 {
@@ -21,6 +22,7 @@ class User extends JsonResource
             'email' => $this->email,
             'avatar' => $this->avatar,
             'created_at' => $this->created_at,
+            'tasks' => TaskResource::collection($this->whenLoaded('tasks')),
         ];
     }
 }

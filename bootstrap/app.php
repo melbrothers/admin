@@ -100,6 +100,10 @@ $app->register(\Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class);
 
 $app->register(App\Providers\RouteBindingServiceProvider::class);
 
+if (env('APP_DEBUG')) {
+    $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
+}
+
 /*
 |--------------------------------------------------------------------------
 | add config values
@@ -122,6 +126,8 @@ $app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
 $app->configure('database');
 $app->configure('apidoc');
 $app->configure('logging');
+
+$app->configure('debugbar');
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes

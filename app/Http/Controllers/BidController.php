@@ -35,9 +35,14 @@ class BidController extends Controller
      */
     public function index(Task $task)
     {
-        $this->authorize('review', [Bid::class, $task]);
+        $this->authorize('index', [Bid::class, $task]);
 
         return BidResource::collection($task->bids);
+    }
+
+    public function show()
+    {
+
     }
 
     /**
@@ -54,7 +59,7 @@ class BidController extends Controller
      */
     public function store(Request $request, Task $task)
     {
-        $this->authorize('create', [Bid::class, $task]);
+        $this->authorize('store', [Bid::class, $task]);
         /** @var User $user */
         $user = $request->user();
         $bid = $user->bid($task, $request->get('price'), $request->get('comment'));
@@ -70,11 +75,6 @@ class BidController extends Controller
     }
 
     public function destroy()
-    {
-
-    }
-
-    public function review()
     {
 
     }

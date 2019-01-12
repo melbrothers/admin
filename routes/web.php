@@ -42,5 +42,10 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->get('tasks/{task}/bids', 'BidController@index');
     $router->post('tasks/{task}/bids', 'BidController@store');
 
+    $router->post('tasks/{task}/comments', 'CommentController@store');
+
+
+    $router->post('comments/{comment}/replies', 'ReplyController@store');
+
 });
 

@@ -18,7 +18,7 @@ class BidPolicy
      *
      * @return bool
      */
-    public function create(User $user, Task $task)
+    public function store(User $user, Task $task)
     {
         return $user->id !== $task->user_id;
     }
@@ -29,7 +29,7 @@ class BidPolicy
      *
      * @return bool
      */
-    public function view(User $user, Bid $bid)
+    public function show(User $user, Bid $bid)
     {
         return $user->id === $bid->user_id || $user->id == $bid->task->user_id;
     }
@@ -55,7 +55,7 @@ class BidPolicy
      *
      * @return bool
      */
-    public function delete(User $user, Bid $bid)
+    public function destroy(User $user, Bid $bid)
     {
         return $user->id === $bid->user_id;
     }
@@ -70,7 +70,7 @@ class BidPolicy
      *
      * @return bool
      */
-    public function review(User $user, Task $task)
+    public function index(User $user, Task $task)
     {
         return $user->id == $task->user_id;
     }

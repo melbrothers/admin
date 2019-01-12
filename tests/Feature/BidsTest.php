@@ -7,24 +7,15 @@ use App\Bid;
 use App\Task;
 use App\User;
 use Laravel\Lumen\Testing\DatabaseTransactions;
-use Laravel\Passport\Token;
 
 class BidsTest extends \TestCase
 {
     use DatabaseTransactions;
 
-    public function setup(): void
-    {
-        parent::setUp();
-        $user = factory(User::class)->create();
-        // authenticate
-        $user->withAccessToken(new Token(['scopes' => ['*']]));
-        $this->actingAs($user);
-    }
-
    /** @test */
-    public function authorized_user_can_create_a_bid()
+    public function an_authenticated_user_can_create_bids()
     {
+        $this->signIn();
         $task = factory(Task::class)->create();
         $this->post(sprintf('/v1/tasks/%s/bids', $task->id), [
             'price' => 100,
@@ -35,13 +26,11 @@ class BidsTest extends \TestCase
     }
 
     /** @test */
-    public function task_creator_can_not_create_a_bid()
+    public function task_creator_can_not_create_bids_for_his_tasks()
     {
         $task = factory(Task::class)->create();
         /** @var User $user */
-        $user = $task->user;
-        $user->withAccessToken(new Token(['scopes' => ['*']]));
-        $this->actingAs($user, 'api');
+        $this->signIn($task->user);
         $this->post(sprintf('/v1/tasks/%s/bids', $task->id), [
             'price' => 100,
             'comment' => 'test comment'
@@ -50,13 +39,10 @@ class BidsTest extends \TestCase
     }
 
     /** @test */
-    public function task_creator_can_view_bids()
+    public function task_creator_can_view_bids_for_his_tasks()
     {
         $bid = factory(Bid::class)->create();
-        /** @var User $user */
-        $user = $bid->task->user;
-        $user->withAccessToken(new Token(['scopes' => ['*']]));
-        $this->actingAs($user, 'api');
+        $this->signIn( $bid->task->user);
         $this->get(sprintf('/v1/tasks/%s/bids', $bid->task->id));
         $this->seeStatusCode(200);
         $this->seeJson(['price' => $bid->price]);

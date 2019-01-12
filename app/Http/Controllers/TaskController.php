@@ -77,18 +77,23 @@ class TaskController extends Controller
      * @param Request $request
      * @param Task    $task
      *
-     * @return TaskResource
-     * @throws \Illuminate\Validation\ValidationException
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, Task $task)
     {
         $this->authorize('update', $task);
-        $this->validate($request, $this->rules());
+        $this->validate($request, [
+            'name' => 'string',
+            'description' => 'string',
+            'price' => 'numeric',
+            'deadline' => 'string',
+        ]);
 
         $task->update($request->all());
 
-        return new TaskResource($task);
+        return (new TaskResource($task))->response()->setStatusCode(202);
     }
 
     /**
@@ -99,7 +104,7 @@ class TaskController extends Controller
      */
     public function destroy(Task $task)
     {
-        $this->authorize('delete', $task);
+        $this->authorize('destroy', $task);
         $task->delete();
         return response()->json(null, 204);
     }

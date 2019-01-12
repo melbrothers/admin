@@ -50,7 +50,7 @@ class UserPolicy
      * @param User $user
      * @return bool
      */
-    public function delete(User $currentUser, User $user)
+    public function destroy(User $currentUser, User $user)
     {
         return $currentUser->id === $user->id;
     }

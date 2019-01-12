@@ -1,9 +1,7 @@
 <?php
 namespace Tests\Feature;
 
-use App\User;
 use Laravel\Lumen\Testing\DatabaseTransactions;
-use Laravel\Passport\Token;
 
 class UsersTest extends \TestCase
 {
@@ -18,12 +16,9 @@ class UsersTest extends \TestCase
     }
 
     /** @test */
-    public function get_a_user_profile()
+    public function a_user_profile_can_be_viewed()
     {
-        $user = factory(User::class)->create();
-        // authenticate
-        $user->withAccessToken(new Token(['scopes' => ['*']]));
-        $this->actingAs($user);
+        $user = $this->signIn();
         // should work
         $this->get( '/v1/users/' . $user->id);
         $this->seeStatusCode(200);
@@ -32,16 +27,12 @@ class UsersTest extends \TestCase
     }
 
     /** @test */
-    public function get_current_user()
+    public function a_authenticated_user_can_view_current_user()
     {
         // should work
         $this->get('/v1/users/me');
         $this->seeStatusCode(401);
-
-        $user = factory(User::class)->create();
-        // authenticate
-        $user->withAccessToken(new Token(['scopes' => ['*']]));
-        $this->actingAs($user);
+        $user = $this->signIn();
         // should work
         $this->get('/v1/users/me');
         // test json response

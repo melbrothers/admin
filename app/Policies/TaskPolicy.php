@@ -30,7 +30,7 @@ class TaskPolicy
      *
      * @return bool
      */
-    public function delete(User $user, Task $task)
+    public function destroy(User $user, Task $task)
     {
         return $user->id === $task->user_id;
     }

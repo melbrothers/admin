@@ -6,8 +6,6 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\Task as TaskResource;
 use App\Http\Resources\User as UserResource;
-use App\Task;
-use App\User;
 
 class Bid extends JsonResource
 {
@@ -21,13 +19,13 @@ class Bid extends JsonResource
     {
         return [
             'id' => $this->id,
-            'task' => new TaskResource(Task::find($this->task_id)),
+            'task' => new TaskResource($this->task),
             'price' => $this->price,
             'fee' => $this->fee,
             'gst' => $this->gst,
             'comment' => $this->comment,
             'created_at' => $this->created_at->diffForHumans(),
-            'user' => new UserResource(User::find($this->user_id))
+            'user' => new UserResource($this->user)
         ];
     }
 }

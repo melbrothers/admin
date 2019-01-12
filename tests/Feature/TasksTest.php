@@ -4,26 +4,16 @@ namespace Tests\Feature;
 
 
 use App\Task;
-use App\User;
 use Laravel\Lumen\Testing\DatabaseTransactions;
-use Laravel\Passport\Token;
 
 class TasksTest extends \TestCase
 {
     use DatabaseTransactions;
 
-    public function setup(): void
-    {
-        parent::setUp();
-        $user = factory(User::class)->create();
-        // authenticate
-        $user->withAccessToken(new Token(['scopes' => ['*']]));
-        $this->actingAs($user, 'api');
-    }
-
     /** @test */
-    public function create_a_task()
+    public function an_authenticated_user_can_create_tasks()
     {
+        $this->signIn();
         $task = factory(Task::class)->raw();
         $this->post('/v1/tasks', $task);
         $this->seeStatusCode(201);
@@ -31,7 +21,7 @@ class TasksTest extends \TestCase
     }
 
     /** @test */
-    public function user_can_view_all_tasks()
+    public function a_guest_user_can_view_all_tasks()
     {
         $task = factory(Task::class)->create();
         $this->get('/v1/tasks');
@@ -49,24 +39,36 @@ class TasksTest extends \TestCase
     }
 
     /** @test */
-    public function unauthorized_user_may_not_delete_tasks()
+    public function an_unauthorized_user_may_not_delete_tasks()
     {
+        $this->signIn();
         $task = factory(Task::class)->create();
         $this->delete('v1/tasks/'. $task->id);
         $this->seeStatusCode(403);
     }
 
     /** @test */
-    public function authorized_user_can_delete_tasks()
+    public function an_authorized_user_can_delete_tasks()
     {
         // authenticate
         $task = factory(Task::class)->create();
-        /** @var User $user */
-        $user = $task->user;
-        $user->withAccessToken(new Token(['scopes' => ['*']]));
-        $this->actingAs($user);
+        $this->signIn($task->user);
         $this->delete('v1/tasks/'. $task->id);
         $this->seeStatusCode(204);
+    }
+
+    /** @test */
+    public function an_authorized_user_can_update_task_name()
+    {
+        $task = factory(Task::class)->create();
+        $this->signIn($task->user);
+        $this->put('v1/tasks/'. $task->id, [
+            'name' => 'new task name'
+        ]);
+        $this->seeStatusCode(202);
+        $this->seeJsonContains([
+            'name' => 'new task name',
+        ]);
     }
 
 }
