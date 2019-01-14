@@ -19,7 +19,8 @@
         "mpociot/laravel-apidoc-generator": "^3.1",
         "socialiteproviders/weixin": "^4.0",
         "socialiteproviders/weixin-web": "^3.0",
-        "vlucas/phpdotenv": "~2.2"
+        "vlucas/phpdotenv": "~2.2",
+        "vluzrmos/tinker": "^1.4"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.2",

@@ -49,20 +49,7 @@ $factory->define(App\Bid::class, function (Faker $faker) {
     ];
 });
 
-//$factory->define(App\Comment::class, function (Faker $faker) {
-//    return [
-//        'user_id' => function() {
-//            return factory(App\User::class)->create()->id;
-//        },
-//        'body' => $faker->paragraph,
-//        'commentable_id' => function() {
-//            return factory(App\Task::class)->create()->id;
-//        },
-//        'commentable_type' => \App\Task::class
-//    ];
-//});
-
-$factory->state(App\Comment::class, \App\Task::class, function (Faker $faker) {
+$factory->define(App\Comment::class, function (Faker $faker) {
     return [
         'user_id' => function() {
             return factory(App\User::class)->create()->id;
@@ -75,7 +62,20 @@ $factory->state(App\Comment::class, \App\Task::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(App\Comment::class, \App\Bid::class, function (Faker $faker) {
+$factory->state(App\Comment::class, 'task', function (Faker $faker) {
+    return [
+        'user_id' => function() {
+            return factory(App\User::class)->create()->id;
+        },
+        'body' => $faker->paragraph,
+        'commentable_id' => function() {
+            return factory(App\Task::class)->create()->id;
+        },
+        'commentable_type' => \App\Task::class
+    ];
+});
+
+$factory->state(App\Comment::class, 'bid', function (Faker $faker) {
     return [
         'user_id' => function() {
             return factory(App\User::class)->create()->id;
@@ -87,3 +87,23 @@ $factory->state(App\Comment::class, \App\Bid::class, function (Faker $faker) {
         'commentable_type' => \App\Bid::class
     ];
 });
+
+
+$factory->state(App\Comment::class, 'reply', function (Faker $faker) {
+
+    return [
+        'user_id' => function() {
+            return factory(App\User::class)->create()->id;
+        },
+        'body' => $faker->paragraph,
+        'commentable_id' => function() {
+            return factory(App\Task::class)->create()->id;
+        },
+        'commentable_type' => \App\Task::class,
+
+        'parent_id' => function() {
+            return factory(App\Comment::class)->create()->id;
+        }
+    ];
+});
+

@@ -9,6 +9,9 @@ class Bid extends Model
 {
     const RATE_FEE = 0.2;
     const RATE_GST = 0.1;
+
+    protected $with = ['user'];
+
     /**
      * @var array
      */

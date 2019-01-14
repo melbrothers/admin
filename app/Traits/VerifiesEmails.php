@@ -25,7 +25,8 @@ trait VerifiesEmails
         if ($request->user()->markEmailAsVerified()) {
             event(new Verified($request->user()));
         }
-        return redirect($this->redirectPath())->with('verified', true);
+
+        return response()->json(['success' => true]);
     }
 
     /**

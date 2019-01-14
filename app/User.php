@@ -90,11 +90,12 @@ class User extends Model implements
     {
         $newComment = new Comment;
         $newComment->body = $body;
-        $newComment->parent_id = $comment->id;
         $newComment->commentable_id = $comment->commentable_id;
         $newComment->commentable_type = $comment->commentable_type;
         $newComment->user()->associate($this);
-        $comment->save();
+        $comment->replies()->save($newComment);
+
+        return $newComment;
     }
 
     public function bid(Task $task, $price, $body)

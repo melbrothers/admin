@@ -25,6 +25,7 @@ class CreateUsersTable extends Migration
             $table->timestamp('published_at')->nullable();
             $table->string('locale')->default('en');
             $table->string('phone')->nullable();
+            $table->timestamp('phone_verified_at')->nullable();
             $table->string('avatar')->nullable();
             $table->boolean('active')->default(true);
             $table->rememberToken();

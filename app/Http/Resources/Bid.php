@@ -4,7 +4,6 @@ namespace App\Http\Resources;
 
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Http\Resources\Task as TaskResource;
 use App\Http\Resources\User as UserResource;
 
 class Bid extends JsonResource
@@ -19,12 +18,12 @@ class Bid extends JsonResource
     {
         return [
             'id' => $this->id,
-            'task' => new TaskResource($this->task),
+            'task_id' => $this->task_id,
             'price' => $this->price,
             'fee' => $this->fee,
             'gst' => $this->gst,
             'comment' => $this->comment,
-            'created_at' => $this->created_at->diffForHumans(),
+            'created_at' => $this->created_at,
             'user' => new UserResource($this->user)
         ];
     }

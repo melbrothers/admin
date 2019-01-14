@@ -26,7 +26,6 @@ $router->get('social/{provider}/login', 'Auth\SocialLoginController@redirectToPr
 $router->get('social/{provider}/callback', 'Auth\SocialLoginController@handleProviderCallback');
 
 
-//users
 $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->get('users/me', 'UserController@me');
     $router->get('users/{user}', 'UserController@show');
@@ -43,9 +42,12 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->post('tasks/{task}/bids', 'BidController@store');
 
     $router->post('tasks/{task}/comments', 'CommentController@store');
+    $router->get('tasks/{task}/comments', 'CommentController@index');
 
 
     $router->post('comments/{comment}/replies', 'ReplyController@store');
+
+    $router->get('translation/{locale}', 'TranslationController@show');
 
 });
 

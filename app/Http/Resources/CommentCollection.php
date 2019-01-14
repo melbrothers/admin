@@ -1,15 +1,25 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Lixing
- * Date: 2019-01-13
- * Time: 12:06
- */
 
 namespace App\Http\Resources;
 
 
-class CommentCollection
-{
+use Illuminate\Http\Resources\Json\ResourceCollection;
 
+class CommentCollection extends ResourceCollection
+{
+    /**
+     * Transform the resource collection into an array.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return array
+     */
+    public function toArray($request)
+    {
+        return [
+            'data' => $this->collection,
+            'links' => [
+                'self' => 'link-value',
+            ],
+        ];
+    }
 }

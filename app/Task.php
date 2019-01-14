@@ -14,6 +14,7 @@ class Task extends Model
 
     const STATES = [self::STATE_POSTED, self::STATE_ASSIGNED, self::STATE_CLOSED, self::STATE_COMPLETED, self::STATE_OVERDUE];
 
+    protected $with = ['user', 'bids', 'comments'];
 
     /**
      * @var array

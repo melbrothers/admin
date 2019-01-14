@@ -11,6 +11,15 @@ class TasksTest extends \TestCase
     use DatabaseTransactions;
 
     /** @test */
+    public function a_guest_user_can_view_a_task()
+    {
+        $task = factory(Task::class)->create();
+        $this->get(sprintf('/v1/tasks/%s', $task->id));
+        $this->seeStatusCode(200);
+        $this->seeJson(['name' => $task->name]);
+    }
+
+    /** @test */
     public function an_authenticated_user_can_create_tasks()
     {
         $this->signIn();

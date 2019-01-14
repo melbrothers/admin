@@ -104,6 +104,8 @@ if (env('APP_DEBUG')) {
     $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
 }
 
+$app->register(\Vluzrmos\Tinker\TinkerServiceProvider::class);
+
 /*
 |--------------------------------------------------------------------------
 | add config values
