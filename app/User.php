@@ -4,6 +4,8 @@ namespace App;
 
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use App\Notifications\VerifyEmail;
+use Cocur\Slugify\Slugify;
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
 use Illuminate\Auth\Passwords\CanResetPassword;
@@ -27,7 +29,8 @@ class User extends Model implements
         Notifiable,
         CanResetPassword,
         MustVerifyEmail,
-        HasApiTokens;
+        HasApiTokens,
+        Sluggable;
 
     const ROLE_SENDER = 'ADMIN_USER';
     const ROLE_RUNNER = 'BASIC_USER';
@@ -38,7 +41,7 @@ class User extends Model implements
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+       'first_name', 'last_name', 'email', 'password',
     ];
 
     /**
@@ -110,6 +113,34 @@ class User extends Model implements
         $this->comment($bid, $body);
 
         return $bid;
+    }
+
+
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => ['last_name', 'first_name'],
+            ]
+        ];
+    }
+
+    /**
+     * @param \Cocur\Slugify\Slugify $engine
+     * @param string $attribute
+     * @return \Cocur\Slugify\Slugify
+     */
+    public function customizeSlugEngine(Slugify $engine, $attribute)
+    {
+        $engine->activateRuleSet('chinese');
+
+        return $engine;
     }
 
     /**

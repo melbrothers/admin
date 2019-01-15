@@ -105,6 +105,7 @@ if (env('APP_DEBUG')) {
 }
 
 $app->register(\Vluzrmos\Tinker\TinkerServiceProvider::class);
+$app->register(Cviebrock\EloquentSluggable\ServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
