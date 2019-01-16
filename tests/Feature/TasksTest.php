@@ -14,7 +14,7 @@ class TasksTest extends \TestCase
     public function a_guest_user_can_view_a_task()
     {
         $task = factory(Task::class)->create();
-        $this->get(sprintf('/v1/tasks/%s', $task->id));
+        $this->get(sprintf('/v1/tasks/%s', $task->slug));
         $this->seeStatusCode(200);
         $this->seeJson(['name' => $task->name]);
     }
@@ -52,7 +52,7 @@ class TasksTest extends \TestCase
     {
         $this->signIn();
         $task = factory(Task::class)->create();
-        $this->delete('v1/tasks/'. $task->id);
+        $this->delete('v1/tasks/'. $task->slug);
         $this->seeStatusCode(403);
     }
 
@@ -62,7 +62,7 @@ class TasksTest extends \TestCase
         // authenticate
         $task = factory(Task::class)->create();
         $this->signIn($task->user);
-        $this->delete('v1/tasks/'. $task->id);
+        $this->delete('v1/tasks/'. $task->slug);
         $this->seeStatusCode(204);
     }
 
@@ -71,7 +71,7 @@ class TasksTest extends \TestCase
     {
         $task = factory(Task::class)->create();
         $this->signIn($task->user);
-        $this->put('v1/tasks/'. $task->id, [
+        $this->put('v1/tasks/'. $task->slug, [
             'name' => 'new task name'
         ]);
         $this->seeStatusCode(202);

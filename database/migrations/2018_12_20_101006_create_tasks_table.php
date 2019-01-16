@@ -18,7 +18,7 @@ class CreateTasksTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('user_id');
             $table->string('name');
-            $table->string('slug')->nullable();
+            $table->string('slug');
             $table->text('description');
             $table->string('location_id')->nullable();
             $table->enum('state', Task::STATES);

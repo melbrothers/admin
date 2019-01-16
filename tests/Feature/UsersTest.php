@@ -20,7 +20,7 @@ class UsersTest extends \TestCase
     {
         $user = $this->signIn();
         // should work
-        $this->get( '/v1/users/' . $user->id);
+        $this->get( '/v1/users/' . $user->slug);
         $this->seeStatusCode(200);
         // test json response
         $this->seeJsonContains(['email' => $user->email]);

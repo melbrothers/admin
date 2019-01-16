@@ -2,7 +2,6 @@
 
 namespace Tests\Feature;
 
-
 use App\Bid;
 use App\Task;
 use App\User;
@@ -17,7 +16,7 @@ class BidsTest extends \TestCase
     {
         $this->signIn();
         $task = factory(Task::class)->create();
-        $this->post(sprintf('/v1/tasks/%s/bids', $task->id), [
+        $this->post(sprintf('/v1/tasks/%s/bids', $task->slug), [
             'price' => 100,
             'comment' => 'test comment'
         ]);
@@ -31,7 +30,7 @@ class BidsTest extends \TestCase
         $task = factory(Task::class)->create();
         /** @var User $user */
         $this->signIn($task->user);
-        $this->post(sprintf('/v1/tasks/%s/bids', $task->id), [
+        $this->post(sprintf('/v1/tasks/%s/bids', $task->slug), [
             'price' => 100,
             'comment' => 'test comment'
         ]);
@@ -43,7 +42,7 @@ class BidsTest extends \TestCase
     {
         $bid = factory(Bid::class)->create();
         $this->signIn( $bid->task->user);
-        $this->get(sprintf('/v1/tasks/%s/bids', $bid->task->id));
+        $this->get(sprintf('/v1/tasks/%s/bids', $bid->task->slug));
         $this->seeStatusCode(200);
         $this->seeJson(['price' => $bid->price]);
     }

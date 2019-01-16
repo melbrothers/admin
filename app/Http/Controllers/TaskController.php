@@ -26,9 +26,11 @@ class TaskController extends Controller
     }
 
     /**
+     * @param Request $request
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index()
+    public function index(Request $request)
     {
         return TaskResource::collection(Task::paginate());
     }

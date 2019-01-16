@@ -21,7 +21,7 @@ class CommentsTest extends \TestCase
     public function a_user_can_post_a_comment_to_a_task()
     {
         $task = factory(Task::class)->create();
-        $this->post(sprintf('/v1/tasks/%s/comments', $task->id), [
+        $this->post(sprintf('/v1/tasks/%s/comments', $task->slug), [
             'body' => 'test body'
         ]);
         $this->seeStatusCode(201);
