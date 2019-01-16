@@ -20,7 +20,7 @@ class CommentsTest extends \TestCase
     /** @test */
     public function a_user_can_post_a_comment_to_a_task()
     {
-        $task = factory(Task::class)->create();
+        $task = create(Task::class);
         $this->post(sprintf('/v1/tasks/%s/comments', $task->slug), [
             'body' => 'test body'
         ]);

@@ -18,7 +18,7 @@ abstract class TestCase extends Laravel\Lumen\Testing\TestCase
     protected function signIn($user = null)
     {
         if (!$user) {
-            $user = factory(User::class)->create();
+            $user = create(User::class);
         }
 
         // authenticate

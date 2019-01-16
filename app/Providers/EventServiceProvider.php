@@ -34,6 +34,6 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $subscribe = [
-        UserEventsListener::class,
+        //UserEventsListener::class,
     ];
 }
