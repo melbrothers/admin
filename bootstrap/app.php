@@ -115,6 +115,7 @@ $app->register(Cviebrock\EloquentSluggable\ServiceProvider::class);
 | Add configuration files to load
 |
 */
+
 $app->configure('app');
 $app->configure('auth');
 $app->configure('services');
@@ -131,6 +132,11 @@ $app->configure('apidoc');
 $app->configure('logging');
 
 $app->configure('debugbar');
+$app->configure('filesystems');
+$app->configure('broadcasting');
+$app->configure('cache');
+
+
 /*
 |--------------------------------------------------------------------------
 | Load The Application Routes
