@@ -32,6 +32,8 @@ services:
 
   redis:
     image: redis
+    ports:
+      - "6379:6379"
     volumes:
       - redisdata:/data
     networks:
@@ -55,15 +57,10 @@ services:
       - "5601:5601"
     networks:
       - app-network
-    volumes:
-      - kibanadata:/usr/share/kibana/data
 
 volumes:
   mysqldata:
-    driver: "local"
   redisdata:
-    driver: "local"
-  kibanadata:
   elasticsearchdata:
 networks:
   app-network:
