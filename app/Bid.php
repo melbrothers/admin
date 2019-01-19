@@ -3,10 +3,13 @@
 namespace App;
 
 
+use App\Traits\Commentable;
 use Illuminate\Database\Eloquent\Model;
 
 class Bid extends Model
 {
+    use Commentable;
+
     const RATE_FEE = 0.2;
     const RATE_GST = 0.1;
 

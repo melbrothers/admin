@@ -3,12 +3,16 @@
 namespace App;
 
 
+use App\Traits\Attachable;
+use App\Traits\Commentable;
 use Illuminate\Database\Eloquent\Model;
 
 class Comment extends Model
 {
 
-    protected $with = ['replies'];
+    use Attachable, Commentable;
+
+    protected $with = ['replies', 'attachments'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
@@ -26,6 +30,11 @@ class Comment extends Model
     public function replies()
     {
         return $this->hasMany(Comment::class, 'parent_id');
+    }
+
+    public function attachments()
+    {
+        return $this->morphMany(Attachment::class, 'attachable');
     }
 
 }

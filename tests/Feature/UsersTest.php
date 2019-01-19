@@ -1,6 +1,8 @@
 <?php
 namespace Tests\Feature;
 
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class UsersTest extends \TestCase
@@ -27,7 +29,7 @@ class UsersTest extends \TestCase
     }
 
     /** @test */
-    public function a_authenticated_user_can_view_current_user()
+    public function authenticated_user_can_view_current_user()
     {
         // should work
         $this->get('/v1/users/me');
@@ -37,5 +39,18 @@ class UsersTest extends \TestCase
         $this->get('/v1/users/me');
         // test json response
         $this->seeJsonContains(['email' => $user->email]);
+    }
+
+    /** @test */
+    public function authenticated_user_can_upload_a_avatar()
+    {
+        $this->signIn();
+        Storage::fake('avatars');
+
+        $file = UploadedFile::fake()->image('avatar.jpg');
+        $this->call('POST', '/v1/users/avatar', [], [], [
+            'avatar' => $file
+        ]);
+        $this->seeStatusCode(200);
     }
 }

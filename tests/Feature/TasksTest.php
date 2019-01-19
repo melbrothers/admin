@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 
 use App\Task;
+use Illuminate\Http\UploadedFile;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class TasksTest extends \TestCase
@@ -78,6 +79,19 @@ class TasksTest extends \TestCase
         $this->seeJsonContains([
             'name' => 'new task name',
         ]);
+    }
+
+    /** @test */
+    public function authenticated_user_can_attach_image_to_task()
+    {
+        $task = create(Task::class);
+        $this->signIn($task->user);
+
+        $this->call('POST', sprintf('/v1/tasks/%s/attachments', $task->slug), [], [], [
+            'attachment' => UploadedFile::fake()->image('attachment.jpg')
+        ]);
+
+        $this->seeStatusCode(200);
     }
 
 }

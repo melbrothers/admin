@@ -37,7 +37,7 @@ class CommentController extends Controller
     {
         /** @var User $user */
         $user = $request->user();
-        $user->comment($task, $request->get('body'));
+        $task->comment($request->get('body'), $user);
 
         return (new TaskResource($task))->response()->setStatusCode(201);
     }

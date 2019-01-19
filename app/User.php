@@ -5,7 +5,6 @@ namespace App;
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use App\Notifications\VerifyEmail;
 use App\Traits\SluggableHelpers;
-use Cocur\Slugify\Slugify;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Auth\MustVerifyEmail;
@@ -75,22 +74,6 @@ class User extends Model implements
         return $this->hasMany(Comment::class);
     }
 
-    /**
-     * @param Task|Bid $model
-     * @param string $body
-     *
-     * @return Comment
-     */
-    public function comment($model, string $body)
-    {
-        $comment = new Comment;
-        $comment->body = $body;
-        $comment->user()->associate($this);
-        $model->comments()->save($comment);
-
-        return $comment;
-    }
-
     public function reply(Comment $comment, string $body)
     {
         $newComment = new Comment;
@@ -111,8 +94,7 @@ class User extends Model implements
         $bid->gst = Bid::gst($price);
         $bid->user()->associate($this);
         $task->bids()->save($bid);
-
-        $this->comment($bid, $body);
+        $bid->comment($body, $this);
 
         return $bid;
     }

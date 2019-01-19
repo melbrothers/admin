@@ -22,7 +22,7 @@ class Bid extends JsonResource
             'price' => $this->price,
             'fee' => $this->fee,
             'gst' => $this->gst,
-            'comment' => $this->comment,
+            'comments' => $this->comments,
             'created_at' => $this->created_at,
             'user' => new UserResource($this->user)
         ];

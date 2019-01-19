@@ -2,14 +2,16 @@
 
 namespace App;
 
+use App\Traits\Commentable;
 use App\Traits\SluggableHelpers;
+use App\Traits\Attachable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
 class Task extends Model
 {
-    use Sluggable, SluggableHelpers;
+    use Sluggable, SluggableHelpers, Attachable, Commentable;
 
     const STATE_POSTED = 'posted';
     const STATE_ASSIGNED = 'assigned';
@@ -19,7 +21,7 @@ class Task extends Model
 
     const STATES = [self::STATE_POSTED, self::STATE_ASSIGNED, self::STATE_CLOSED, self::STATE_COMPLETED, self::STATE_OVERDUE];
 
-    protected $with = ['user', 'bids', 'comments'];
+    protected $with = ['user', 'bids', 'comments', 'attachments'];
 
     protected $guarded = [];
 
@@ -45,6 +47,11 @@ class Task extends Model
     public function comments()
     {
         return $this->morphMany(Comment::class, 'commentable');
+    }
+
+    public function attachments()
+    {
+        return $this->morphMany(Attachment::class, 'attachable');
     }
 
     /**

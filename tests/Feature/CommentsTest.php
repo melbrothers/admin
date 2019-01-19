@@ -5,6 +5,7 @@ namespace Tests\Feature;
 
 use App\Comment;
 use App\Task;
+use Illuminate\Http\UploadedFile;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class CommentsTest extends \TestCase
@@ -38,5 +39,18 @@ class CommentsTest extends \TestCase
         ]);
         $this->seeStatusCode(201);
         $this->seeInDatabase('comments', ['body' => 'test reply', 'parent_id' => $comment->id]);
+    }
+
+    /** @test */
+    public function authenticated_user_can_attach_image_to_comment()
+    {
+        $comment = create(Comment::class);
+        $this->seeInDatabase('comments', ['body' => $comment->body, 'id' => $comment->id]);
+
+        $this->call('POST', sprintf('/v1/comments/%s/attachments', $comment->id), [], [], [
+            'attachment' => UploadedFile::fake()->image('attachment.jpg')
+        ]);
+
+        $this->seeStatusCode(200);
     }
 }

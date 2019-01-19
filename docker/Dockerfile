@@ -7,12 +7,21 @@ RUN apt-get update && apt-get install -y \
       libpq-dev \
       libmcrypt-dev \
       zlib1g-dev \
+      libfreetype6-dev \
+      libmcrypt-dev \
+      libjpeg-dev \
+      libpng-dev \
+      libzip-dev \
       git \
       zsh \
       wget \
       git-core \
     && rm -r /var/lib/apt/lists/* \
     && docker-php-ext-configure pdo_mysql --with-pdo-mysql=mysqlnd \
+    && docker-php-ext-configure gd \
+        --with-freetype-dir=/usr/include/freetype2 \
+        --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure zip --with-libzip \
     && docker-php-ext-install \
       intl \
       pcntl \
@@ -20,6 +29,8 @@ RUN apt-get update && apt-get install -y \
       pdo_pgsql \
       pgsql \
       zip \
+      mbstring \
+      gd \
       opcache \
       bcmath
 

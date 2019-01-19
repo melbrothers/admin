@@ -28,8 +28,11 @@ $router->get('social/{provider}/callback', 'Auth\SocialLoginController@handlePro
 
 $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->get('users/me', 'UserController@me');
+    $router->post('users/avatar', 'UserAvatarController@store');
+
     $router->get('users/{user}', 'UserController@show');
     $router->put('users/{user}', 'UserController@update');
+
 
     $router->get('tasks', 'TaskController@index');
     $router->post('tasks', 'TaskController@store');
@@ -40,12 +43,15 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
 
     $router->get('tasks/{task}/bids', 'BidController@index');
     $router->post('tasks/{task}/bids', 'BidController@store');
+    $router->post('tasks/{task}/attachments', 'AttachmentController@task');
+
 
     $router->post('tasks/{task}/comments', 'CommentController@store');
     $router->get('tasks/{task}/comments', 'CommentController@index');
 
 
     $router->post('comments/{comment}/replies', 'ReplyController@store');
+    $router->post('comments/{comment}/attachments', 'AttachmentController@comment');
 
     $router->get('translation/{locale}', 'TranslationController@show');
 
