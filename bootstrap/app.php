@@ -55,6 +55,8 @@ $app->singleton(
     }
 );
 
+$app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
+
 /*
 |--------------------------------------------------------------------------
 | Register Middleware
