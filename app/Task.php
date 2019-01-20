@@ -8,10 +8,11 @@ use App\Traits\Attachable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Laravel\Scout\Searchable;
 
 class Task extends Model
 {
-    use Sluggable, SluggableHelpers, Attachable, Commentable;
+    use Sluggable, SluggableHelpers, Attachable, Commentable, Searchable;
 
     const STATE_POSTED = 'posted';
     const STATE_ASSIGNED = 'assigned';

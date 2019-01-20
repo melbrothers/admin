@@ -95,6 +95,7 @@ $app->routeMiddleware([
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\RouteBindingServiceProvider::class);
 $app->register(Illuminate\Auth\Passwords\PasswordResetServiceProvider::class);
 $app->register(Illuminate\Notifications\NotificationServiceProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
@@ -107,14 +108,14 @@ $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 $app->register(\SocialiteProviders\Manager\ServiceProvider::class);
 $app->register(\Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class);
 
-$app->register(App\Providers\RouteBindingServiceProvider::class);
+$app->register(\Vluzrmos\Tinker\TinkerServiceProvider::class);
+$app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
+$app->register(\Laravel\Scout\ScoutServiceProvider::class);
+$app->register(\App\Providers\ElasticsearchServiceProvider::class);
 
 if (env('APP_DEBUG')) {
     $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
 }
-
-$app->register(\Vluzrmos\Tinker\TinkerServiceProvider::class);
-$app->register(Cviebrock\EloquentSluggable\ServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
@@ -144,6 +145,7 @@ $app->configure('debugbar');
 $app->configure('filesystems');
 $app->configure('broadcasting');
 $app->configure('cache');
+$app->configure('scout');
 
 
 /*
