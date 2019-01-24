@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateBadgesTable extends Migration
+class CreatePushNotificationAlertSettingsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class CreateBadgesTable extends Migration
      */
     public function up()
     {
-        Schema::create('badges', function (Blueprint $table) {
+        Schema::create('push_notification_alert_settings', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('name');
-            $table->string('description');
             $table->timestamps();
         });
     }
@@ -28,6 +26,6 @@ class CreateBadgesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('badges');
+        Schema::dropIfExists('push_notification_alert_settings');
     }
 }

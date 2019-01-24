@@ -15,7 +15,7 @@
         "guzzlehttp/guzzle": "^6.3",
         "illuminate/mail": "5.7.*",
         "illuminate/notifications": "5.7.*",
-        "illuminate/redis": "^5.7",
+        "illuminate/redis": "5.7.*",
         "laravel/lumen-framework": "5.7.*",
         "laravel/scout": "^6.1",
         "laravel/socialite": "^3.2",
@@ -54,6 +54,9 @@
     "scripts": {
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
+        ],
+        "compile": [
+            "php artisan migrate:fresh --seed"
         ]
     },
     "config": {
