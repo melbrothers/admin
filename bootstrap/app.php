@@ -115,11 +115,8 @@ $app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
 $app->register(\Laravel\Scout\ScoutServiceProvider::class);
 $app->register(\App\Providers\ElasticsearchServiceProvider::class);
 
-if (env('APP_DEBUG')) {
+if ($app->environment() == 'local') {
     $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
-}
-
-if ($app->environment() !== 'production') {
     $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 }
 
