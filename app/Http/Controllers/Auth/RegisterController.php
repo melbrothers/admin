@@ -9,6 +9,8 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use App\Http\Resources\User as UserResource;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * Class RegisterController
@@ -64,7 +66,27 @@ class RegisterController extends Controller
         );
         event(new Registered($user));
 
-        return app()->dispatch($proxy);
+        $response = app()->dispatch($proxy);
+
+        $data = \json_decode($response->getContent());
+
+        /*
+        We save the access token in a HttpOnly cookie. This
+        will be attached to the response in the form of a
+        Set-Cookie header. Now the client will have this cookie
+        saved and can use it to request new access tokens when
+        the old ones expire.
+        */
+        return response(new UserResource($user))->withCookie(
+            new Cookie( 'token',
+                $data->access_token,
+                864000, // 10 days
+                null,
+                null,
+                false,
+                true // HttpOnly
+            )
+        );
     }
 
     /**

@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Auth;
 
 
 use App\Http\Controllers\Controller;
+use App\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Cookie;
+use App\Http\Resources\User as UserResource;
 
 /**
  * Class LoginController
@@ -48,7 +51,34 @@ class LoginController extends Controller
             ]
         );
 
-        return app()->dispatch($proxy);
+        $response = app()->dispatch($proxy);
+
+
+        if (!$response->isSuccessful()) {
+            return $response;
+        }
+
+        $data = \json_decode($response->getContent());
+        $user = User::where(['email' => $credentials['email']])->first();
+
+        /*
+        We save the access token in a HttpOnly cookie. This
+        will be attached to the response in the form of a
+        Set-Cookie header. Now the client will have this cookie
+        saved and can use it to request new access tokens when
+        the old ones expire.
+        */
+       return response(new UserResource($user))->withCookie(
+           new Cookie( 'token',
+               $data->access_token,
+               864000, // 10 days
+               null,
+               null,
+               false,
+               true // HttpOnly
+           )
+        );
+
     }
 
     /**

@@ -39,6 +39,10 @@ class Authenticate
         if ($this->auth->guard($guard)->guest()) {
             // Then check, access_token created by the client_credentials grant is valid.
             // We need this checking because we could use either password grant or client_credentials grant.
+            if ($request->hasCookie('token') && $request->hasHeader('authorization')) {
+                $request->headers->add(['authorization' => 'Bearer ' .  $request->cookie('token')]);
+            };
+
             try {
                 app(CheckClientCredentials::class)->handle($request, function () {});
             } catch (\Exception $e) {
