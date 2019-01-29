@@ -29,7 +29,7 @@ class CreateTasksTable extends Migration
             $table->unsignedSmallInteger('estimate_hourly_rate')->nullable();
             $table->unsignedSmallInteger('estimate_hours')->nullable();
             $table->boolean('comment_allowed')->default(true);
-            $table->timestamp('first_posted_at');
+            $table->timestamp('first_posted_at')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
