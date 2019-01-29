@@ -71,7 +71,7 @@ class LoginController extends Controller
        return response(new UserResource($user))->withCookie(
            new Cookie( 'token',
                $data->access_token,
-               864000, // 10 days
+               864000 + time(), // 10 days
                null,
                null,
                false,
