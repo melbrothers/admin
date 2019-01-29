@@ -32,7 +32,7 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        return TaskResource::collection(Task::paginate());
+        return TaskResource::collection(Task::paginate(100));
     }
 
     /**
