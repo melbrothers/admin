@@ -23,7 +23,7 @@ $router->post('password/reset', ['as' => 'password.update' , 'uses' => 'Auth\Res
 $router->get('email/verify/{id}', ['as' => 'verification.verify' , 'uses' => 'Auth\VerificationController@verify']);
 $router->get('email/resend', ['as' => 'verification.resend' , 'uses' => 'Auth\VerificationController@resend']);
 $router->get('social/{provider}/login', 'Auth\SocialLoginController@redirectToProvider');
-$router->get('social/{provider}/callback', 'Auth\SocialLoginController@handleProviderCallback');
+$router->post('social/{provider}/login', 'Auth\SocialLoginController@handleProviderLogin');
 
 
 $router->group(['prefix' => 'v1'], function () use ($router) {

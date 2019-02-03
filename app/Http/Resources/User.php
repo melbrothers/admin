@@ -21,6 +21,7 @@ class User extends JsonResource
             'name' => $this->name,
             'email' => $this->email,
             'avatar' => $this->avatar,
+            'locale' => $this->locale,
             'created_at' => $this->created_at,
             'tasks' => TaskResource::collection($this->whenLoaded('tasks')),
         ];

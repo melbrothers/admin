@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Auth;
 
 
 use App\Http\Controllers\Controller;
-use App\User;
+use App\LinkedSocialAccount;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Laravel\Socialite\Facades\Socialite;
+use App\Http\Resources\User as UserResource;
+use Symfony\Component\HttpFoundation\Cookie;
 
 /**
  * Class SocialLoginController
@@ -40,39 +43,54 @@ class SocialLoginController extends Controller
     /**
      * Obtain the user information from Facebook.
      *
-     * @param $provider
+     * @param         $provider
+     *
+     * @param Request $request
      *
      * @return JsonResponse
      */
-    public function handleProviderCallback($provider)
+    public function handleProviderLogin($provider, Request $request)
     {
-        // this user we get back is not our user model, but a special user object that has all the information we need
-        $providerUser = Socialite::driver($provider)->stateless()->user();
-        // we have successfully authenticated via facebook at this point and can use the provider user to log us in.
-        // for example we might do something like... Check if a user exists with the email and if so, log them in.
-        $user = User::query()->firstOrNew(['email' => $providerUser->getEmail()]);
-        // maybe we can set all the values on our user model if it is new... right now we only have name
-        // but you could set other things like avatar or gender
-        if (!$user->exists) {
-            $user->name = $providerUser->getName();
-            $user = $user->save(); // just because I want it to return the user id in my example
-        }
-        /**
-         * At this point we done.  You can use whatever you are using for authentication here...
-         * for example you might do something like this if you were using JWT
-         *
-         * $token = JWTAuth::fromUser($user);
-         *
-         * return new JsonResponse([
-         *     'token' => $token
-         * ]);
-         */
-        // since I'm not actually using JWT or something in this demo, then I'll just return the user, and the provider user:
-        return new JsonResponse(
+        /** @var \Laravel\Socialite\Two\User $providerUser */
+        $providerUser = Socialite::driver($provider)->userFromToken($request->get('token'));
+        $proxy = $request->create(
+            'oauth/token',
+            'POST',
             [
-                'user' => $user,
-                'provider_user' => $providerUser
+                'grant_type'    => 'social',
+                'client_id'     => 2,
+                'client_secret' => 'gwqmG8r8rz8LuVSgDmpey7kZY0wVUqiZRKm0F4tq',
+                'provider'      => $provider,
+                'access_token'  => $request->get('token'),
             ]
+        );
+
+        $response = app()->dispatch($proxy);
+
+        if (!$response->isSuccessful()) {
+            return $response;
+        }
+
+        $data = \json_decode($response->getContent());
+
+        $socialAccount = LinkedSocialAccount::where(['provider_name' => $provider, 'provider_id' => $providerUser->getId()])->first();
+
+        /*
+        We save the access token in a HttpOnly cookie. This
+        will be attached to the response in the form of a
+        Set-Cookie header. Now the client will have this cookie
+        saved and can use it to request new access tokens when
+        the old ones expire.
+        */
+        return response(new UserResource($socialAccount->user))->withCookie(
+            new Cookie( 'token',
+                $data->access_token,
+                864000 + time(), // 10 days
+                null,
+                null,
+                false,
+                true // HttpOnly
+            )
         );
     }
 }

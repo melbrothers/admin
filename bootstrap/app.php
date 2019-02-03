@@ -115,6 +115,8 @@ $app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
 $app->register(\Laravel\Scout\ScoutServiceProvider::class);
 $app->register(\App\Providers\ElasticsearchServiceProvider::class);
 
+$app->register(\Hivokas\LaravelPassportSocialGrant\Providers\SocialGrantServiceProvider::class);
+
 if ($app->environment() == 'local') {
     $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
     $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);

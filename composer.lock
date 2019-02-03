@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "672abb61389fd525c05322ef00d77820",
+    "content-hash": "8aa50372779b98c8f357b0bcd28a9f7e",
     "packages": [
         {
             "name": "algolia/algoliasearch-client-php",
@@ -1295,6 +1295,62 @@
                 "stream"
             ],
             "time": "2014-10-12T19:18:40+00:00"
+        },
+        {
+            "name": "hivokas/laravel-passport-social-grant",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/hivokas/laravel-passport-social-grant.git",
+                "reference": "4c8246f5796d1b484daca1d1636d09f92c29711e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/hivokas/laravel-passport-social-grant/zipball/4c8246f5796d1b484daca1d1636d09f92c29711e",
+                "reference": "4c8246f5796d1b484daca1d1636d09f92c29711e",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/passport": "^6.0|^7.0",
+                "php": ">=7.1"
+            },
+            "require-dev": {
+                "mockery/mockery": "^1.1",
+                "orchestra/testbench": "~3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Hivokas\\LaravelPassportSocialGrant\\Providers\\SocialGrantServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hivokas\\LaravelPassportSocialGrant\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ilya Sakovich",
+                    "email": "me@hivokas.com"
+                }
+            ],
+            "description": "Social Grant for Laravel Passport",
+            "keywords": [
+                "grant",
+                "laravel",
+                "network",
+                "oauth",
+                "passport",
+                "social"
+            ],
+            "time": "2018-11-04T08:58:15+00:00"
         },
         {
             "name": "illuminate/auth",
@@ -5098,6 +5154,43 @@
                 "promises"
             ],
             "time": "2019-01-07T21:25:54+00:00"
+        },
+        {
+            "name": "socialiteproviders/google",
+            "version": "v3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/SocialiteProviders/Google-Plus.git",
+                "reference": "2ff6bbd2f4d616ece912386807b59ba5f3b76895"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/SocialiteProviders/Google-Plus/zipball/2ff6bbd2f4d616ece912386807b59ba5f3b76895",
+                "reference": "2ff6bbd2f4d616ece912386807b59ba5f3b76895",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6 || ^7.0",
+                "socialiteproviders/manager": "~3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "SocialiteProviders\\Google\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Brian Faust",
+                    "email": "hello@brianfaust.de"
+                }
+            ],
+            "description": "Google OAuth2 Provider for Laravel Socialite",
+            "time": "2017-01-25T09:48:29+00:00"
         },
         {
             "name": "socialiteproviders/manager",

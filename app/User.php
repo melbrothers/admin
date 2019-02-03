@@ -36,14 +36,7 @@ class User extends Model implements
     const ROLE_SENDER = 'ADMIN_USER';
     const ROLE_RUNNER = 'BASIC_USER';
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array
-     */
-    protected $fillable = [
-       'first_name', 'last_name', 'email', 'password',
-    ];
+    protected $guarded = [];
 
     /**
      * The attributes excluded from the model's JSON form.
@@ -74,6 +67,11 @@ class User extends Model implements
         return $this->hasMany(Comment::class);
     }
 
+    public function linkedSocialAccounts()
+    {
+        return $this->hasMany(LinkedSocialAccount::class);
+    }
+
     public function reply(Comment $comment, string $body)
     {
         $newComment = new Comment;
@@ -97,6 +95,16 @@ class User extends Model implements
         $bid->comment($body, $this);
 
         return $bid;
+    }
+
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return "{$this->first_name} {$this->last_name}";
     }
 
     /**
