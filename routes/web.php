@@ -16,8 +16,9 @@ $router->get('/', function () use ($router) {
 });
 
 //Auth
-$router->post('register', 'Auth\RegisterController@postRegister');
-$router->post('login', 'Auth\LoginController@postLogin');
+$router->post('register', 'Auth\AuthController@postRegister');
+$router->post('login', 'Auth\AuthController@postLogin');
+$router->post('logout', 'Auth\AuthController@postLogout');
 $router->post('password/email', ['as' => 'password.email' , 'uses' => 'Auth\ForgotPasswordController@postEmail']);
 $router->post('password/reset', ['as' => 'password.update' , 'uses' => 'Auth\ResetPasswordController@postReset']);
 $router->get('email/verify/{id}', ['as' => 'verification.verify' , 'uses' => 'Auth\VerificationController@verify']);

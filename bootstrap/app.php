@@ -55,6 +55,11 @@ $app->singleton(
     }
 );
 
+$app->singleton('cookie', function () use ($app) {
+    return $app->loadComponent('session', 'Illuminate\Cookie\CookieServiceProvider', 'cookie');
+});
+
+
 $app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config');
 
 /*
@@ -74,6 +79,7 @@ $app->instance('path.config', app()->basePath() . DIRECTORY_SEPARATOR . 'config'
 
 $app->middleware([
     \Barryvdh\Cors\HandleCors::class,
+    \Illuminate\Cookie\Middleware\AddQueuedCookiesToResponse::class,
 ]);
 
 $app->routeMiddleware([
