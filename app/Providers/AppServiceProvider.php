@@ -30,6 +30,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength(191);
 
         $this->app->bind(SocialUserResolverInterface::class, SocialUserResolver::class);
+        $this->app->bind(\Illuminate\Contracts\Cookie\QueueingFactory::class, 'cookie');
 
         Resource::withoutWrapping();
     }
