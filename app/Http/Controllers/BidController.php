@@ -48,8 +48,8 @@ class BidController extends Controller
     /**
      * Create a bid
      *
-     * @bodyParam price
-     * @bodyParam comment
+     * @bodyParam price string required
+     * @bodyParam comment string required
      *
      * @param Request $request
      * @param Task    $task
