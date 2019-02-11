@@ -26,10 +26,10 @@ Welcome to the generated API reference.
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/register"     -d "email"="1Q8y9uafIxn5ndni" \
-    -d "password"="96ac6nnWzKOz3iyW" \
-    -d "name"="uPzQoEFXr0nvg5pC" \
-    -d "password_confirmation"="xcrlzrj0mvJ5DH7f" 
+curl -X POST "http://localhost/register"     -d "email"="tqSVRr7OrOlis7FI" \
+    -d "password"="BobIFrEjyQNpfDcv" \
+    -d "name"="o9IOZpFYf5CyiPpP" \
+    -d "password_confirmation"="jmMQrLrvSHBhuPH3" 
 ```
 
 ```javascript
@@ -41,10 +41,10 @@ let headers = {
 }
 
 let body = JSON.stringify({
-    "email": "1Q8y9uafIxn5ndni",
-    "password": "96ac6nnWzKOz3iyW",
-    "name": "uPzQoEFXr0nvg5pC",
-    "password_confirmation": "xcrlzrj0mvJ5DH7f",
+    "email": "tqSVRr7OrOlis7FI",
+    "password": "BobIFrEjyQNpfDcv",
+    "name": "o9IOZpFYf5CyiPpP",
+    "password_confirmation": "jmMQrLrvSHBhuPH3",
 })
 
 fetch(url, {
@@ -77,8 +77,8 @@ Parameter | Type | Status | Description
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/login"     -d "email"="sfWjda4GXZdgrj5D" \
-    -d "password"="Xiop1rQ6LmrMyyU6" 
+curl -X POST "http://localhost/login"     -d "email"="jMITjpoHJtM6OBVK" \
+    -d "password"="sIMS2G2DTGz2uucr" 
 ```
 
 ```javascript
@@ -90,8 +90,8 @@ let headers = {
 }
 
 let body = JSON.stringify({
-    "email": "sfWjda4GXZdgrj5D",
-    "password": "Xiop1rQ6LmrMyyU6",
+    "email": "jMITjpoHJtM6OBVK",
+    "password": "sIMS2G2DTGz2uucr",
 })
 
 fetch(url, {
@@ -190,8 +190,8 @@ null
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/v1/tasks/{task}/bids"     -d "price"="l2Gvcc8Op4ivSXzs" \
-    -d "comment"="dtIPACfs9YJ7NtNn" 
+curl -X POST "http://localhost/v1/tasks/{task}/bids"     -d "price"="MbNSZewd4lmGApws" \
+    -d "comment"="UyxeCVpXfROUGCHQ" 
 ```
 
 ```javascript
@@ -203,8 +203,8 @@ let headers = {
 }
 
 let body = JSON.stringify({
-    "price": "l2Gvcc8Op4ivSXzs",
-    "comment": "dtIPACfs9YJ7NtNn",
+    "price": "MbNSZewd4lmGApws",
+    "comment": "UyxeCVpXfROUGCHQ",
 })
 
 fetch(url, {
@@ -306,7 +306,7 @@ Send password reset email
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/password/email"     -d "email"="PLgC3iT47ajQJNMX" 
+curl -X POST "http://localhost/password/email"     -d "email"="bMuRsQRt4csTMFsH" 
 ```
 
 ```javascript
@@ -318,7 +318,7 @@ let headers = {
 }
 
 let body = JSON.stringify({
-    "email": "PLgC3iT47ajQJNMX",
+    "email": "bMuRsQRt4csTMFsH",
 })
 
 fetch(url, {
@@ -351,10 +351,10 @@ Rest user password
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/password/reset"     -d "token"="SboCyBpzcUMhYHzu" \
-    -d "email"="HwCzgtU49YkKHgp9" \
-    -d "password"="gy6ikvj5YcDWtDW9" \
-    -d "confirm_password"="u1ROvlsuvpszQVm0" 
+curl -X POST "http://localhost/password/reset"     -d "token"="DqQwmuvMBJ9dkCys" \
+    -d "email"="KGXLn0OKgtkSUlY3" \
+    -d "password"="IxS3yZaTq5yZlAQo" \
+    -d "confirm_password"="9aKN9Cpg84q2LwUn" 
 ```
 
 ```javascript
@@ -366,10 +366,10 @@ let headers = {
 }
 
 let body = JSON.stringify({
-    "token": "SboCyBpzcUMhYHzu",
-    "email": "HwCzgtU49YkKHgp9",
-    "password": "gy6ikvj5YcDWtDW9",
-    "confirm_password": "u1ROvlsuvpszQVm0",
+    "token": "DqQwmuvMBJ9dkCys",
+    "email": "KGXLn0OKgtkSUlY3",
+    "password": "IxS3yZaTq5yZlAQo",
+    "confirm_password": "9aKN9Cpg84q2LwUn",
 })
 
 fetch(url, {
@@ -470,7 +470,8 @@ fetch(url, {
 
 #Task Management
 <!-- START_3ab6942cc3a9b8dce5c23c39fc2a992d -->
-## /v1/tasks
+## Get a list of tasks
+
 > Example request:
 
 ```bash
@@ -506,14 +507,18 @@ null
 <!-- END_3ab6942cc3a9b8dce5c23c39fc2a992d -->
 
 <!-- START_fe4222cd28667f88c5922c4c96f04d1e -->
-## /v1/tasks
+## Create a Task
+
 > Example request:
 
 ```bash
-curl -X POST "http://localhost/v1/tasks"     -d "title"="wUlHAFEy4cngr0Dz" \
-    -d "description"="H91gVExogBF7gfkq" \
-    -d "budget"="31660953.12" \
-    -d "location"="IOhr31GEjqZ5Eck8" 
+curl -X POST "http://localhost/v1/tasks"     -d "name"="rxidMRSwB5dvMMLH" \
+    -d "description"="cUS2UVBXCXZVCgtQ" \
+    -d "price"="36827805" \
+    -d "deadline"="F09x8LJkEqrlQnnD" \
+    -d "online_or_phone"="1" \
+    -d "specific_times"="[]" \
+    -d "default_location"="[]" 
 ```
 
 ```javascript
@@ -525,10 +530,13 @@ let headers = {
 }
 
 let body = JSON.stringify({
-    "title": "wUlHAFEy4cngr0Dz",
-    "description": "H91gVExogBF7gfkq",
-    "budget": "31660953.12",
-    "location": "IOhr31GEjqZ5Eck8",
+    "name": "rxidMRSwB5dvMMLH",
+    "description": "cUS2UVBXCXZVCgtQ",
+    "price": "36827805",
+    "deadline": "F09x8LJkEqrlQnnD",
+    "online_or_phone": "1",
+    "specific_times": "[]",
+    "default_location": "[]",
 })
 
 fetch(url, {
@@ -548,15 +556,19 @@ fetch(url, {
 
 Parameter | Type | Status | Description
 --------- | ------- | ------- | ------- | -----------
-    title | string |  required  | 
-    description | string |  required  | 
-    budget | float |  required  | 
-    location | string |  required  | 
+    name | string |  required  | 
+    description | text |  required  | 
+    price | float |  required  | 
+    deadline | date |  required  | 
+    online_or_phone | boolean |  required  | 
+    specific_times | array |  optional  | 
+    default_location | array |  optional  | 
 
 <!-- END_fe4222cd28667f88c5922c4c96f04d1e -->
 
 <!-- START_2859ae0ca1bf87df5a630f0061e31757 -->
-## /v1/tasks/{task}
+## Get a task by its slug
+
 > Example request:
 
 ```bash
@@ -592,7 +604,8 @@ null
 <!-- END_2859ae0ca1bf87df5a630f0061e31757 -->
 
 <!-- START_c0a9c49978d56da68d032d9597a16ed5 -->
-## /v1/tasks/{task}
+## Update a task
+
 > Example request:
 
 ```bash
@@ -623,7 +636,8 @@ fetch(url, {
 <!-- END_c0a9c49978d56da68d032d9597a16ed5 -->
 
 <!-- START_2b0664a651e6897e0f5cafa385f650ad -->
-## /v1/tasks/{task}
+## Delete a task
+
 > Example request:
 
 ```bash

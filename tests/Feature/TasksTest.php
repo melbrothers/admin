@@ -3,6 +3,7 @@
 namespace Tests\Feature;
 
 
+use App\Location;
 use App\Task;
 use Illuminate\Http\UploadedFile;
 use Laravel\Lumen\Testing\DatabaseTransactions;
@@ -25,6 +26,8 @@ class TasksTest extends \TestCase
     {
         $this->signIn();
         $task = factory(Task::class)->raw();
+        $location = factory(Location::class)->raw();
+        $task['default_location'] = $location;
         $this->post('/v1/tasks', $task);
         $this->seeStatusCode(201);
         $this->seeJson(['name' => $task['name']]);

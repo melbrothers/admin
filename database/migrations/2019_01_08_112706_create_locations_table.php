@@ -17,7 +17,7 @@ class CreateLocationsTable extends Migration
             $table->increments('id');
             $table->double('latitude');
             $table->double('longitude');
-            $table->string('name');
+            $table->string('display_name');
         });
     }
 

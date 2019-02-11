@@ -20,10 +20,11 @@ class CreateTasksTable extends Migration
             $table->string('name');
             $table->string('slug');
             $table->text('description');
-            $table->string('location_id')->nullable();
+            $table->unsignedInteger('location_id')->nullable();
             $table->enum('state', Task::STATES);
             $table->date('deadline')->nullable();
-            $table->string('specified_times')->nullable();
+            $table->boolean('online_or_phone');
+            $table->json('specified_times')->nullable();
             $table->boolean('flexible_deadline')->default(false);
             $table->unsignedSmallInteger('price')->nullable();
             $table->unsignedSmallInteger('estimate_hourly_rate')->nullable();

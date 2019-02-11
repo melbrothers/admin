@@ -29,10 +29,25 @@ $factory->define(App\Task::class, function (Faker $faker) {
         'name' => $faker->sentence,
         'description' => $faker->paragraph,
         'price' => $faker->numberBetween(0, 100),
-        'deadline' => $faker->date(),
+        'deadline' => (new \DateTime())->add(new DateInterval('P2D'))->format('Y-m-d'),
+        'online_or_phone' => $faker->boolean(),
+        'specified_times' => [
+            'morning' => true
+        ],
+        'location_id' => function() {
+            return factory(App\Location::class)->create()->id;
+        },
         'user_id' => function() {
             return factory(App\User::class)->create()->id;
         }
+    ];
+});
+
+$factory->define(App\Location::class, function (Faker $faker) {
+    return [
+        'display_name' => $faker->city(),
+        'longitude' => $faker->longitude,
+        'latitude' => $faker->latitude,
     ];
 });
 

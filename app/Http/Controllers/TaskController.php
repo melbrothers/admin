@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Events\TaskCreated;
+use App\Location;
 use App\Task;
 use Illuminate\Http\Request;
 use App\Http\Resources\Task as TaskResource;
@@ -26,6 +27,8 @@ class TaskController extends Controller
     }
 
     /**
+     * Get a list of tasks
+     *
      * @param Request $request
      *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
@@ -36,10 +39,15 @@ class TaskController extends Controller
     }
 
     /**
-     * @bodyParam title string required
-     * @bodyParam description string required
-     * @bodyParam budget double required
-     * @bodyParam location string required
+     * Create a Task
+     *
+     * @bodyParam name string required
+     * @bodyParam description text required
+     * @bodyParam price double required
+     * @bodyParam deadline date required
+     * @bodyParam online_or_phone boolean required
+     * @bodyParam specific_times array
+     * @bodyParam default_location array
      *
      * @param Request $request
      *
@@ -53,18 +61,27 @@ class TaskController extends Controller
         $data = $this->extractInputFromRules($request, $this->rules());
         $user = $request->user();
 
-        $task = $user->tasks()->create([
-            'name' => $data['name'],
-            'price' => $data['price'],
-            'description' => $data['description'],
-            'deadline' => $data['deadline'],
-        ]);
+        /** @var Location $location */
+        $location = Location::firstOrNew(['display_name' => $data['default_location']['display_name']]);
+        $location->latitude = $data['default_location']['latitude'];
+        $location->longitude = $data['default_location']['longitude'];
+        $task = new Task;
+        $task->name = $data['name'];
+        $task->price = $data['price'];
+        $task->description = $data['description'];
+        $task->deadline = $data['deadline'];
+        $task->online_or_phone = $data['online_or_phone'];
+        $task->specified_times = $data['specified_times'];
+        $task->location()->associate($location);
+        $user->tasks()->save($task);
+
         event(new TaskCreated($task));
 
         return new TaskResource($task);
     }
 
     /**
+     * Get a task by its slug
      *
      * @param Task $task
      *
@@ -76,6 +93,8 @@ class TaskController extends Controller
     }
 
     /**
+     * Update a task
+     *
      * @param Request $request
      * @param Task    $task
      *
@@ -99,6 +118,8 @@ class TaskController extends Controller
     }
 
     /**
+     * Delete a task
+     *
      * @param Task    $task
      *
      * @return int
@@ -117,7 +138,14 @@ class TaskController extends Controller
             'name' => 'string|required',
             'description' => 'string|required',
             'price' => 'numeric|required',
-            'deadline' => 'string|required',
+            'deadline' => 'date|date_format:Y-m-d|required|after:tomorrow',
+            'online_or_phone' => 'boolean|required',
+            'specified_times.morning' => 'boolean',
+            'specified_times.afternoon' => 'boolean',
+            'specified_times.evening' => 'boolean',
+            'default_location.display_name' => 'string|required',
+            'default_location.latitude' => 'numeric|required',
+            'default_location.longitude' => 'numeric|required',
         ];
     }
 }
