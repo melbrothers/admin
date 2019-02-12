@@ -1,0 +1,156 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Swagger Tasker",
+        "description": "This is a sample Petstore server.  You can find\nout more about Swagger at\n[http://swagger.io](http://swagger.io) or on\n[irc.freenode.net, #swagger](http://swagger.io/irc/).",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "email": "apiteam@swagger.io"
+        },
+        "license": {
+            "name": "Apache 2.0",
+            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+        },
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register a new user",
+                "operationId": "addPet",
+                "requestBody": {
+                    "description": "Register data format",
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "User' email",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "description": "User's passowrd",
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Register a user successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/tasks": {
+            "get": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Get list of tasks",
+                "operationId": "App\\Http\\Controllers\\TaskController::show",
+                "responses": {
+                    "200": {
+                        "description": "Return list of tasks"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Create a new task",
+                "operationId": "addPet",
+                "requestBody": {
+                    "description": "Create data format",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "description": "Task's name",
+                                        "type": "string"
+                                    },
+                                    "description": {
+                                        "description": "Task's description",
+                                        "type": "string"
+                                    },
+                                    "price": {
+                                        "description": "Task's price",
+                                        "type": "integer",
+                                        "format": "int32"
+                                    },
+                                    "deadline": {
+                                        "description": "Task's deadline",
+                                        "type": "string",
+                                        "format": "date"
+                                    },
+                                    "online_or_phone": {
+                                        "description": "Task's mode",
+                                        "type": "boolean"
+                                    },
+                                    "specified_times": {
+                                        "description": "Task's specified times",
+                                        "properties": {
+                                            "morning": {
+                                                "type": "boolean"
+                                            },
+                                            "midday": {
+                                                "type": "boolean"
+                                            },
+                                            "afternoon": {
+                                                "type": "boolean"
+                                            },
+                                            "evening": {
+                                                "type": "boolean"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    "default_location": {
+                                        "description": "Task's default location",
+                                        "properties": {
+                                            "display_name": {
+                                                "type": "string"
+                                            },
+                                            "longtitude": {
+                                                "type": "number",
+                                                "format": "float"
+                                            },
+                                            "latitude": {
+                                                "type": "number",
+                                                "format": "float"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Register a user successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        }
+    }
+}

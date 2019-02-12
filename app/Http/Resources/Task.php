@@ -6,6 +6,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\User as UserResource;
 use App\Http\Resources\Bid as BidResource;
+use App\Http\Resources\Location as LocationResource;
 
 class Task extends JsonResource
 {
@@ -24,6 +25,8 @@ class Task extends JsonResource
             'description' => $this->description,
             'price' => $this->price,
             'deadline' => $this->deadline,
+            'specified_times' => $this->specified_times,
+            'location' => new LocationResource($this->location),
             'created_at' => $this->created_at,
             'user' => new UserResource($this->user),
             'bids' => BidResource::collection($this->whenLoaded('bids'))

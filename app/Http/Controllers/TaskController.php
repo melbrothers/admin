@@ -8,6 +8,7 @@ use App\Location;
 use App\Task;
 use Illuminate\Http\Request;
 use App\Http\Resources\Task as TaskResource;
+use OpenApi\Annotations\OpenApi;
 
 /**
  * Class TaskController
@@ -39,15 +40,97 @@ class TaskController extends Controller
     }
 
     /**
-     * Create a Task
-     *
-     * @bodyParam name string required
-     * @bodyParam description text required
-     * @bodyParam price double required
-     * @bodyParam deadline date required
-     * @bodyParam online_or_phone boolean required
-     * @bodyParam specific_times array
-     * @bodyParam default_location array
+     * @OA\Post(
+     *     path="/tasks",
+     *     tags={"Task"},
+     *     summary="Create a new task",
+     *     operationId="addPet",
+     *     @OA\RequestBody(
+     *         description="Create data format",
+     *         required=true,
+     *         @OA\MediaType(
+     *              mediaType="application/x-www-form-urlencoded",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="name",
+     *                      description="Task's name",
+     *                      type="string",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="description",
+     *                      description="Task's description",
+     *                      type="string",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="price",
+     *                      description="Task's price",
+     *                      type="integer",
+     *                      format="int32"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="deadline",
+     *                      description="Task's deadline",
+     *                      type="string",
+     *                      format="date"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="online_or_phone",
+     *                      description="Task's mode",
+     *                      type="boolean",
+     *                  ),
+     *                  @OA\Property(
+     *                      property="specified_times",
+     *                      description="Task's specified times",
+     *                      type="object",
+     *                      @OA\Property(
+     *                          property="morning",
+     *                          type="boolean",
+     *                      ),
+     *                      @OA\Property(
+     *                          property="midday",
+     *                          type="boolean",
+     *                      ),
+     *                      @OA\Property(
+     *                          property="afternoon",
+     *                          type="boolean",
+     *                      ),
+     *                      @OA\Property(
+     *                          property="evening",
+     *                          type="boolean",
+     *                      ),
+     *                  ),
+     *                  @OA\Property(
+     *                      property="default_location",
+     *                      description="Task's default location",
+     *                      type="object",
+     *                      @OA\Property(
+     *                          property="display_name",
+     *                          type="string",
+     *                      ),
+     *                      @OA\Property(
+     *                          property="longtitude",
+     *                          type="number",
+     *                          format="float"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="latitude",
+     *                          type="number",
+     *                          format="float"
+     *                      ),
+     *                  ),
+     *              )
+     *          )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Register a user successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     ),
+     * )
      *
      * @param Request $request
      *
@@ -81,6 +164,16 @@ class TaskController extends Controller
     }
 
     /**
+     * @OA\GET(
+     *     path="/tasks",
+     *     tags={"Task"},
+     *     summary="Get list of tasks",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Return list of tasks"
+     *     ),
+     * )
+     *
      * Get a task by its slug
      *
      * @param Task $task

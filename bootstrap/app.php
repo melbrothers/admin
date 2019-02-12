@@ -114,7 +114,6 @@ $app->register(Laravel\Passport\PassportServiceProvider::class);
 $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
 $app->register(\SocialiteProviders\Manager\ServiceProvider::class);
-$app->register(\Mpociot\ApiDoc\ApiDocGeneratorServiceProvider::class);
 
 $app->register(\Vluzrmos\Tinker\TinkerServiceProvider::class);
 $app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
@@ -122,7 +121,7 @@ $app->register(\Laravel\Scout\ScoutServiceProvider::class);
 $app->register(\App\Providers\ElasticsearchServiceProvider::class);
 
 $app->register(\Hivokas\LaravelPassportSocialGrant\Providers\SocialGrantServiceProvider::class);
-
+$app->register(\SwaggerLume\ServiceProvider::class);
 if ($app->environment() == 'local') {
     $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
     $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
@@ -157,7 +156,7 @@ $app->configure('filesystems');
 $app->configure('broadcasting');
 $app->configure('cache');
 $app->configure('scout');
-
+$app->configure('swagger-lume');
 
 /*
 |--------------------------------------------------------------------------

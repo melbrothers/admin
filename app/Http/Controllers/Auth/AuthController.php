@@ -3,28 +3,58 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\User as UserResource;
 use App\User;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use App\Http\Resources\User as UserResource;
 
 /**
  * Class AuthController
  *
  * @package App\Http\Controllers\Auth
- * @group Auth
  */
 class AuthController extends Controller
 {
 
     /**
-     * @bodyParam email string required User'email
-     * @bodyParam password string required User's password
-     * @bodyParam name string required User's name
-     * @bodyParam password_confirmation string required User's password confirmation
+     * @OA\Post(
+     *     path="/register",
+     *     tags={"Auth"},
+     *     summary="Register a new user",
+     *     operationId="addPet",
+     *     @OA\RequestBody(
+     *         description="Register data format",
+     *          @OA\MediaType(
+     *             mediaType="application/x-www-form-urlencoded",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="email",
+     *                      description="User' email",
+     *                      type="string",
+     *                      format="email"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="password",
+     *                      description="User's passowrd",
+     *                      type="string",
+     *                      format="password"
+     *                  )
+     *             )
+     *          )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Register a user successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     ),
+     * )
      *
      * @param Request $request
      *
