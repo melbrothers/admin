@@ -7,6 +7,7 @@ use Hivokas\LaravelPassportSocialGrant\Resolvers\SocialUserResolverInterface;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -33,5 +34,9 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(\Illuminate\Contracts\Cookie\QueueingFactory::class, 'cookie');
 
         Resource::withoutWrapping();
+        
+        if (env('APP_ENV') === 'production') {
+            URL::forceSchema('https');
+        }
     }
 }
