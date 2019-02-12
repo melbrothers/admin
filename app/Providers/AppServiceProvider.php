@@ -34,9 +34,5 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(\Illuminate\Contracts\Cookie\QueueingFactory::class, 'cookie');
 
         Resource::withoutWrapping();
-        
-        if (env('APP_ENV') === 'production') {
-            URL::forceSchema('https');
-        }
     }
 }
