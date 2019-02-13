@@ -52,6 +52,9 @@ COPY conf/apache.conf /etc/apache2/sites-available/laravel.conf
 RUN a2dissite 000-default.conf && a2ensite laravel.conf && a2enmod rewrite
 
 # Change uid and gid of apache to docker user uid/gid
-RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+#RUN usermod -u 1000 www-data && groupmod -g 1000 www-data
+#USER www-data
+WORKDIR /var/www
 
-WORKDIR /var/www/html
+EXPOSE 80
+EXPOSE 443

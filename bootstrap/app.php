@@ -114,7 +114,8 @@ $app->register(Laravel\Passport\PassportServiceProvider::class);
 $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
 $app->register(\SocialiteProviders\Manager\ServiceProvider::class);
-
+$app->register(\Propaganistas\LaravelPhone\PhoneServiceProvider::class);
+$app->register(\Propaganistas\LaravelIntl\IntlServiceProvider::class);
 $app->register(\Vluzrmos\Tinker\TinkerServiceProvider::class);
 $app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
 $app->register(\Laravel\Scout\ScoutServiceProvider::class);

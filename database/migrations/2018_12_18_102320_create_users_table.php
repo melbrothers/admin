@@ -24,7 +24,6 @@ class CreateUsersTable extends Migration
             $table->date('dob')->nullable();
             $table->unsignedInteger('abn')->nullable();
             $table->boolean('is_published')->default(false);
-            $table->timestamp('published_at')->nullable();
             $table->string('locale')->default('en');
             $table->string('phone')->nullable();
             $table->timestamp('phone_verified_at')->nullable();
