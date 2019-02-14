@@ -18,23 +18,13 @@ class ElasticsearchEngine extends Engine
     private $elastic;
 
     /**
-     * Index where the models will be saved.
-     *
-     * @var string
-     */
-    private $index;
-
-    /**
      * ElasticsearchEngine constructor.
      *
      * @param Elastic $elastic
-     * @param         $index
      */
-    public function __construct(Elastic $elastic, $index)
+    public function __construct(Elastic $elastic)
     {
         $this->elastic = $elastic;
-        $this->index = $index;
-
     }
 
     /**
@@ -255,7 +245,10 @@ class ElasticsearchEngine extends Engine
      */
     public function flush($model)
     {
-        // TODO: Implement flush() method.
+        $query = $model::usesSoftDelete() ? $model->withTrashed() : $model->newQuery();
+        $query
+            ->orderBy($model->getKeyName())
+            ->unsearchable();
     }
 
 }
