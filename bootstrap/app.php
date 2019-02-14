@@ -125,7 +125,6 @@ $app->register(\Hivokas\LaravelPassportSocialGrant\Providers\SocialGrantServiceP
 $app->register(\SwaggerLume\ServiceProvider::class);
 //if ($app->environment() == 'local') {
 //    $app->register(Barryvdh\Debugbar\LumenServiceProvider::class);
-//    $app->register(\Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class);
 //}
 
 /*
