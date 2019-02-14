@@ -96,14 +96,12 @@ return [
     | Here you may configure your Elasticsearch settings.
     |
     */
-
     'elasticsearch' => [
-        'index' => env('ELASTICSEARCH_INDEX', 'laravel'),
+        'prefix' => env('ELASTICSEARCH_PREFIX', 'lumen_'),
         'hosts' => [
             env('ELASTICSEARCH_HOST', '127.0.0.1'),
         ],
-        'prefix' => env('ELASTICSEARCH_PREFIX', 'laravel_'),
-        'analyzer' => env('ELASTICSEARCH_ANALYZER', 'ik_max_word'),
+        'analyzer' => env('ELASTICSEARCH_ANALYZER', 'smartcn'),
         'settings' => [],
         'filter' => [
             '+',

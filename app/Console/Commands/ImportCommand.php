@@ -16,12 +16,13 @@ class ImportCommand extends Command
      * @var string
      */
     protected $signature = 'elasticsearch:import {model}';
+
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Import model data into elasticsearch';
     /**
      * Create a new command instance.
      *
@@ -34,7 +35,7 @@ class ImportCommand extends Command
     /**
      * Execute the console command.
      *
-     * @return mixed
+     * @return void
      */
     public function handle()
     {
@@ -54,19 +55,20 @@ class ImportCommand extends Command
         }
         // 分词器
         $analyzer = config('scout.elasticsearch.analyzer');
-        $columns = collect($columns)->except(['created_at', 'updated_at', 'deleted_at'])
-                                    ->transform(function ($v, $k) use ($analyzer, $primaryKey) {
-                                        if ($k == $primaryKey) {
-                                            return [
-                                                'type' => 'long'
-                                            ];
-                                        } else {
-                                            return [
-                                                'type' => 'text',
-                                                'analyzer' => $analyzer
-                                            ];
-                                        }
-                                    });
+        $columns  = collect($columns)
+            ->except(['created_at', 'updated_at', 'deleted_at'])
+            ->transform(function ($v, $k) use ($analyzer, $primaryKey) {
+                if ($k == $primaryKey) {
+                    return [
+                        'type' => 'long',
+                    ];
+                } else {
+                    return [
+                        'type'     => 'text',
+                        'analyzer' => $analyzer,
+                    ];
+                }
+            });
         // 创建索引
         $type = $model->searchableAs();
         $data = [
