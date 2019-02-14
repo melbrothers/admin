@@ -97,7 +97,7 @@ return [
     |
     */
     'elasticsearch' => [
-        'prefix' => env('ELASTICSEARCH_PREFIX', 'lumen_'),
+        'prefix' => env('ELASTICSEARCH_PREFIX', 'laravel_'),
         'hosts' => [
             env('ELASTICSEARCH_HOST', '127.0.0.1'),
         ],

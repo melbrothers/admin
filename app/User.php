@@ -72,6 +72,11 @@ class User extends Model implements
         return $this->hasMany(LinkedSocialAccount::class);
     }
 
+    public function location()
+    {
+        return $this->belongsTo(Location::class, 'default_location_id');
+    }
+
     public function reply(Comment $comment, string $body)
     {
         $newComment = new Comment;
