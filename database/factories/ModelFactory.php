@@ -1,7 +1,7 @@
 <?php
 
 use Faker\Generator as Faker;
-
+use \Carbon\Carbon;
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -26,10 +26,10 @@ $factory->define(App\User::class, function (Faker $faker) {
 
 $factory->define(App\Task::class, function (Faker $faker) {
     return [
-        'name' => $faker->sentence,
-        'description' => $faker->paragraph,
+        'name' => $faker->realText(30),
+        'description' => $faker->realText(400),
         'price' => $faker->numberBetween(0, 100),
-        'deadline' => (new \DateTime())->add(new DateInterval('P2D'))->format('c'),
+        'deadline' => Carbon::now(config('app.timezone'))->format(Carbon::RFC3339),
         'online_or_phone' => $faker->boolean(),
         'specified_times' => [
             'morning' => true

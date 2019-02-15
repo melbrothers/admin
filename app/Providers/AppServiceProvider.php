@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Services\SocialUserResolver;
 use Hivokas\LaravelPassportSocialGrant\Resolvers\SocialUserResolverInterface;
+use Illuminate\Contracts\Cookie\QueueingFactory;
 use Illuminate\Http\Resources\Json\Resource;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Schema;
@@ -24,13 +25,13 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Carbon::serializeUsing(function (\Carbon\Carbon $carbon) {
-            return $carbon->format('c');
+            return $carbon->setTimezone('Australia/Melbourne')->format(Carbon::RFC3339);
         });
 
         Schema::defaultStringLength(191);
 
         $this->app->bind(SocialUserResolverInterface::class, SocialUserResolver::class);
-        $this->app->bind(\Illuminate\Contracts\Cookie\QueueingFactory::class, 'cookie');
+        $this->app->bind(QueueingFactory::class, 'cookie');
 
         Resource::withoutWrapping();
     }
