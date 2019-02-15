@@ -29,7 +29,7 @@ $factory->define(App\Task::class, function (Faker $faker) {
         'name' => $faker->sentence,
         'description' => $faker->paragraph,
         'price' => $faker->numberBetween(0, 100),
-        'deadline' => (new \DateTime())->add(new DateInterval('P2D'))->format('Y-m-d'),
+        'deadline' => (new \DateTime())->add(new DateInterval('P2D'))->format('c'),
         'online_or_phone' => $faker->boolean(),
         'specified_times' => [
             'morning' => true

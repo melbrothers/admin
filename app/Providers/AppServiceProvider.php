@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Carbon::serializeUsing(function (\Carbon\Carbon $carbon) {
-            return $carbon->format('U');
+            return $carbon->format('c');
         });
 
         Schema::defaultStringLength(191);

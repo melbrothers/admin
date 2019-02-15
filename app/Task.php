@@ -8,6 +8,7 @@ use App\Traits\Attachable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Carbon;
 use Laravel\Scout\Searchable;
 
 class Task extends Model
@@ -34,6 +35,20 @@ class Task extends Model
     protected $casts = [
         'specified_times' => 'array',
     ];
+
+    /**
+     * The attributes that should be mutated to dates.
+     *
+     * @var array
+     */
+    protected $dates = [
+        'deadline',
+    ];
+
+    public function setDeadlineAttribute($value)
+    {
+        $this->attributes['deadline'] = Carbon::parse($value)->toDateTimeString();
+    }
 
     protected static function boot()
     {

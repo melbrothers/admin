@@ -22,7 +22,7 @@ class CreateTasksTable extends Migration
             $table->text('description');
             $table->unsignedInteger('location_id')->nullable();
             $table->enum('state', Task::STATES);
-            $table->date('deadline')->nullable();
+            $table->dateTime('deadline')->nullable();
             $table->boolean('online_or_phone');
             $table->json('specified_times')->nullable();
             $table->boolean('flexible_deadline')->default(false);
@@ -30,7 +30,7 @@ class CreateTasksTable extends Migration
             $table->unsignedSmallInteger('estimate_hourly_rate')->nullable();
             $table->unsignedSmallInteger('estimate_hours')->nullable();
             $table->boolean('comment_allowed')->default(true);
-            $table->timestamp('first_posted_at')->nullable();
+            $table->dateTime('first_posted_at')->nullable();
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
         });
