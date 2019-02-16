@@ -56,13 +56,17 @@ class BidController extends Controller
      *
      * @return BidResource
      * @throws \Illuminate\Auth\Access\AuthorizationException
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request, Task $task)
     {
+        $this->validate($request, $this->rules());
+
+        $data = $this->extractInputFromRules($request, $this->rules());
+
         $this->authorize('store', [Bid::class, $task]);
-        /** @var User $user */
-        $user = $request->user();
-        $bid = $user->bid($task, $request->get('price'), $request->get('comment'));
+
+        $bid = $task->bid($data['price'], $data['comment']);
 
         event(new BidCreated($bid));
 
@@ -77,5 +81,13 @@ class BidController extends Controller
     public function destroy()
     {
 
+    }
+
+    private function rules()
+    {
+        return [
+            'price' => 'numeric|required',
+            'comment' => 'string|required'
+        ];
     }
 }

@@ -225,7 +225,7 @@ class TaskController extends Controller
         return response()->json(null, 204);
     }
 
-    protected function rules()
+    private function rules()
     {
         return [
             'name' => 'string|required',

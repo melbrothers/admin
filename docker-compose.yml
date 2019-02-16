@@ -11,7 +11,7 @@ services:
     volumes:
       - .:/var/www
       - ~/.ssh/:/root/.ssh/
-      - ./docker/php.ini:/usr/local/etc/php/php.ini"
+      - ./docker/php.ini:/usr/local/etc/php/conf.d/php.ini
     environment:
       DB_HOST: mysql
     networks:

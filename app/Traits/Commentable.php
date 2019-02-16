@@ -15,7 +15,7 @@ trait Commentable
      *
      * @return Comment
      */
-    public function comment(string $body, ?User $user)
+    public function comment(string $body, $user = null)
     {
         $comment = new Comment;
         $comment->body = $body;

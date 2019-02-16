@@ -9,6 +9,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Scout\Searchable;
 
 class Task extends Model
@@ -106,5 +107,18 @@ class Task extends Model
     public function getRouteKeyName()
     {
         return 'slug';
+    }
+
+    public function bid($price, $body, $user = null)
+    {
+        $bid = new Bid;
+        $bid->price = $price;
+        $bid->fee = Bid::fee($price);
+        $bid->gst = Bid::gst($price);
+        $bid->user()->associate($user ?: Auth::user());
+        $this->bids()->save($bid);
+        $bid->comment($body);
+
+        return $bid;
     }
 }

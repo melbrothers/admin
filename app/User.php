@@ -89,19 +89,6 @@ class User extends Model implements
         return $newComment;
     }
 
-    public function bid(Task $task, $price, $body)
-    {
-        $bid = new Bid;
-        $bid->price = $price;
-        $bid->fee = Bid::fee($price);
-        $bid->gst = Bid::gst($price);
-        $bid->user()->associate($this);
-        $task->bids()->save($bid);
-        $bid->comment($body, $this);
-
-        return $bid;
-    }
-
     /**
      * Get the user's full name.
      *

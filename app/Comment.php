@@ -6,6 +6,7 @@ namespace App;
 use App\Traits\Attachable;
 use App\Traits\Commentable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Comment extends Model
 {
@@ -35,6 +36,18 @@ class Comment extends Model
     public function attachments()
     {
         return $this->morphMany(Attachment::class, 'attachable');
+    }
+
+    public function reply(string $body, $user = null)
+    {
+        $newComment = new Comment;
+        $newComment->body = $body;
+        $newComment->commentable_id = $this->commentable_id;
+        $newComment->commentable_type = $this->commentable_type;
+        $newComment->user()->associate($user ?: Auth::user());
+        $this->replies()->save($newComment);
+
+        return $newComment;
     }
 
 }
