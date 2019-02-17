@@ -30,7 +30,10 @@ class TasksTest extends \TestCase
         $task['default_location'] = $location;
         $this->post('/v1/tasks', $task);
         $this->seeStatusCode(201);
-        $this->seeJson(['name' => $task['name']]);
+        $this->seeJson([
+            'name' => $task['name'],
+            'location' => $location
+        ]);
     }
 
     /** @test */
