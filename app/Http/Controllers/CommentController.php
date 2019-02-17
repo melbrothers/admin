@@ -26,17 +26,21 @@ class CommentController extends Controller
     /**
      * @OA\Post(
      *     path="/tasks/{task}/comments",
-     *     tags={"Comment"},
+     *     tags={"Task"},
      *     summary="Create a new comment",
      *     @OA\RequestBody(
      *          description="Create data format",
      *          required=true,
      *          @OA\MediaType(
      *              mediaType="application/x-www-form-urlencoded",
-     *              @OA\Property(
-     *                  property="body",
-     *                  description="Comment's body",
-     *                  type="string",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="body",
+     *                      description="Comment's body",
+     *                      type="string",
+     *                      example="This is a comments"
+     *                  )
      *              )
      *          )
      *      ),
@@ -70,6 +74,36 @@ class CommentController extends Controller
     }
 
     /**
+     *
+     * @OA\Post(
+     *     path="/comments/{coment}/replies",
+     *     tags={"Comment"},
+     *     summary="Create a new comment reply",
+     *     @OA\RequestBody(
+     *          description="Create data format",
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/x-www-form-urlencoded",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="body",
+     *                      description="Comment's body",
+     *                      type="string",
+     *                      example="This is a comments"
+     *                  )
+     *              )
+     *          )
+     *      ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Createa a comment successfully"
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error"
+     *     )
+     * )
      * @param Request $request
      * @param Comment $comment
      *

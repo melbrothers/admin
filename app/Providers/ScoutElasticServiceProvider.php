@@ -47,8 +47,7 @@ class ScoutElasticServiceProvider extends ServiceProvider
         $this
             ->app
             ->singleton('scout_elastic.client', function() {
-                $config = config('scout_elastic.indexer');
-                dd($config);
+                $config = config('scout_elastic.client');
                 return ClientBuilder::fromConfig($config);
             });
     }

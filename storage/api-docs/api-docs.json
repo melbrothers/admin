@@ -53,6 +53,76 @@
                 }
             }
         },
+        "/tasks/{task}/comments": {
+            "post": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Create a new comment",
+                "operationId": "App\\Http\\Controllers\\CommentController::store",
+                "requestBody": {
+                    "description": "Create data format",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "body": {
+                                        "description": "Comment's body",
+                                        "type": "string",
+                                        "example": "This is a comments"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Createa a comment successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/comments/{coment}/replies": {
+            "post": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Create a new comment reply",
+                "operationId": "App\\Http\\Controllers\\CommentController::reply",
+                "requestBody": {
+                    "description": "Create data format",
+                    "required": true,
+                    "content": {
+                        "application/x-www-form-urlencoded": {
+                            "schema": {
+                                "properties": {
+                                    "body": {
+                                        "description": "Comment's body",
+                                        "type": "string",
+                                        "example": "This is a comments"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Createa a comment successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
         "/tasks": {
             "get": {
                 "tags": [
@@ -144,7 +214,7 @@
                 },
                 "responses": {
                     "200": {
-                        "description": "Register a user successfully"
+                        "description": "Create a task successfully"
                     },
                     "422": {
                         "description": "Validation error"

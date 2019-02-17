@@ -148,7 +148,6 @@ $app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
 $app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
 // load database configurations
 $app->configure('database');
-$app->configure('apidoc');
 $app->configure('logging');
 
 $app->configure('debugbar');
@@ -156,6 +155,7 @@ $app->configure('filesystems');
 $app->configure('broadcasting');
 $app->configure('cache');
 $app->configure('scout');
+$app->configure('scout_elastic');
 $app->configure('swagger-lume');
 
 /*
