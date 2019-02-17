@@ -3,8 +3,9 @@
 namespace App;
 
 
+use App\IndexConfigurator\LocationIndexConfigurator;
+use App\ScoutElastic\Searchable;
 use Illuminate\Database\Eloquent\Model;
-use Laravel\Scout\Searchable;
 
 class Location extends Model
 {
@@ -12,7 +13,22 @@ class Location extends Model
     
     public $timestamps = false;
 
+    protected $indexConfigurator = LocationIndexConfigurator::class;
+
     protected $guarded = [];
+
+    protected $mapping = [
+        'properties' => [
+            'text' => [
+                'type' => 'text',
+                'fields' => [
+                    'raw' => [
+                        'type' => 'keyword',
+                    ]
+                ]
+            ],
+        ]
+    ];
 
     public function tasks()
     {

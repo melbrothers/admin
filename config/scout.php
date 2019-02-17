@@ -87,42 +87,4 @@ return [
         'id' => env('ALGOLIA_APP_ID', ''),
         'secret' => env('ALGOLIA_SECRET', ''),
     ],
-
-    /*
-    |--------------------------------------------------------------------------
-    | Elasticsearch Configuration
-    |--------------------------------------------------------------------------
-    |
-    | Here you may configure your Elasticsearch settings.
-    |
-    */
-    'elasticsearch' => [
-        'prefix' => env('ELASTICSEARCH_PREFIX', 'laravel_'),
-        'hosts' => [
-            env('ELASTICSEARCH_HOST', '127.0.0.1'),
-        ],
-        'analyzer' => env('ELASTICSEARCH_ANALYZER', 'smartcn'),
-        'settings' => [],
-        'filter' => [
-            '+',
-            '-',
-            '&',
-            '|',
-            '!',
-            '(',
-            ')',
-            '{',
-            '}',
-            '[',
-            ']',
-            '^',
-            '\\',
-            '"',
-            '~',
-            '*',
-            '?',
-            ':'
-        ]
-    ],
-
 ];

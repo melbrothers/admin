@@ -24,6 +24,32 @@ class CommentController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *     path="/tasks/{task}/comments",
+     *     tags={"Comment"},
+     *     summary="Create a new comment",
+     *     @OA\RequestBody(
+     *          description="Create data format",
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/x-www-form-urlencoded",
+     *              @OA\Property(
+     *                  property="body",
+     *                  description="Comment's body",
+     *                  type="string",
+     *              )
+     *          )
+     *      ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Createa a comment successfully"
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error"
+     *     )
+     * )
+     *
      * @param Request $request
      * @param Task    $task
      *

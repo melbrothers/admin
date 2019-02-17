@@ -124,7 +124,7 @@ class TaskController extends Controller
      *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Register a user successfully"
+     *         description="Create a task successfully"
      *     ),
      *     @OA\Response(
      *         response=422,

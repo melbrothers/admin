@@ -25,7 +25,7 @@ class UsersTest extends \TestCase
         $this->get( '/v1/users/' . $user->slug);
         $this->seeStatusCode(200);
         // test json response
-        $this->seeJsonContains(['email' => $user->email]);
+        $this->seeJsonContains(['name' => $user->name]);
     }
 
     /** @test */
@@ -38,7 +38,7 @@ class UsersTest extends \TestCase
         // should work
         $this->get('/v1/users/me');
         // test json response
-        $this->seeJsonContains(['email' => $user->email]);
+        $this->seeJsonContains(['name' => $user->name]);
     }
 
     /** @test */
