@@ -7,6 +7,7 @@ use App\Comment;
 use App\Task;
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\Comment as CommentResource;
 use App\Http\Resources\Task as TaskResource;
 
 /**
@@ -137,7 +138,7 @@ class CommentController extends Controller
 
         $comment->reply($data['body']);
 
-        return (new TaskResource($comment->task))->response()->setStatusCode(201);
+        return (new CommentResource($comment))->response()->setStatusCode(201);
     }
 
     private function rules()
