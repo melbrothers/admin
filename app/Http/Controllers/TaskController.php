@@ -28,6 +28,24 @@ class TaskController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/tasks",
+     *     tags={"Task"},
+     *     summary="Get list of tasks",
+     *     @OA\Parameter(
+     *          name="limit",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Return list of tasks"
+     *     ),
+     * )
+     *
      * Get a list of tasks
      *
      * @param Request $request
@@ -44,12 +62,11 @@ class TaskController extends Controller
      *     path="/tasks",
      *     tags={"Task"},
      *     summary="Create a new task",
-     *     operationId="addPet",
      *     @OA\RequestBody(
      *         description="Create data format",
      *         required=true,
      *         @OA\MediaType(
-     *              mediaType="application/x-www-form-urlencoded",
+     *              mediaType="application/json",
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
@@ -165,12 +182,20 @@ class TaskController extends Controller
 
     /**
      * @OA\GET(
-     *     path="/tasks",
+     *     path="/tasks/{slug}",
      *     tags={"Task"},
-     *     summary="Get list of tasks",
+     *     summary="Get a single task by slug",
+     *     @OA\Parameter(
+     *          name="slug",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="string"
+     *          )
+     *     ),
      *     @OA\Response(
      *         response=200,
-     *         description="Return list of tasks"
+     *         description="Return a single task by slug"
      *     ),
      * )
      *

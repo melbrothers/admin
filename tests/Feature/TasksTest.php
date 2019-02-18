@@ -26,14 +26,16 @@ class TasksTest extends \TestCase
     {
         $this->signIn();
         $task = factory(Task::class)->raw();
-        $location = factory(Location::class)->raw();
+        $location = factory(Location::class)->create();
         $task['default_location'] = $location;
         $this->post('/v1/tasks', $task);
+        $task = json_decode($this->response->getContent(), true);
         $this->seeStatusCode(201);
-        $this->seeJson([
+        $this->seeJsonContains([
             'name' => $task['name'],
-            'location' => $location
+            'location' => $task['location']
         ]);
+
     }
 
     /** @test */

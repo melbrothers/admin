@@ -25,14 +25,23 @@ class CommentController extends Controller
 
     /**
      * @OA\Post(
-     *     path="/tasks/{task}/comments",
+     *     path="/tasks/{slug}/comments",
      *     tags={"Task"},
      *     summary="Create a new comment",
+     *     @OA\Parameter(
+     *         description="Slug of task",
+     *         in="path",
+     *         name="slug",
+     *         required=true,
+     *         @OA\Schema(
+     *           type="string",
+     *         )
+     *     ),
      *     @OA\RequestBody(
      *          description="Create data format",
      *          required=true,
      *          @OA\MediaType(
-     *              mediaType="application/x-www-form-urlencoded",
+     *              mediaType="application/json",
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
@@ -76,9 +85,19 @@ class CommentController extends Controller
     /**
      *
      * @OA\Post(
-     *     path="/comments/{coment}/replies",
+     *     path="/comments/{id}/replies",
      *     tags={"Comment"},
      *     summary="Create a new comment reply",
+     *     @OA\Parameter(
+     *         description="Id of comment",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(
+     *           type="integer",
+     *           format="int64"
+     *         )
+     *     ),
      *     @OA\RequestBody(
      *          description="Create data format",
      *          required=true,

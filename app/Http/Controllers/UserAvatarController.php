@@ -18,6 +18,33 @@ class UserAvatarController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *     path="/users/avatar",
+     *     tags={"User"},
+     *     summary="Upload current user's avatar",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\MediaType(
+     *             mediaType="image/jpeg",
+     *             @OA\Schema(
+     *                 type="string",
+     *                 format="binary",
+     *                 required={"file"},
+     *                 @OA\Property(
+     *                     description="avatar file to upload",
+     *                     property="avatar",
+     *                     type="string",
+     *                     format="binary",
+     *                 ),
+     *             )
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Return list of tasks"
+     *     ),
+     * )
+     *
      * Update the avatar for the user.
      *
      * @param  Request  $request

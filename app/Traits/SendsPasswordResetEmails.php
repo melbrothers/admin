@@ -11,18 +11,6 @@ trait SendsPasswordResetEmails
 {
     /**
      * Send a reset link to the given user.
-     * @bodyParam email string required User'email
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function postEmail(Request $request)
-    {
-        return $this->sendResetLinkEmail($request);
-    }
-
-    /**
-     * Send a reset link to the given user.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

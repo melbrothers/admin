@@ -51,7 +51,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->get('tasks/{task}/comments', 'CommentController@index');
 
 
-    $router->post('comments/{comment}/replies', 'ReplyController@store');
+    $router->post('comments/{comment}/replies', 'CommentController@reply');
     $router->post('comments/{comment}/attachments', 'AttachmentController@comment');
 
     $router->get('translation/{locale}', 'TranslationController@show');

@@ -11,20 +11,7 @@ use Illuminate\Support\Facades\Password;
 trait ResetsPasswords
 {
 
-    /**
-     * Reset the given user's password.
-     * @bodyParam token string required Token for resetting email
-     * @bodyParam email string required User's email
-     * @bodyParam password string required User's password
-     * @bodyParam confirm_password string required User's confirm password
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function postReset(Request $request)
-    {
-        return $this->reset($request);
-    }
+
 
     /**
      * Reset the given user's password.

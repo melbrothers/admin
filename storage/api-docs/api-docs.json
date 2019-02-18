@@ -14,6 +14,123 @@
         "version": "1.0.0"
     },
     "paths": {
+        "/comments/{id}/attachments": {
+            "post": {
+                "tags": [
+                    "Comment"
+                ],
+                "summary": "Upload attachment to a comment",
+                "operationId": "App\\Http\\Controllers\\AttachmentController::comment",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of comment",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "file"
+                                ],
+                                "properties": {
+                                    "attachment": {
+                                        "description": "file to upload",
+                                        "type": "string",
+                                        "format": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Return success"
+                    }
+                }
+            }
+        },
+        "/tasks/{slug}/attachments": {
+            "post": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Upload attachment to a task",
+                "operationId": "App\\Http\\Controllers\\AttachmentController::task",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug of task",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "required": [
+                                    "file"
+                                ],
+                                "properties": {
+                                    "attachment": {
+                                        "description": "file to upload",
+                                        "type": "string",
+                                        "format": "file"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Return success"
+                    }
+                }
+            }
+        },
+        "/attachment/{id}": {
+            "delete": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Remove an attachment",
+                "operationId": "App\\Http\\Controllers\\AttachmentController::destroy",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of attachment",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return success"
+                    }
+                }
+            }
+        },
         "/register": {
             "post": {
                 "tags": [
@@ -24,7 +141,7 @@
                 "requestBody": {
                     "description": "Register data format",
                     "content": {
-                        "application/x-www-form-urlencoded": {
+                        "application/json": {
                             "schema": {
                                 "properties": {
                                     "email": {
@@ -53,18 +170,134 @@
                 }
             }
         },
-        "/tasks/{task}/comments": {
+        "/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Log in a new user",
+                "operationId": "App\\Http\\Controllers\\Auth\\AuthController::postLogin",
+                "requestBody": {
+                    "description": "Login data format",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "description": "User' email",
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "description": "User's passowrd",
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Register a user successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Log out current user",
+                "operationId": "App\\Http\\Controllers\\Auth\\AuthController::validateLogin",
+                "responses": {
+                    "200": {
+                        "description": "Register a user successfully"
+                    }
+                }
+            }
+        },
+        "/tasks/{slug}/bids": {
+            "post": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Create a new bid",
+                "operationId": "App\\Http\\Controllers\\BidController::store",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug of task",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "description": "Create data format",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "comment": {
+                                        "description": "Bid's body",
+                                        "type": "string",
+                                        "example": "This is a bid comment"
+                                    },
+                                    "price": {
+                                        "description": "Bid's price",
+                                        "type": "integer",
+                                        "format": "int64",
+                                        "example": "100"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Createa a comment successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/tasks/{slug}/comments": {
             "post": {
                 "tags": [
                     "Task"
                 ],
                 "summary": "Create a new comment",
                 "operationId": "App\\Http\\Controllers\\CommentController::store",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug of task",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "description": "Create data format",
                     "required": true,
                     "content": {
-                        "application/x-www-form-urlencoded": {
+                        "application/json": {
                             "schema": {
                                 "properties": {
                                     "body": {
@@ -88,13 +321,25 @@
                 }
             }
         },
-        "/comments/{coment}/replies": {
+        "/comments/{id}/replies": {
             "post": {
                 "tags": [
                     "Comment"
                 ],
                 "summary": "Create a new comment reply",
                 "operationId": "App\\Http\\Controllers\\CommentController::reply",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "Id of comment",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
                 "requestBody": {
                     "description": "Create data format",
                     "required": true,
@@ -129,7 +374,17 @@
                     "Task"
                 ],
                 "summary": "Get list of tasks",
-                "operationId": "App\\Http\\Controllers\\TaskController::show",
+                "operationId": "App\\Http\\Controllers\\TaskController::index",
+                "parameters": [
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Return list of tasks"
@@ -141,12 +396,12 @@
                     "Task"
                 ],
                 "summary": "Create a new task",
-                "operationId": "addPet",
+                "operationId": "App\\Http\\Controllers\\TaskController::store",
                 "requestBody": {
                     "description": "Create data format",
                     "required": true,
                     "content": {
-                        "application/x-www-form-urlencoded": {
+                        "application/json": {
                             "schema": {
                                 "properties": {
                                     "name": {
@@ -218,6 +473,115 @@
                     },
                     "422": {
                         "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/tasks/{slug}": {
+            "get": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Get a single task by slug",
+                "operationId": "App\\Http\\Controllers\\TaskController::show",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return a single task by slug"
+                    }
+                }
+            }
+        },
+        "/users/avatar": {
+            "post": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Upload current user's avatar",
+                "operationId": "App\\Http\\Controllers\\UserAvatarController::store",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "image/jpeg": {
+                            "schema": {
+                                "required": [
+                                    "file"
+                                ],
+                                "properties": {
+                                    "avatar": {
+                                        "description": "avatar file to upload",
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                },
+                                "type": "string",
+                                "format": "binary"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Return list of tasks"
+                    }
+                }
+            }
+        },
+        "/users/{slug}": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Find user by slug",
+                "description": "Returns a single user",
+                "operationId": "App\\Http\\Controllers\\UserController::show",
+                "parameters": [
+                    {
+                        "name": "slug",
+                        "in": "path",
+                        "description": "Slug of user to return",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "400": {
+                        "description": "Invalid Slug supplied"
+                    },
+                    "404": {
+                        "description": "User not found"
+                    }
+                }
+            }
+        },
+        "/users/me": {
+            "get": {
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get current user",
+                "description": "Returns current user",
+                "operationId": "App\\Http\\Controllers\\UserController::me",
+                "responses": {
+                    "200": {
+                        "description": "successful operation"
+                    },
+                    "401": {
+                        "description": "User not authenticated"
                     }
                 }
             }

@@ -28,14 +28,33 @@ class UserController extends Controller
     }
 
     /**
-     * @response {
-     *  "id": 4,
-     *  "name": "Jessica Jones",
-     *  "roles": ["admin"]
-     * }
-     * @response 404 {
-     *  "message": "No query results for model [\App\User]"
-     * }
+     * @OA\Get(
+     *     path="/users/{slug}",
+     *     tags={"User"},
+     *     summary="Find user by slug",
+     *     description="Returns a single user",
+     *     @OA\Parameter(
+     *         description="Slug of user to return",
+     *         in="path",
+     *         name="slug",
+     *         required=true,
+     *         @OA\Schema(
+     *           type="string",
+     *         )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="successful operation",
+     *     ),
+     *     @OA\Response(
+     *         response="400",
+     *         description="Invalid Slug supplied"
+     *     ),
+     *     @OA\Response(
+     *         response="404",
+     *         description="User not found"
+     *     )
+     * )
      *
      * @param User $user
      *
@@ -60,6 +79,21 @@ class UserController extends Controller
     }
 
     /**
+     * @OA\Get(
+     *     path="/users/me",
+     *     tags={"User"},
+     *     summary="Get current user",
+     *     description="Returns current user",
+     *     @OA\Response(
+     *         response=200,
+     *         description="successful operation",
+     *     ),
+     *     @OA\Response(
+     *         response="401",
+     *         description="User not authenticated"
+     *     )
+     * )
+     *
      * @param Request $request
      *
      * @return UserResource
@@ -67,10 +101,5 @@ class UserController extends Controller
     public function me(Request $request)
     {
         return new UserResource($request->user());
-    }
-
-    public function avatar()
-    {
-
     }
 }

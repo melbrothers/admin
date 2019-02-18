@@ -28,7 +28,7 @@ class AuthController extends Controller
      *     @OA\RequestBody(
      *         description="Register data format",
      *          @OA\MediaType(
-     *             mediaType="application/x-www-form-urlencoded",
+     *             mediaType="application/json",
      *              @OA\Schema(
      *                  type="object",
      *                  @OA\Property(
@@ -115,7 +115,43 @@ class AuthController extends Controller
     }
 
     /**
+     *
      * Handle an authentication attempt.
+     *
+     * @OA\Post(
+     *     path="/login",
+     *     tags={"Auth"},
+     *     summary="Log in a new user",
+     *     @OA\RequestBody(
+     *         description="Login data format",
+     *          @OA\MediaType(
+     *             mediaType="application/json",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="email",
+     *                      description="User' email",
+     *                      type="string",
+     *                      format="email"
+     *                  ),
+     *                  @OA\Property(
+     *                      property="password",
+     *                      description="User's passowrd",
+     *                      type="string",
+     *                      format="password"
+     *                  )
+     *              )
+     *          )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Register a user successfully"
+     *     ),
+     *     @OA\Response(
+     *         response=422,
+     *         description="Validation error"
+     *     ),
+     * )
      *
      * @bodyParam email string required User'email
      * @bodyParam password string required User's password
@@ -165,7 +201,15 @@ class AuthController extends Controller
 
     /**
      * Validate the user login request.
-     *
+     * @OA\Post(
+     *     path="/logout",
+     *     tags={"Auth"},
+     *     summary="Log out current user",
+     *     @OA\Response(
+     *         response=200,
+     *         description="Register a user successfully"
+     *     ),
+     * )
      * @param  \Illuminate\Http\Request $request
      *
      * @return void
