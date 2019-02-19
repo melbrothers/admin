@@ -3,6 +3,9 @@
 namespace App\Providers;
 
 
+use App\Console\Commands\ElasticIndexCreateCommand;
+use App\Console\Commands\ElasticIndexDropCommand;
+use App\Console\Commands\ElasticIndexUpdateCommand;
 use App\Console\Commands\ElasticUpdateMappingCommand;
 use App\ScoutElastic\ElasticEngine;
 use Elasticsearch\ClientBuilder;
@@ -21,7 +24,10 @@ class ScoutElasticServiceProvider extends ServiceProvider
         // 注册命令
         if ($this->app->runningInConsole()) {
             $this->commands([
-               ElasticUpdateMappingCommand::class
+                ElasticIndexCreateCommand::class,
+                ElasticIndexUpdateCommand::class,
+                ElasticIndexDropCommand::class,
+                ElasticUpdateMappingCommand::class,
             ]);
         }
 

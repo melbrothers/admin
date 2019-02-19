@@ -22,7 +22,9 @@ class ElasticUpdateMappingCommand extends Command
      */
     protected $description = 'Update a model mapping';
 
-
+    /**
+     * @throws \Exception
+     */
     public function handle()
     {
         if (!$model = $this->getModel()) {

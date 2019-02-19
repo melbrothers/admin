@@ -43,24 +43,30 @@ class Task extends Model
             ],
             'deadline' => [
                 'type' => 'date',
-                'format' => 'yyyy-MM-dd\'T\'HH:mm:ss.SSSZZ'
             ],
             'online_or_phone' => [
                 'type' => 'boolean'
             ],
-            'location_id' => [
+            'location' => [
                 'properties' => [
                     'display_name' => [
                         'type' => 'text'
                     ],
-                    'cord' => [
+                    'coordinate' => [
                         'type' => 'geo_point'
                     ]
                 ],
                 'type' => 'nested'
-            ]
+            ],
+            'create_at' => [
+                'type' => 'date',
+            ],
+            'update_at' => [
+                'type' => 'date',
+            ],
         ]
     ];
+
 
     /**
      * The attributes that should be cast to native types.
@@ -92,6 +98,22 @@ class Task extends Model
         static::addGlobalScope('bidCount', function (Builder $builder) {
            $builder->withCount('bids');
         });
+    }
+
+    public function toSearchableArray()
+    {
+        $array = $this->toArray();
+
+        unset($array['location_id']);
+        $array['location']['display_name'] = $this->location->display_name;
+        $array['location']['coordinate'] = [$this->location->latitude, $this->location->longitude];
+        $array['deadline'] = $this->deadline->setTimezone('Australia/Melbourne')->timestamp;
+        return $array;
+    }
+
+    public function searchableAs()
+    {
+        return '_doc';
     }
 
     public function user()
