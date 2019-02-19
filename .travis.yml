@@ -3,7 +3,7 @@ language: php
 services:
   - mysql
 php:
-  - 7.3
+  - 7.2
 
 addons:
   apt:
@@ -11,6 +11,7 @@ addons:
       - mysql-5.7-trusty
     packages:
       - mysql-server
+      - mysql-client
 
 dist: trusty
 
