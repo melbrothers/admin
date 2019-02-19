@@ -12,9 +12,9 @@ class TaskIndexConfigurator extends IndexConfigurator
         'index.mapping.single_type' => true,
         'analysis' => [
             'analyzer' => [
-                'es_std' => [
-                    'type' => 'standard',
-                    'stopwords' => '_spanish_'
+                'std_chinese' => [
+                    'type' => 'smartcn',
+                    'tokenizer' => 'smartcn_tokenizer'
                 ]
             ]
         ]

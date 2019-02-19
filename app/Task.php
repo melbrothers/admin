@@ -3,6 +3,7 @@
 namespace App;
 
 use App\IndexConfigurator\TaskIndexConfigurator;
+use App\ScoutElastic\Migratable;
 use App\ScoutElastic\Searchable;
 use App\Traits\Commentable;
 use App\Traits\SluggableHelpers;
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Task extends Model
 {
-    use Sluggable, SluggableHelpers, Attachable, Commentable, Searchable;
+    use Sluggable, SluggableHelpers, Attachable, Commentable, Searchable, Migratable;
 
     const STATE_POSTED = 'posted';
     const STATE_ASSIGNED = 'assigned';
@@ -30,6 +31,36 @@ class Task extends Model
     protected $guarded = [];
 
     protected $indexConfigurator = TaskIndexConfigurator::class;
+
+    // Here you can specify a mapping for a model fields.
+    protected $mapping = [
+        'properties' => [
+            'name' => [
+                'type' => 'text',
+            ],
+            'description' => [
+                'type' => 'text',
+            ],
+            'deadline' => [
+                'type' => 'date',
+                'format' => 'yyyy-MM-dd\'T\'HH:mm:ss.SSSZZ'
+            ],
+            'online_or_phone' => [
+                'type' => 'boolean'
+            ],
+            'location_id' => [
+                'properties' => [
+                    'display_name' => [
+                        'type' => 'text'
+                    ],
+                    'cord' => [
+                        'type' => 'geo_point'
+                    ]
+                ],
+                'type' => 'nested'
+            ]
+        ]
+    ];
 
     /**
      * The attributes that should be cast to native types.

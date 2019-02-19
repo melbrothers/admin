@@ -165,6 +165,7 @@ class TaskController extends Controller
         $location = Location::firstOrNew(['display_name' => $data['default_location']['display_name']]);
         $location->latitude = $data['default_location']['latitude'];
         $location->longitude = $data['default_location']['longitude'];
+        $location->save();
         $task = new Task;
         $task->name = $data['name'];
         $task->price = $data['price'];

@@ -34,7 +34,7 @@ abstract class IndexConfigurator
         return $this->settings;
     }
     /**
-     * @deprecated
+     * @return array
      */
     public function getDefaultMapping()
     {

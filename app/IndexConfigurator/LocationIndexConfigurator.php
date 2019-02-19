@@ -9,14 +9,6 @@ class LocationIndexConfigurator extends IndexConfigurator
 {
     // You can specify any settings you want, for example, analyzers.
     protected $settings = [
-        'index.mapping.single_type' => true,
-        'analysis' => [
-            'analyzer' => [
-                'es_std' => [
-                    'type' => 'standard',
-                    'stopwords' => '_spanish_'
-                ]
-            ]
-        ]
+        'index.mapping.single_type' => true
     ];
 }

@@ -19,14 +19,15 @@ class Location extends Model
 
     protected $mapping = [
         'properties' => [
-            'text' => [
+            'display_name' => [
                 'type' => 'text',
-                'fields' => [
-                    'raw' => [
-                        'type' => 'keyword',
-                    ]
-                ]
             ],
+            'latitude' => [
+                'type' => 'float'
+            ],
+            'longitude' => [
+                'type' => 'float'
+            ]
         ]
     ];
 
