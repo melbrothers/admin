@@ -2,7 +2,10 @@
 
 namespace App\Filters;
 
+use App\ScoutElastic\Builders\FilterBuilder;
+use App\ScoutElastic\Builders\SearchBuilder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Laravel\Scout\Builder;
 
 abstract class Filters
@@ -14,7 +17,7 @@ abstract class Filters
     /**
      * The Laravel Scout builder.
      *
-     * @var Builder
+     * @var FilterBuilder | SearchBuilder
      */
     protected $builder;
     /**
@@ -35,19 +38,21 @@ abstract class Filters
     /**
      * Apply the filters.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder $builder
-     * @return \Illuminate\Database\Eloquent\Builder
+     * @param  FilterBuilder | SearchBuilder $builder
+     * @return FilterBuilder | SearchBuilder
      */
     public function apply($builder)
     {
         $this->builder = $builder;
         foreach ($this->getFilters() as $filter => $value) {
-            if (method_exists($this, $filter)) {
-                $this->$filter($value);
+            $method = Str::camel($filter);
+            if (method_exists($this, $method)) {
+                $this->$method($value);
             }
         }
         return $this->builder;
     }
+
     /**
      * Fetch all relevant filters from the request.
      *

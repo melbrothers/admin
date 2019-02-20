@@ -3,7 +3,6 @@
 namespace App\Filters;
 
 
-use App\Task;
 
 class TaskFilters extends Filters
 {
@@ -13,42 +12,38 @@ class TaskFilters extends Filters
      * @var array
      */
     protected $filters = [
-        'query',
         'location_name',
         'min_price',
         'max_price',
-        'type',
-        'limit',
         'lat',
         'lon',
         'sort_by',
         'radius',
-        'task_states'
+        'task_states',
+        'task_types'
     ];
 
-    /**
-     * @param $query
-     *
-     * @return \Laravel\Scout\Builder
-     */
-    public function query($query)
+    public function sortBy($field)
     {
-        return Task::search($query);
+        if ($field == 'recent') {
+            return $this->builder->orderBy('created_at');
+        }
+
+        return $this->builder;
     }
 
-    public function type($type)
+    public function radius($radius)
     {
-
+        return $this->builder->whereGeoDistance('location.coordinate',
+            [$this->request->get('lat'), $this->request->get('lon')], $radius . 'm');
     }
 
-    public function limit($limit)
-    {
-        return $this->builder->take($limit);
+    public function minPrice($price){
+        return $this->builder->where('price', '>=', $price);
     }
 
-    public function sortBy($sortBy)
-    {
-        return $this->builder->orderBy($sortBy);
+    public function maxPrice($price){
+        return $this->builder->where('price', '<=', $price);
     }
 
 }

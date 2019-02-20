@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 
 use App\Events\TaskCreated;
+use App\Filters\TaskFilters;
 use App\Location;
 use App\Task;
 use Illuminate\Http\Request;
@@ -54,7 +55,12 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        return TaskResource::collection(Task::paginate(100));
+        $searchTerm = $request->get('query', '*');
+
+        $filters = new TaskFilters($request);
+
+        //return $filters->apply(Task::search($searchTerm))->paginate($request->get('limit'));
+        return TaskResource::collection($filters->apply(Task::search($searchTerm))->paginate($request->get('limit', 10)));
     }
 
     /**
