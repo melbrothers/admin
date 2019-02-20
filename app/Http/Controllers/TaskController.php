@@ -60,7 +60,7 @@ class TaskController extends Controller
         $filters = new TaskFilters($request);
 
         //return $filters->apply(Task::search($searchTerm))->paginate($request->get('limit'));
-        return TaskResource::collection($filters->apply(Task::search($searchTerm))->paginate($request->get('limit', 10)));
+        return TaskResource::collection($filters->apply(Task::search($searchTerm))->paginate($request->get('limit', 50)));
     }
 
     /**
