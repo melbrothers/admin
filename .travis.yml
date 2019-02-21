@@ -1,7 +1,7 @@
 language: php
 
 services:
-  - mysql
+  - docker
 
 php:
   - 7.2
@@ -19,7 +19,6 @@ dist: trusty
 sudo: required
 
 before_script:
-  - wget -q --waitretry=1 --retry-connrefused -T 10 -O - http://127.0.0.1:9200
   - cp .env.travis .env
   - composer self-update
   - composer install --no-interaction
@@ -27,8 +26,14 @@ before_script:
   - php artisan migrate --seed
 
 before_install:
-  - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.6.1.deb && sudo dpkg -i --force-confnew elasticsearch-6.6.1.deb && sudo service elasticsearch restart
-  - mysql -e 'CREATE DATABASE homestead;'
+  - docker-compose build
+  - docker-composer up -d
+  - docker exec -it tasker-api.local php artisan elastic:create-index App\\IndexConfigurator\\TaskIndexConfigurator
+  - docker exec -it tasker-api.local hp artisan migrate --seed
+
 
 script:
   - vendor/bin/phpunit
+
+notifications:
+  email: false
