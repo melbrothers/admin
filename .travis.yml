@@ -10,16 +10,11 @@ dist: trusty
 
 sudo: required
 
-before_script:
-  - cp .env.travis .env
-  - composer self-update
-  - composer install --no-interaction
-  - php artisan elastic:create-index App\\IndexConfigurator\\TaskIndexConfigurator
-  - php artisan migrate --seed
-
 before_install:
+  - cp .env.travis .env
   - docker-compose build
   - docker-compose up -d
+  - docker exec -it tasker-api.local composer install --no-interaction
   - docker exec -it tasker-api.local php artisan elastic:create-index App\\IndexConfigurator\\TaskIndexConfigurator
   - docker exec -it tasker-api.local hp artisan migrate --seed
 
