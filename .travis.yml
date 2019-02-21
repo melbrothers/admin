@@ -25,9 +25,10 @@ install:
   - wget ${ES_DOWNLOAD_URL}
   - tar -xzf elasticsearch-${ES_VERSION}.tar.gz
   - ./elasticsearch-${ES_VERSION}/bin/elasticsearch &
-  - sleep 30
+  - sleep 60
   - sudo /usr/local/bin/elasticsearch-plugin install analysis-smartcn
-  - curl http://127.0.0.1:9200/
+  - sleep 60
+  - curl -XGET http://127.0.0.1:9200/
 
 before_script:
   - cp .env.travis .env
