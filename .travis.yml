@@ -16,7 +16,7 @@ before_install:
   - docker-compose up -d
   - docker exec -it tasker-api.local composer install --no-interaction
   - docker exec -it tasker-api.local php artisan elastic:create-index App\\IndexConfigurator\\TaskIndexConfigurator
-  - docker exec -it tasker-api.local hp artisan migrate --seed
+  - docker exec -it tasker-api.local php artisan migrate --seed
 
 
 script:

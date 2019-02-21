@@ -13,8 +13,8 @@ class TaskIndexConfigurator extends IndexConfigurator
         'analysis' => [
             'analyzer' => [
                 'std_chinese' => [
-                    'type' => 'standard',
-                    'stopwords' => '_english_'
+                    'type' => 'smartcn',
+                    'tokenizer' => 'smartcn_tokenizer'
                 ]
             ]
         ]
