@@ -51,7 +51,6 @@ class TasksTest extends \TestCase
         ]);
         $this->seeJsonContains([
             'name' => $task->name,
-            'description' => $task->description,
             'price' => $task->price,
         ]);
     }
