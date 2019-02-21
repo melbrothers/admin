@@ -20,7 +20,7 @@ before_install:
 
 
 script:
-  - vendor/bin/phpunit
+  - docker exec -it tasker-api.local vendor/bin/phpunit
 
 notifications:
   email: false
