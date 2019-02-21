@@ -6,14 +6,6 @@ services:
 php:
   - 7.2
 
-addons:
-  apt:
-    sources:
-      - mysql-5.7-trusty
-    packages:
-      - mysql-server
-      - mysql-client
-
 dist: trusty
 
 sudo: required
@@ -27,7 +19,7 @@ before_script:
 
 before_install:
   - docker-compose build
-  - docker-composer up -d
+  - docker-compose up -d
   - docker exec -it tasker-api.local php artisan elastic:create-index App\\IndexConfigurator\\TaskIndexConfigurator
   - docker exec -it tasker-api.local hp artisan migrate --seed
 
