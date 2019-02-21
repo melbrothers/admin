@@ -27,7 +27,6 @@ before_script:
 
 before_install:
   - curl -O https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.6.1.deb && sudo dpkg -i --force-confnew elasticsearch-6.6.1.deb && sudo service elasticsearch restart
-  - sudo /usr/local/bin/elasticsearch-plugin install analysis-smartcn
   - mysql -e 'CREATE DATABASE homestead;'
 
 script:
