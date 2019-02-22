@@ -35,10 +35,65 @@ class TaskController extends Controller
      *     summary="Get list of tasks",
      *     @OA\Parameter(
      *          name="limit",
+     *          description="Limit the return result",
      *          in="query",
      *          required=false,
      *          @OA\Schema(
-     *              type="string"
+     *              type="integer",
+     *              format="int64",
+     *              example="50"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          name="min_price",
+     *          description="Min task's price",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64",
+     *              example="100"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          name="max_price",
+     *          description="Max task's price",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64",
+     *               example="500"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          name="task_states",
+     *          description="Task's current state",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="posted"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          name="query",
+     *          description="Task's search term",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="task",
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          name="sort_by",
+     *          description="Task's order",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="recent"
      *          )
      *     ),
      *     @OA\Response(
@@ -180,7 +235,7 @@ class TaskController extends Controller
         $task->online_or_phone = $data['online_or_phone'];
         $task->specified_times = $data['specified_times'];
         $task->location()->associate($location);
-        $user->tasks()->save($task);
+        $user->senderTasks()->save($task);
 
         event(new TaskCreated($task));
 

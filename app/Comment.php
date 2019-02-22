@@ -23,9 +23,9 @@ class Comment extends Model
         return $this->morphTo();
     }
 
-    public function user()
+    public function author()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'author_id');
     }
 
     public function replies()
@@ -44,7 +44,7 @@ class Comment extends Model
         $newComment->body = $body;
         $newComment->commentable_id = $this->commentable_id;
         $newComment->commentable_type = $this->commentable_type;
-        $newComment->user()->associate($user ?: Auth::user());
+        $newComment->author()->associate($user ?: Auth::user());
         $this->replies()->save($newComment);
 
         return $newComment;

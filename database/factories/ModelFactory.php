@@ -37,7 +37,7 @@ $factory->define(App\Task::class, function (Faker $faker) {
         'location_id' => function() {
             return factory(App\Location::class)->create()->id;
         },
-        'user_id' => function() {
+        'sender_id' => function() {
             return factory(App\User::class)->create()->id;
         }
     ];
@@ -59,7 +59,7 @@ $factory->define(App\Bid::class, function (Faker $faker) {
         'task_id' => function() {
             return factory(App\Task::class)->create()->id;
         },
-        'user_id' => function() {
+        'runner_id' => function() {
             return factory(App\User::class)->create()->id;
         }
     ];
@@ -67,7 +67,7 @@ $factory->define(App\Bid::class, function (Faker $faker) {
 
 $factory->define(App\Comment::class, function (Faker $faker) {
     return [
-        'user_id' => function() {
+        'author_id' => function() {
             return factory(App\User::class)->create()->id;
         },
         'body' => $faker->paragraph,
@@ -80,7 +80,7 @@ $factory->define(App\Comment::class, function (Faker $faker) {
 
 $factory->state(App\Comment::class, 'task', function (Faker $faker) {
     return [
-        'user_id' => function() {
+        'author_id' => function() {
             return factory(App\User::class)->create()->id;
         },
         'body' => $faker->paragraph,
@@ -93,7 +93,7 @@ $factory->state(App\Comment::class, 'task', function (Faker $faker) {
 
 $factory->state(App\Comment::class, 'bid', function (Faker $faker) {
     return [
-        'user_id' => function() {
+        'author_id' => function() {
             return factory(App\User::class)->create()->id;
         },
         'body' => $faker->paragraph,
@@ -108,7 +108,7 @@ $factory->state(App\Comment::class, 'bid', function (Faker $faker) {
 $factory->state(App\Comment::class, 'reply', function (Faker $faker) {
 
     return [
-        'user_id' => function() {
+        'author_id' => function() {
             return factory(App\User::class)->create()->id;
         },
         'body' => $faker->paragraph,

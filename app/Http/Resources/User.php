@@ -23,7 +23,6 @@ class User extends JsonResource
             'avatar' => $this->avatar,
             'locale' => $this->locale,
             'created_at' => $this->created_at,
-            'tasks' => TaskResource::collection($this->whenLoaded('tasks')),
             'location' => new LocationResource($this->location),
         ];
     }

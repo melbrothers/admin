@@ -70,7 +70,7 @@ class TasksTest extends \TestCase
     {
         // authenticate
         $task = create(Task::class);
-        $this->signIn($task->user);
+        $this->signIn($task->sender);
         $this->delete('v1/tasks/'. $task->slug);
         $this->seeStatusCode(204);
     }
@@ -79,7 +79,7 @@ class TasksTest extends \TestCase
     public function an_authorized_user_can_update_task_name()
     {
         $task = create(Task::class);
-        $this->signIn($task->user);
+        $this->signIn($task->sender);
         $this->put('v1/tasks/'. $task->slug, [
             'name' => 'new task name'
         ]);
@@ -93,7 +93,7 @@ class TasksTest extends \TestCase
     public function authenticated_user_can_attach_image_to_task()
     {
         $task = create(Task::class);
-        $this->signIn($task->user);
+        $this->signIn($task->sender);
 
         $this->call('POST', sprintf('/v1/tasks/%s/attachments', $task->slug), [], [], [
             'attachment' => UploadedFile::fake()->image('attachment.jpg')

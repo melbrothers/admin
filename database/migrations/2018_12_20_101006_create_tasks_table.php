@@ -16,7 +16,8 @@ class CreateTasksTable extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->increments('id');
-            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('sender_id');
+            $table->unsignedInteger('runner_id')->nullable();
             $table->string('name');
             $table->string('slug');
             $table->text('description');
@@ -32,7 +33,8 @@ class CreateTasksTable extends Migration
             $table->boolean('comment_allowed')->default(true);
             $table->dateTime('first_posted_at')->nullable();
             $table->timestamps();
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('runner_id')->references('id')->on('users');
+            $table->foreign('sender_id')->references('id')->on('users');
         });
     }
 

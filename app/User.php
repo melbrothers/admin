@@ -47,9 +47,14 @@ class User extends Model implements
         'created_at', 'updated_at', 'password',
     ];
 
-    public function tasks()
+    public function senderTasks()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Task::class, 'sender_id');
+    }
+
+    public function runnerTasks()
+    {
+        return $this->hasMany(Task::class, 'runner_id');
     }
 
     public function profile()
@@ -77,13 +82,18 @@ class User extends Model implements
         return $this->belongsTo(Location::class, 'default_location_id');
     }
 
+    public function ratings()
+    {
+        return $this->morphMany(Rating::class, 'rateable');
+    }
+
     public function reply(Comment $comment, string $body)
     {
         $newComment = new Comment;
         $newComment->body = $body;
         $newComment->commentable_id = $comment->commentable_id;
         $newComment->commentable_type = $comment->commentable_type;
-        $newComment->user()->associate($this);
+        $newComment->author()->associate($this);
         $comment->replies()->save($newComment);
 
         return $newComment;

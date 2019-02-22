@@ -73,9 +73,17 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+
         $user->update($request->all());
 
         return new UserResource($user);
+    }
+
+    protected function rules()
+    {
+        return [
+
+        ];
     }
 
     /**

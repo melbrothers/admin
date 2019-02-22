@@ -19,7 +19,7 @@ class TaskPolicy
      */
     public function update(User $user, Task $task)
     {
-        return $user->id === $task->user_id;
+        return $user->id === $task->sender_id;
     }
 
     /**
@@ -32,6 +32,6 @@ class TaskPolicy
      */
     public function destroy(User $user, Task $task)
     {
-        return $user->id === $task->user_id;
+        return $user->id === $task->sender_id;
     }
 }

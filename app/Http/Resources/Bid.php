@@ -24,7 +24,7 @@ class Bid extends JsonResource
             'gst' => $this->gst,
             'comments' => $this->comments,
             'created_at' => $this->created_at,
-            'user' => new UserResource($this->user)
+            'runner' => new UserResource($this->runner)
         ];
     }
 }

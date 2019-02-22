@@ -20,7 +20,7 @@ class Comment extends JsonResource
             'id' => $this->id,
             'body' => $this->body,
             'created_at' => $this->created_at,
-            'user' => new UserResource($this->user),
+            'author' => new UserResource($this->author),
             'replies' => Comment::collection($this->whenLoaded('replies'))
         ];
     }

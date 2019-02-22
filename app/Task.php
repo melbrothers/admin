@@ -6,6 +6,7 @@ use App\IndexConfigurator\TaskIndexConfigurator;
 use App\ScoutElastic\Migratable;
 use App\ScoutElastic\Searchable;
 use App\Traits\Commentable;
+use App\Traits\Rateable;
 use App\Traits\SluggableHelpers;
 use App\Traits\Attachable;
 use Cviebrock\EloquentSluggable\Sluggable;
@@ -16,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 class Task extends Model
 {
-    use Sluggable, SluggableHelpers, Attachable, Commentable, Searchable, Migratable;
+    use Sluggable, SluggableHelpers, Attachable, Commentable, Searchable, Migratable, Rateable;
 
     const STATE_POSTED = 'posted';
     const STATE_ASSIGNED = 'assigned';
@@ -26,7 +27,7 @@ class Task extends Model
 
     const STATES = [self::STATE_POSTED, self::STATE_ASSIGNED, self::STATE_CLOSED, self::STATE_COMPLETED, self::STATE_OVERDUE];
 
-    protected $with = ['user', 'bids', 'comments', 'attachments'];
+    protected $with = ['sender', 'bids', 'comments', 'attachments'];
 
     protected $guarded = [];
 
@@ -116,9 +117,14 @@ class Task extends Model
         return '_doc';
     }
 
-    public function user()
+    public function sender()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'sender_id');
+    }
+
+    public function runner()
+    {
+        return $this->hasOne(User::class, 'runner_id');
     }
 
     public function bids()
@@ -171,7 +177,7 @@ class Task extends Model
         $bid->price = $price;
         $bid->fee = Bid::fee($price);
         $bid->gst = Bid::gst($price);
-        $bid->user()->associate($user ?: Auth::user());
+        $bid->runner()->associate($user ?: Auth::user());
         $this->bids()->save($bid);
         $bid->comment($body);
 

@@ -19,7 +19,7 @@ trait Commentable
     {
         $comment = new Comment;
         $comment->body = $body;
-        $comment->user()->associate($user ?: Auth::user());
+        $comment->author()->associate($user ?: Auth::user());
         $this->comments()->save($comment);
 
         return $comment;

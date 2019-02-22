@@ -29,7 +29,7 @@ class BidsTest extends \TestCase
     {
         $task = create(Task::class);
         /** @var User $user */
-        $this->signIn($task->user);
+        $this->signIn($task->sender);
         $this->post(sprintf('/v1/tasks/%s/bids', $task->slug), [
             'price' => 100,
             'comment' => 'test comment'
@@ -41,7 +41,7 @@ class BidsTest extends \TestCase
     public function task_creator_can_view_bids_for_his_tasks()
     {
         $bid = create(Bid::class);
-        $this->signIn( $bid->task->user);
+        $this->signIn( $bid->task->sender);
         $this->get(sprintf('/v1/tasks/%s/bids', $bid->task->slug));
         $this->seeStatusCode(200);
         $this->seeJson(['price' => $bid->price]);

@@ -20,7 +20,7 @@ class BidPolicy
      */
     public function store(User $user, Task $task)
     {
-        return $user->id !== $task->user_id;
+        return $user->id !== $task->sender_id;
     }
 
     /**
@@ -31,7 +31,7 @@ class BidPolicy
      */
     public function show(User $user, Bid $bid)
     {
-        return $user->id === $bid->user_id || $user->id == $bid->task->user_id;
+        return $user->id === $bid->runner_id || $user->id == $bid->task->sender_id;
     }
 
     /**
@@ -44,7 +44,7 @@ class BidPolicy
      */
     public function update(User $user, Bid $bid)
     {
-        return $user->id === $bid->user_id;
+        return $user->id === $bid->runner_id;
     }
 
     /**
@@ -57,7 +57,7 @@ class BidPolicy
      */
     public function destroy(User $user, Bid $bid)
     {
-        return $user->id === $bid->user_id;
+        return $user->id === $bid->runner_id;
     }
 
     /**
@@ -72,6 +72,6 @@ class BidPolicy
      */
     public function index(User $user, Task $task)
     {
-        return $user->id == $task->user_id;
+        return $user->id == $task->sender_id;
     }
 }

@@ -13,7 +13,7 @@ class Bid extends Model
     const RATE_FEE = 0.2;
     const RATE_GST = 0.1;
 
-    protected $with = ['user'];
+    protected $with = ['runner'];
 
     /**
      * @var array
@@ -25,9 +25,9 @@ class Bid extends Model
         return $this->belongsTo(Task::class);
     }
 
-    public function user()
+    public function runner()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(User::class, 'runner_id');
     }
 
     public function comments()
