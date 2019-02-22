@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 
-use App\Comment;
-use App\Task;
+use App\Models\Comment;
+use App\Models\Task;
 use Illuminate\Http\UploadedFile;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 

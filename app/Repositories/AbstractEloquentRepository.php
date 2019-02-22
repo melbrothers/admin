@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 
 use App\Repositories\Contracts\BaseRepository;
-use App\User;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 

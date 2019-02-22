@@ -3,8 +3,8 @@
 namespace App\Traits;
 
 
-use App\Comment;
-use App\User;
+use App\Models\Comment;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 
 trait Commentable

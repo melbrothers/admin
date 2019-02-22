@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 
 use App\Events\TaskCreated;
 use App\Filters\TaskFilters;
-use App\Location;
-use App\Task;
+use App\Models\Location;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Resources\Task as TaskResource;
 use OpenApi\Annotations\OpenApi;

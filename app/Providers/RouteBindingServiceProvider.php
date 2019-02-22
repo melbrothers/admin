@@ -15,6 +15,6 @@ class RouteBindingServiceProvider extends BaseServiceProvider
         $binder = $this->binder;
 
         // Here we define our bindings
-        $binder->implicitBind('App');
+        $binder->implicitBind('App\Models');
     }
 }

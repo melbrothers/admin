@@ -2,9 +2,9 @@
 
 namespace Tests\Feature;
 
-use App\Bid;
-use App\Task;
-use App\User;
+use App\Models\Bid;
+use App\Models\Task;
+use App\ModelsUser;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
 class BidsTest extends \TestCase

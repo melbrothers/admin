@@ -3,8 +3,8 @@
 namespace Tests\Feature;
 
 
-use App\Location;
-use App\Task;
+use App\Models\Location;
+use App\Models\Task;
 use Illuminate\Http\UploadedFile;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 

@@ -3,8 +3,8 @@
 namespace App\Policies;
 
 
-use App\Task;
-use App\User;
+use App\Models\Task;
+use App\Models\User;
 
 class TaskPolicy
 {

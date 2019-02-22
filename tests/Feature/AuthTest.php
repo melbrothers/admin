@@ -5,7 +5,7 @@ namespace Tests\Feature;
 
 use App\Notifications\ResetPassword;
 use App\Notifications\VerifyEmail;
-use App\User;
+use App\Models\User;
 use Illuminate\Support\Facades\Notification;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 

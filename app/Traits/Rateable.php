@@ -3,7 +3,7 @@
 namespace App\Traits;
 
 
-use App\Rating;
+use App\Models\Rating;
 use Illuminate\Database\Eloquent\Model;
 
 trait Rateable

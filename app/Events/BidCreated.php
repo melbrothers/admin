@@ -3,7 +3,7 @@
 namespace App\Events;
 
 
-use App\Bid;
+use App\Models\Bid;
 
 class BidCreated extends Event
 {

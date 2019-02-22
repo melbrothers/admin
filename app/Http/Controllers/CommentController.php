@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 
-use App\Comment;
-use App\Task;
-use App\User;
+use App\Models\Comment;
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\Comment as CommentResource;
 use App\Http\Resources\Task as TaskResource;

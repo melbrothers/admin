@@ -13,7 +13,7 @@ use \Carbon\Carbon;
 |
 */
 
-$factory->define(App\User::class, function (Faker $faker) {
+$factory->define(App\Models\User::class, function (Faker $faker) {
     return [
         'first_name' => $faker->firstName,
         'last_name' => $faker->lastName,
@@ -24,7 +24,7 @@ $factory->define(App\User::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Task::class, function (Faker $faker) {
+$factory->define(App\Models\Task::class, function (Faker $faker) {
     return [
         'name' => $faker->realText(30),
         'description' => $faker->realText(400),
@@ -35,15 +35,15 @@ $factory->define(App\Task::class, function (Faker $faker) {
             'morning' => true
         ],
         'location_id' => function() {
-            return factory(App\Location::class)->create()->id;
+            return factory(App\Models\Location::class)->create()->id;
         },
         'sender_id' => function() {
-            return factory(App\User::class)->create()->id;
+            return factory(App\Models\User::class)->create()->id;
         }
     ];
 });
 
-$factory->define(App\Location::class, function (Faker $faker) {
+$factory->define(App\Models\Location::class, function (Faker $faker) {
     return [
         'display_name' => $faker->city(),
         'longitude' => $faker->longitude,
@@ -51,74 +51,74 @@ $factory->define(App\Location::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Bid::class, function (Faker $faker) {
+$factory->define(App\Models\Bid::class, function (Faker $faker) {
     return [
         'price' => $faker->numberBetween(0, 1000),
         'fee' => $faker->numberBetween(0, 100),
         'gst' => $faker->numberBetween(0, 10),
         'task_id' => function() {
-            return factory(App\Task::class)->create()->id;
+            return factory(App\Models\Task::class)->create()->id;
         },
         'runner_id' => function() {
-            return factory(App\User::class)->create()->id;
+            return factory(App\Models\User::class)->create()->id;
         }
     ];
 });
 
-$factory->define(App\Comment::class, function (Faker $faker) {
+$factory->define(App\Models\Comment::class, function (Faker $faker) {
     return [
         'author_id' => function() {
-            return factory(App\User::class)->create()->id;
+            return factory(App\Models\User::class)->create()->id;
         },
         'body' => $faker->paragraph,
         'commentable_id' => function() {
-            return factory(App\Task::class)->create()->id;
+            return factory(App\Models\Task::class)->create()->id;
         },
-        'commentable_type' => \App\Task::class
+        'commentable_type' => \App\Models\Task::class
     ];
 });
 
-$factory->state(App\Comment::class, 'task', function (Faker $faker) {
+$factory->state(App\Models\Comment::class, 'task', function (Faker $faker) {
     return [
         'author_id' => function() {
-            return factory(App\User::class)->create()->id;
+            return factory(App\Models\User::class)->create()->id;
         },
         'body' => $faker->paragraph,
         'commentable_id' => function() {
-            return factory(App\Task::class)->create()->id;
+            return factory(App\Models\Task::class)->create()->id;
         },
-        'commentable_type' => \App\Task::class
+        'commentable_type' => \App\Models\Task::class
     ];
 });
 
-$factory->state(App\Comment::class, 'bid', function (Faker $faker) {
+$factory->state(App\Models\Comment::class, 'bid', function (Faker $faker) {
     return [
         'author_id' => function() {
-            return factory(App\User::class)->create()->id;
+            return factory(App\Models\User::class)->create()->id;
         },
         'body' => $faker->paragraph,
         'commentable_id' => function() {
-            return factory(App\Bid::class)->create()->id;
+            return factory(App\Models\Bid::class)->create()->id;
         },
-        'commentable_type' => \App\Bid::class
+        'commentable_type' => \App\Models\Bid::class
     ];
 });
 
 
-$factory->state(App\Comment::class, 'reply', function (Faker $faker) {
+$factory->state(App\Models\Comment::class, 'reply', function (Faker $faker) {
 
     return [
         'author_id' => function() {
-            return factory(App\User::class)->create()->id;
+            return factory(App\Models\User::class)->create()->id;
         },
         'body' => $faker->paragraph,
         'commentable_id' => function() {
-            return factory(App\Task::class)->create()->id;
+            return factory(App\Models\Task::class)->create()->id;
         },
-        'commentable_type' => \App\Task::class,
+        'commentable_type' => \App\Models\Task::class,
 
         'parent_id' => function() {
-            return factory(App\Comment::class)->create()->id;
+            return factory(App\Models\Comment::class)->create()->id;
         }
     ];
 });

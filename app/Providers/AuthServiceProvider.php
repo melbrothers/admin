@@ -2,12 +2,12 @@
 
 namespace App\Providers;
 
-use App\Bid;
+use App\Models\Bid;
 use App\Policies\BidPolicy;
 use App\Policies\TaskPolicy;
 use App\Policies\UserPolicy;
-use App\Task;
-use App\User;
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;

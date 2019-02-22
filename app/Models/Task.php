@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use App\IndexConfigurator\TaskIndexConfigurator;
 use App\ScoutElastic\Migratable;

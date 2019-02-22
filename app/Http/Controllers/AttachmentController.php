@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 
-use App\Attachment;
-use App\Comment;
-use App\Task;
+use App\Models\Attachment;
+use App\Models\Comment;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 

@@ -3,7 +3,7 @@
 namespace App\Events;
 
 
-use App\Task;
+use App\Models\Task;
 
 class TaskCreated extends Event
 {

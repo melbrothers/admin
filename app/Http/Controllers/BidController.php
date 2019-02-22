@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 
-use App\Bid;
+use App\Models\Bid;
 use App\Events\BidCreated;
-use App\Task;
-use App\User;
+use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\Bid as BidResource;
 

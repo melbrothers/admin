@@ -3,9 +3,9 @@
 namespace App\Policies;
 
 
-use App\Bid;
-use App\Task;
-use App\User;
+use App\Models\Bid;
+use App\Models\Task;
+use App\Models\User;
 
 class BidPolicy
 {
