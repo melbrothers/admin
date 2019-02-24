@@ -120,6 +120,7 @@ $app->register(\Vluzrmos\Tinker\TinkerServiceProvider::class);
 $app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
 $app->register(\Laravel\Scout\ScoutServiceProvider::class);
 $app->register(\App\Providers\ScoutElasticServiceProvider::class);
+$app->register(\Cartalyst\Stripe\Laravel\StripeServiceProvider::class,);
 
 $app->register(\Hivokas\LaravelPassportSocialGrant\Providers\SocialGrantServiceProvider::class);
 $app->register(\SwaggerLume\ServiceProvider::class);

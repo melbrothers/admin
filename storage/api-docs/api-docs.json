@@ -275,6 +275,35 @@
                 }
             }
         },
+        "/bids/{id}/approve": {
+            "post": {
+                "tags": [
+                    "Bid"
+                ],
+                "summary": "Accept a bid",
+                "operationId": "App\\Http\\Controllers\\BidController::approve",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "id of bid",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Createa a comment successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
         "/tasks/{slug}/comments": {
             "post": {
                 "tags": [
@@ -361,6 +390,45 @@
                 "responses": {
                     "200": {
                         "description": "Createa a comment successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/tasks/{task}/ratings": {
+            "post": {
+                "tags": [
+                    "Rating"
+                ],
+                "summary": "Create a new task rating",
+                "operationId": "App\\Http\\Controllers\\RatingController::store",
+                "requestBody": {
+                    "description": "Create data format",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "rating": {
+                                        "description": "Task's rating",
+                                        "type": "integer",
+                                        "format": "int32"
+                                    },
+                                    "body": {
+                                        "description": "Task's rating comment",
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Create a task successfully"
                     },
                     "422": {
                         "description": "Validation error"

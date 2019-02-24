@@ -48,13 +48,14 @@ trait Rateable
     /**
      * @param            $data
      * @param Model      $author
-     * @param Model|null $parent
+     * @param Model      $rateableOnModel
+     * @param string     $rateableModelColumn
      *
      * @return Rating
      */
-    public function rating($data, Model $author, Model $parent = null)
+    public function rating($data, Model $author, Model $rateableOnModel, string  $rateableModelColumn)
     {
-        return (new Rating())->createRating($this, $data, $author);
+        return (new Rating())->createRating($this, $data, $author, $rateableOnModel, $rateableModelColumn);
     }
 
     /**

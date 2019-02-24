@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use mmghv\LumenRouteBinding\RouteBindingServiceProvider as BaseServiceProvider;
+use App\Models\Task;
 
 class RouteBindingServiceProvider extends BaseServiceProvider
 {
@@ -16,5 +17,14 @@ class RouteBindingServiceProvider extends BaseServiceProvider
 
         // Here we define our bindings
         $binder->implicitBind('App\Models');
+
+        // Using a closure
+        $binder->bind('task', function($value) {
+            if ($task = Task::find($value)) {
+                return $task;
+            }
+
+            return Task::where('slug', $value)->firstOrFail();
+        });
     }
 }

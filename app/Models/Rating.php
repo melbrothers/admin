@@ -26,19 +26,25 @@ class Rating extends Model
     }
 
     /**
-     * @param Model $rateable
-     * @param $data
-     * @param Model $author
+     * @param Model       $rateable
+     * @param             $data
+     * @param Model       $author
+     *
+     * @param Model|null  $rateableOnModel
+     * @param string|null $rateableOnModelColumn
      *
      * @return static
      */
-    public function createRating(Model $rateable, $data, Model $author, Model $rateableOn)
+    public function createRating(Model $rateable, $data, Model $author, Model $rateableOnModel = null, string $rateableOnModelColumn = null)
     {
         $rating = new static();
         $rating->fill(array_merge($data, [
             'author_id' => $author->id,
-            'rateable_on_id' => $rateableOn->id,
-            'rateable_on_type' => get_class($rateableOn),
+            'rateable_on_id' => $rateableOnModel ? $rateableOnModel->id : null,
+            'rateable_on_type' => $rateableOnModel ? get_class($rateableOnModel): null,
+            'rateable_on_column' => $rateableOnModel ? $rateableOnModelColumn: null,
+            'rateable_type' => get_class($rateable),
+            'rateable_id' =>  $rateable->id,
         ]));
         $rateable->ratings()->save($rating);
 

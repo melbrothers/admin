@@ -47,4 +47,12 @@ class BidsTest extends \TestCase
         $this->seeJson(['price' => $bid->price]);
     }
 
+    /** @test */
+    public function task_creator_can_approve_a_bid_for_his_tasks()
+    {
+        $bid = create(Bid::class);
+        $this->signIn( $bid->task->sender);
+        $this->put(sprintf('/v1/bids/%s/approve', $bid->id));
+        $this->seeStatusCode(200);
+    }
 }

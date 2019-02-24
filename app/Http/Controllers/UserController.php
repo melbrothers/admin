@@ -73,8 +73,9 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
-
-        $user->update($request->all());
+        $this->validate($request, $this->rules());
+        $data = $this->extractInputFromRules($request, $this->rules());
+        $user->update($data);
 
         return new UserResource($user);
     }
@@ -109,5 +110,10 @@ class UserController extends Controller
     public function me(Request $request)
     {
         return new UserResource($request->user());
+    }
+
+    public function ratings()
+    {
+
     }
 }

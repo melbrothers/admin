@@ -44,6 +44,7 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
 
     $router->get('tasks/{task}/bids', 'BidController@index');
     $router->post('tasks/{task}/bids', 'BidController@store');
+    $router->put('bids/{bid}/approve', 'BidController@approve');
     $router->post('tasks/{task}/attachments', 'AttachmentController@task');
 
 
@@ -55,6 +56,8 @@ $router->group(['prefix' => 'v1'], function () use ($router) {
     $router->post('comments/{comment}/attachments', 'AttachmentController@comment');
 
     $router->get('translation/{locale}', 'TranslationController@show');
+
+    $router->post('tasks/{task}/ratings', 'RatingController@store');
 
 });
 

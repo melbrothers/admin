@@ -119,12 +119,12 @@ class Task extends Model
 
     public function sender()
     {
-        return $this->belongsTo(User::class, 'sender_id');
+        return $this->belongsTo(User::class, 'sender_id', 'id');
     }
 
     public function runner()
     {
-        return $this->hasOne(User::class, 'runner_id');
+        return $this->hasOne(User::class, 'id','runner_id');
     }
 
     public function bids()

@@ -298,6 +298,36 @@ class TaskController extends Controller
     }
 
     /**
+     * @param Task $task
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function complete(Task $task)
+    {
+        $this->authorize('update', $task);
+
+        $task->state = Task::STATE_COMPLETED;
+        $task->save();
+
+        return response()->json();
+    }
+
+    /**
+     * @param Task $task
+     *
+     * @throws \Illuminate\Auth\Access\AuthorizationException
+     */
+    public function close(Task $task)
+    {
+        $this->authorize('update', $task);
+
+        $task->state = Task::STATE_CLOSED;
+        $task->save();
+
+        return response()->json();
+    }
+
+    /**
      * Delete a task
      *
      * @param Task    $task
@@ -328,4 +358,6 @@ class TaskController extends Controller
             'default_location.longitude' => 'numeric|required',
         ];
     }
+
+
 }

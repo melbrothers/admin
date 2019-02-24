@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Events\BidApproved;
 use App\Models\Bid;
 use App\Events\BidCreated;
 use App\Models\Task;
@@ -125,6 +126,54 @@ class BidController extends Controller
     public function destroy()
     {
 
+    }
+
+    /**
+     * Accept a bid
+     *
+     * @OA\Post(
+     *     path="/bids/{id}/approve",
+     *     tags={"Bid"},
+     *     summary="Accept a bid",
+     *     @OA\Parameter(
+     *         description="id of bid",
+     *         in="path",
+     *         name="id",
+     *         required=true,
+     *         @OA\Schema(
+     *           type="integer",
+     *           format="int64"
+     *         )
+     *     ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Createa a comment successfully"
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error"
+     *     )
+     * )
+     * @param Bid $bid
+     *
+     * @return Bid
+     */
+    public function approve(Bid $bid)
+    {
+        $task = $bid->task;
+
+        if ($task->state !== Task::STATE_POSTED) {
+            abort('400');
+        }
+
+        $bid->accepted = true;
+        $bid->save();
+        $task->runner_id = $bid->runner->id;
+        $task->state = Task::STATE_ASSIGNED;
+        $task->save();
+        event(new BidApproved($bid));
+
+        return $bid;
     }
 
     private function rules()
