@@ -35,7 +35,7 @@ $factory->define(App\Models\Task::class, function (Faker $faker) {
             'morning' => true
         ],
         'location_id' => function() {
-            return factory(App\Models\Location::class)->create()->id;
+            return \App\Models\Location::find(rand(1,100))->id;
         },
         'sender_id' => function() {
             return factory(App\Models\User::class)->create()->id;
