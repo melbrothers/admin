@@ -24,7 +24,7 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     ];
 });
 
-$factory->define(App\Models\Task::class, function (Faker $faker) {
+$factory->state(App\Models\Task::class, \App\Models\Task::STATE_POSTED, function (Faker $faker) {
     return [
         'name' => $faker->realText(30),
         'description' => $faker->realText(400),
@@ -35,8 +35,9 @@ $factory->define(App\Models\Task::class, function (Faker $faker) {
             'morning' => true
         ],
         'location_id' => function() {
-            return \App\Models\Location::find(rand(1,100))->id;
+            return \App\Models\Location::find(rand(1,1000))->id;
         },
+        'state' => \App\Models\Task::STATE_POSTED,
         'sender_id' => function() {
             return factory(App\Models\User::class)->create()->id;
         }

@@ -9,7 +9,7 @@ use App\Models\Location;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Resources\Task as TaskResource;
-use OpenApi\Annotations\OpenApi;
+use App\Http\Resources\Bid as BidResource;
 
 /**
  * Class TaskController
@@ -73,7 +73,7 @@ class TaskController extends Controller
      *          required=false,
      *          @OA\Schema(
      *              type="string",
-     *              example="posted"
+     *              example="posted, assigned, draft"
      *          )
      *     ),
      *     @OA\Parameter(
@@ -89,6 +89,36 @@ class TaskController extends Controller
      *     @OA\Parameter(
      *          name="sort_by",
      *          description="Task's order",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="recent"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          name="my_tasks",
+     *          description="Tasks belong to current user",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="boolean",
+     *              example="true",
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          name="role",
+     *          description="Task's role of current user",
+     *          in="query",
+     *          required=false,
+     *          @OA\Schema(
+     *              type="string",
+     *              example="sender|runner"
+     *          )
+     *     ),
+     *     @OA\Parameter(
+     *          name="after",
+     *          description="The start point of next batch of task",
      *          in="query",
      *          required=false,
      *          @OA\Schema(
@@ -359,5 +389,32 @@ class TaskController extends Controller
         ];
     }
 
+    /**
+     * @OA\GET(
+     *     path="/tasks/{id}/bids",
+     *     tags={"Task"},
+     *     summary="Get all bids by task by slug",
+     *     @OA\Parameter(
+     *          name="id",
+     *          in="path",
+     *          required=true,
+     *          @OA\Schema(
+     *              type="integer",
+     *              format="int64"
+     *          )
+     *     ),
+     *     @OA\Response(
+     *         response=200,
+     *         description="Return a single task by slug"
+     *     ),
+     * )
+     * @param Task $task
+     *
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function bids(Task $task)
+    {
+        return BidResource::collection($task->bids);
+    }
 
 }

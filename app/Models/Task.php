@@ -23,9 +23,11 @@ class Task extends Model
     const STATE_ASSIGNED = 'assigned';
     const STATE_COMPLETED = 'completed';
     const STATE_OVERDUE = 'overdue';
+    const STATE_DRAFT = 'draft';
+    const STATE_EXPIRED = 'expired';
     const STATE_CLOSED = 'closed';
 
-    const STATES = [self::STATE_POSTED, self::STATE_ASSIGNED, self::STATE_CLOSED, self::STATE_COMPLETED, self::STATE_OVERDUE];
+    const STATES = [self::STATE_POSTED, self::STATE_ASSIGNED, self::STATE_CLOSED, self::STATE_COMPLETED, self::STATE_OVERDUE, self::STATE_DRAFT, self::STATE_EXPIRED];
 
     protected $with = ['sender', 'bids', 'comments', 'attachments'];
 
@@ -47,6 +49,9 @@ class Task extends Model
             ],
             'online_or_phone' => [
                 'type' => 'boolean'
+            ],
+            'state' => [
+              'type' => 'keyword'
             ],
             'location' => [
                 'properties' => [
