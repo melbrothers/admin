@@ -9,6 +9,7 @@ use App\Models\Location;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use App\Http\Resources\Task as TaskResource;
+use App\Http\Resources\TaskCollection;
 use App\Http\Resources\Bid as BidResource;
 
 /**
@@ -113,7 +114,7 @@ class TaskController extends Controller
      *          required=false,
      *          @OA\Schema(
      *              type="string",
-     *              example="sender|runner"
+     *              example="sender"
      *          )
      *     ),
      *     @OA\Parameter(
@@ -136,16 +137,16 @@ class TaskController extends Controller
      *
      * @param Request $request
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return TaskCollection
      */
     public function index(Request $request)
     {
         $searchTerm = $request->get('query', '*');
 
         $filters = new TaskFilters($request);
-
+        dd($filters->apply(Task::search($searchTerm))->buildPayload());exit;
         //return $filters->apply(Task::search($searchTerm))->paginate($request->get('limit'));
-        return TaskResource::collection($filters->apply(Task::search($searchTerm))->paginate($request->get('limit', 100)));
+        return new TaskCollection($filters->apply(Task::search($searchTerm))->get());
     }
 
     /**
@@ -164,28 +165,33 @@ class TaskController extends Controller
      *                      property="name",
      *                      description="Task's name",
      *                      type="string",
+     *                      example="This is a task name"
      *                  ),
      *                  @OA\Property(
      *                      property="description",
      *                      description="Task's description",
      *                      type="string",
+     *                      example="This is a task description"
      *                  ),
      *                  @OA\Property(
      *                      property="price",
      *                      description="Task's price",
      *                      type="integer",
-     *                      format="int32"
+     *                      format="int32",
+     *                      example="100"
      *                  ),
      *                  @OA\Property(
      *                      property="deadline",
      *                      description="Task's deadline",
      *                      type="string",
-     *                      format="date"
+     *                      format="date",
+     *                      example="2019-02-26T12:23:21+11:00"
      *                  ),
      *                  @OA\Property(
      *                      property="online_or_phone",
      *                      description="Task's mode",
      *                      type="boolean",
+     *                      example="true"
      *                  ),
      *                  @OA\Property(
      *                      property="specified_times",
@@ -194,18 +200,22 @@ class TaskController extends Controller
      *                      @OA\Property(
      *                          property="morning",
      *                          type="boolean",
+     *                          example="true"
      *                      ),
      *                      @OA\Property(
      *                          property="midday",
      *                          type="boolean",
+     *                          example="true"
      *                      ),
      *                      @OA\Property(
      *                          property="afternoon",
      *                          type="boolean",
+     *                          example="true"
      *                      ),
      *                      @OA\Property(
      *                          property="evening",
      *                          type="boolean",
+     *                          example="true"
      *                      ),
      *                  ),
      *                  @OA\Property(
@@ -213,18 +223,31 @@ class TaskController extends Controller
      *                      description="Task's default location",
      *                      type="object",
      *                      @OA\Property(
-     *                          property="display_name",
+     *                          property="state",
      *                          type="string",
+     *                          example="VIC"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="postcode",
+     *                          type="string",
+     *                          example="3000"
+     *                      ),
+     *                      @OA\Property(
+     *                          property="suburb",
+     *                          type="string",
+     *                          example="Melbourne"
      *                      ),
      *                      @OA\Property(
      *                          property="longtitude",
      *                          type="number",
-     *                          format="float"
+     *                          format="float",
+     *                          example="-37.780000"
      *                      ),
      *                      @OA\Property(
      *                          property="latitude",
      *                          type="number",
-     *                          format="float"
+     *                          format="float",
+     *                          example="144.920000"
      *                      ),
      *                  ),
      *              )
@@ -253,10 +276,7 @@ class TaskController extends Controller
         $user = $request->user();
 
         /** @var Location $location */
-        $location = Location::firstOrNew(['display_name' => $data['default_location']['display_name']]);
-        $location->latitude = $data['default_location']['latitude'];
-        $location->longitude = $data['default_location']['longitude'];
-        $location->save();
+        $location = Location::firstOrCreate($data['default_location']);
         $task = new Task;
         $task->name = $data['name'];
         $task->price = $data['price'];
@@ -330,6 +350,7 @@ class TaskController extends Controller
     /**
      * @param Task $task
      *
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function complete(Task $task)
@@ -345,6 +366,7 @@ class TaskController extends Controller
     /**
      * @param Task $task
      *
+     * @return \Illuminate\Http\JsonResponse
      * @throws \Illuminate\Auth\Access\AuthorizationException
      */
     public function close(Task $task)
@@ -383,7 +405,9 @@ class TaskController extends Controller
             'specified_times.morning' => 'boolean',
             'specified_times.afternoon' => 'boolean',
             'specified_times.evening' => 'boolean',
-            'default_location.display_name' => 'string|required',
+            'default_location.state' => 'string|required',
+            'default_location.suburb' => 'string|required',
+            'default_location.postcode' => 'string|required',
             'default_location.latitude' => 'numeric|required',
             'default_location.longitude' => 'numeric|required',
         ];

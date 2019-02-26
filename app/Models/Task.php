@@ -12,7 +12,6 @@ use App\Traits\Attachable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class Task extends Model
@@ -46,6 +45,7 @@ class Task extends Model
             ],
             'deadline' => [
                 'type' => 'date',
+                'format' => 'yyyy-MM-dd\'T\'HH:mm:ss'
             ],
             'online_or_phone' => [
                 'type' => 'boolean'
@@ -56,7 +56,7 @@ class Task extends Model
             'location' => [
                 'properties' => [
                     'display_name' => [
-                        'type' => 'text'
+                        'type' => 'text',
                     ],
                     'coordinate' => [
                         'type' => 'geo_point'
@@ -64,11 +64,13 @@ class Task extends Model
                 ],
                 'type' => 'nested'
             ],
-            'create_at' => [
+            'created_at' => [
                 'type' => 'date',
+                'format' => 'yyyy-MM-dd\'T\'HH:mm:ss'
             ],
-            'update_at' => [
+            'updated_at' => [
                 'type' => 'date',
+                'format' => 'yyyy-MM-dd\'T\'HH:mm:ss'
             ],
         ]
     ];
@@ -92,11 +94,6 @@ class Task extends Model
         'deadline',
     ];
 
-    public function setDeadlineAttribute($value)
-    {
-        $this->attributes['deadline'] = Carbon::parse($value)->toDateTimeString();
-    }
-
     protected static function boot()
     {
         parent::boot();
@@ -113,7 +110,6 @@ class Task extends Model
         unset($array['location_id']);
         $array['location']['display_name'] = $this->location->display_name;
         $array['location']['coordinate'] = [$this->location->latitude, $this->location->longitude];
-        $array['deadline'] = $this->deadline->setTimezone('Australia/Melbourne')->timestamp;
         return $array;
     }
 

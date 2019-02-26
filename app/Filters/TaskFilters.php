@@ -4,6 +4,7 @@ namespace App\Filters;
 
 
 
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Support\Facades\Auth;
 
 class TaskFilters extends Filters
@@ -78,17 +79,21 @@ class TaskFilters extends Filters
 
     public function myTasks($myTasks)
     {
+
         if ($myTasks) {
+            if (!Auth::user()) {
+                abort(401);
+            }
             return $this->builder->where('sender_id', '<=', Auth::user()->id);
         }
 
         return $this->builder;
     }
 
-    public function limit($limit)
-    {
-        return $this->builder->paginate($limit);
-    }
+//    public function limit($limit)
+//    {
+//        return $this->builder->paginate($limit);
+//    }
 
     public function after($after)
     {

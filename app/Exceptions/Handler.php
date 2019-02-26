@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -57,6 +58,14 @@ class Handler extends ExceptionHandler
         }
         if ($exception instanceof NotFoundHttpException) {
             return response()->json((['status' => 404, 'message' => 'The requested resource was not found']), 404);
+        }
+
+        if ($exception instanceof AuthenticationException) {
+            return response()->json((['status' => 401, 'message' => 'You must login to access this feature']), 401);
+        }
+
+        if ($exception instanceof HttpException) {
+            return response()->json((['status' => $exception->getStatusCode(), 'message' => 'You must login to access this feature']), $exception->getStatusCode());
         }
 
         return parent::render($request, $exception);

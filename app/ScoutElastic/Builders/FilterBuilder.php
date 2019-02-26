@@ -379,19 +379,19 @@ class FilterBuilder extends Builder
         }
         return $collection;
     }
-    /**
-     * @inheritdoc
-     */
-    public function paginate($perPage = null, $pageName = 'page', $page = null)
-    {
-        $paginator = parent::paginate($perPage, $pageName, $page);
-        if (isset($this->with) && $paginator->total() > 0) {
-            $paginator
-                ->getCollection()
-                ->load($this->with);
-        }
-        return $paginator;
-    }
+//    /**
+//     * @inheritdoc
+//     */
+//    public function paginate($perPage = null, $pageName = 'page', $page = null)
+//    {
+//        $paginator = parent::paginate($perPage, $pageName, $page);
+//        if (isset($this->with) && $paginator->total() > 0) {
+//            $paginator
+//                ->getCollection()
+//                ->load($this->with);
+//        }
+//        return $paginator;
+//    }
     /**
      * @param string $field
      * @return $this

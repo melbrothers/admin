@@ -7,6 +7,20 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 
 class TaskCollection extends ResourceCollection
 {
+
+   public function __construct($resource)
+   {
+       $this->resource = $resource;
+   }
+
+    /**
+     * @inheritDoc
+     */
+    protected function collectResource($resource)
+    {
+    }
+
+
     /**
      * Transform the resource collection into an array.
      *
@@ -15,11 +29,6 @@ class TaskCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return [
-            'data' => $this->collection,
-            'links' => [
-                'self' => 'link-value',
-            ],
-        ];
+        return ['data' => $this->collection,'meta' => 'paginate'];
     }
 }

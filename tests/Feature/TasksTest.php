@@ -26,7 +26,7 @@ class TasksTest extends \TestCase
     {
         $this->signIn();
         $task = factory(Task::class)->raw();
-        $location = factory(Location::class)->create();
+        $location = Location::find(rand(1, 1000))->toArray();
         $task['default_location'] = $location;
         $this->post('/v1/tasks', $task);
         $task = json_decode($this->response->getContent(), true);

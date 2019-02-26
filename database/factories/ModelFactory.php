@@ -2,6 +2,8 @@
 
 use Faker\Generator as Faker;
 use \Carbon\Carbon;
+use App\Models\Task;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -24,15 +26,18 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
     ];
 });
 
-$factory->state(App\Models\Task::class, \App\Models\Task::STATE_POSTED, function (Faker $faker) {
+$factory->define(App\Models\Task::class, function (Faker $faker) {
     return [
         'name' => $faker->realText(30),
         'description' => $faker->realText(400),
         'price' => $faker->numberBetween(0, 100),
-        'deadline' => Carbon::now(config('app.timezone'))->format(Carbon::RFC3339),
+        'deadline' => Carbon::now(config('app.timezone'))->format(Carbon::DEFAULT_TO_STRING_FORMAT),
         'online_or_phone' => $faker->boolean(),
         'specified_times' => [
-            'morning' => true
+            'morning' => true,
+            'midday' => false,
+            'afternoon' => false,
+            'evening' => false
         ],
         'location_id' => function() {
             return \App\Models\Location::find(rand(1,1000))->id;
@@ -44,13 +49,30 @@ $factory->state(App\Models\Task::class, \App\Models\Task::STATE_POSTED, function
     ];
 });
 
-$factory->define(App\Models\Location::class, function (Faker $faker) {
+$factory->state(App\Models\Task::class, Task::STATE_POSTED, function (Faker $faker) {
     return [
-        'display_name' => $faker->city(),
-        'longitude' => $faker->longitude,
-        'latitude' => $faker->latitude,
+        'name' => $faker->realText(30),
+        'description' => $faker->realText(400),
+        'price' => $faker->numberBetween(0, 100),
+        'deadline' => Carbon::now(config('app.timezone'))->format(Carbon::RFC3339),
+        'online_or_phone' => $faker->boolean(),
+        'specified_times' => [
+            'morning' => true,
+            'midday' => false,
+            'afternoon' => false,
+            'evening' => false
+
+        ],
+        'location_id' => function() {
+            return \App\Models\Location::find(rand(1,1000))->id;
+        },
+        'state' => Task::STATE_POSTED,
+        'sender_id' => function() {
+            return factory(App\Models\User::class)->create()->id;
+        }
     ];
 });
+
 
 $factory->define(App\Models\Bid::class, function (Faker $faker) {
     return [

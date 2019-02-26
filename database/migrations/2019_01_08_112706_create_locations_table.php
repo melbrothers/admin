@@ -18,8 +18,8 @@ class CreateLocationsTable extends Migration
             $table->string('postcode');
             $table->string('suburb');
             $table->string('state');
-            $table->double('latitude');
-            $table->double('longitude');
+            $table->double('latitude', 10, 6);
+            $table->double('longitude', 10, 6);
         });
     }
 

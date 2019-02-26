@@ -10,4 +10,9 @@ class Location extends Model
 
     protected $guarded = [];
 
+    public function getDisplayNameAttribute()
+    {
+        return sprintf('%s, %s', $this->suburb, $this->state);
+    }
+
 }

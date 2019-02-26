@@ -13,6 +13,16 @@
         },
         "version": "1.0.0"
     },
+    "servers": [
+        {
+            "url": "https://taskerapi.herokuapp.com/v1",
+            "description": "Staging server"
+        },
+        {
+            "url": "http://localhost:8000/v1",
+            "description": "Local server"
+        }
+    ],
     "paths": {
         "/comments/{id}/attachments": {
             "post": {
@@ -484,7 +494,7 @@
                         "required": false,
                         "schema": {
                             "type": "string",
-                            "example": "posted"
+                            "example": "posted, assigned, draft"
                         }
                     },
                     {
@@ -501,6 +511,36 @@
                         "name": "sort_by",
                         "in": "query",
                         "description": "Task's order",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "recent"
+                        }
+                    },
+                    {
+                        "name": "my_tasks",
+                        "in": "query",
+                        "description": "Tasks belong to current user",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean",
+                            "example": "true"
+                        }
+                    },
+                    {
+                        "name": "role",
+                        "in": "query",
+                        "description": "Task's role of current user",
+                        "required": false,
+                        "schema": {
+                            "type": "string",
+                            "example": "sender"
+                        }
+                    },
+                    {
+                        "name": "after",
+                        "in": "query",
+                        "description": "The start point of next batch of task",
                         "required": false,
                         "schema": {
                             "type": "string",
@@ -529,40 +569,49 @@
                                 "properties": {
                                     "name": {
                                         "description": "Task's name",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "This is a task name"
                                     },
                                     "description": {
                                         "description": "Task's description",
-                                        "type": "string"
+                                        "type": "string",
+                                        "example": "This is a task description"
                                     },
                                     "price": {
                                         "description": "Task's price",
                                         "type": "integer",
-                                        "format": "int32"
+                                        "format": "int32",
+                                        "example": "100"
                                     },
                                     "deadline": {
                                         "description": "Task's deadline",
                                         "type": "string",
-                                        "format": "date"
+                                        "format": "date",
+                                        "example": "2019-02-26T12:23:21+11:00"
                                     },
                                     "online_or_phone": {
                                         "description": "Task's mode",
-                                        "type": "boolean"
+                                        "type": "boolean",
+                                        "example": "true"
                                     },
                                     "specified_times": {
                                         "description": "Task's specified times",
                                         "properties": {
                                             "morning": {
-                                                "type": "boolean"
+                                                "type": "boolean",
+                                                "example": "true"
                                             },
                                             "midday": {
-                                                "type": "boolean"
+                                                "type": "boolean",
+                                                "example": "true"
                                             },
                                             "afternoon": {
-                                                "type": "boolean"
+                                                "type": "boolean",
+                                                "example": "true"
                                             },
                                             "evening": {
-                                                "type": "boolean"
+                                                "type": "boolean",
+                                                "example": "true"
                                             }
                                         },
                                         "type": "object"
@@ -570,16 +619,27 @@
                                     "default_location": {
                                         "description": "Task's default location",
                                         "properties": {
-                                            "display_name": {
-                                                "type": "string"
+                                            "state": {
+                                                "type": "string",
+                                                "example": "VIC"
+                                            },
+                                            "postcode": {
+                                                "type": "string",
+                                                "example": "3000"
+                                            },
+                                            "suburb": {
+                                                "type": "string",
+                                                "example": "Melbourne"
                                             },
                                             "longtitude": {
                                                 "type": "number",
-                                                "format": "float"
+                                                "format": "float",
+                                                "example": "-37.780000"
                                             },
                                             "latitude": {
                                                 "type": "number",
-                                                "format": "float"
+                                                "format": "float",
+                                                "example": "144.920000"
                                             }
                                         },
                                         "type": "object"
@@ -614,6 +674,31 @@
                         "required": true,
                         "schema": {
                             "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Return a single task by slug"
+                    }
+                }
+            }
+        },
+        "/tasks/{id}/bids": {
+            "get": {
+                "tags": [
+                    "Task"
+                ],
+                "summary": "Get all bids by task by slug",
+                "operationId": "App\\Http\\Controllers\\TaskController::bids",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "format": "int64"
                         }
                     }
                 ],

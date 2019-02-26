@@ -29,6 +29,8 @@ class Task extends JsonResource
             'location' => new LocationResource($this->location),
             'created_at' => $this->created_at,
             'sender' => new UserResource($this->sender),
+            'runner' => new UserResource($this->runner),
+            'state' => $this->state,
             'bids' => BidResource::collection($this->whenLoaded('bids'))
         ];
     }
