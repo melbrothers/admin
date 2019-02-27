@@ -21,7 +21,7 @@ class FilterBuilder extends Builder
     /**
      * @var int
      */
-    public $offset;
+    public $offset = 0;
     /**
      * @var string
      */
@@ -30,6 +30,9 @@ class FilterBuilder extends Builder
      * @var array
      */
     public $select = [];
+
+    public $searchAfter;
+
     /**
      * @param Model $model
      * @param callable|null $callback
@@ -443,5 +446,17 @@ class FilterBuilder extends Builder
         return tap($this->withTrashed(), function () {
             $this->wheres['must'][] = ['term' => ['__soft_deleted' => 1]];
         });
+    }
+
+    public function limit($limit)
+    {
+        $this->limit = $limit;
+        return $this;
+    }
+
+    public function searchAfter($value)
+    {
+        $this->searchAfter = [$value];
+        return $this;
     }
 }

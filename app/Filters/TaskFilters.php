@@ -2,13 +2,20 @@
 
 namespace App\Filters;
 
-
-
-use Illuminate\Auth\AuthenticationException;
+use App\Models\Task;
+use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class TaskFilters extends Filters
 {
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+        $searchTerm = $request->get('query', '*');
+        $this->builder = Task::search($searchTerm);
+    }
+
     /**
      * Registered filters to operate upon.
      *
@@ -27,13 +34,13 @@ class TaskFilters extends Filters
         'role',
         'my_tasks',
         'limit',
-        'after'
+        'after_time'
     ];
 
     public function sortBy($field)
     {
         if ($field == 'recent') {
-            return $this->builder->orderBy('created_at');
+            return $this->builder->orderBy('created_at', 'desc');
         }
 
         return $this->builder;
@@ -57,6 +64,10 @@ class TaskFilters extends Filters
 
     public function role($role)
     {
+        if (!Auth::user()) {
+            abort(401);
+        }
+
         if ($role == 'sender') {
             return $this->builder->where('sender_id', Auth::user()->id);
         } else if ($role == 'runner') {
@@ -79,7 +90,6 @@ class TaskFilters extends Filters
 
     public function myTasks($myTasks)
     {
-
         if ($myTasks) {
             if (!Auth::user()) {
                 abort(401);
@@ -90,13 +100,14 @@ class TaskFilters extends Filters
         return $this->builder;
     }
 
-//    public function limit($limit)
-//    {
-//        return $this->builder->paginate($limit);
-//    }
-
-    public function after($after)
+    public function limit($limit)
     {
-        return $this->builder;
+        return $this->builder->limit($limit);
+    }
+
+    public function afterTime($afterTime)
+    {
+        $afterTime = Carbon::createFromFormat(Carbon::RFC3339, $afterTime);
+        return $this->builder->searchAfter($afterTime->timestamp);
     }
 }

@@ -5,6 +5,7 @@ namespace Tests\Feature;
 
 use App\Models\Location;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Laravel\Lumen\Testing\DatabaseTransactions;
 
@@ -28,6 +29,7 @@ class TasksTest extends \TestCase
         $task = factory(Task::class)->raw();
         $location = Location::find(rand(1, 1000))->toArray();
         $task['default_location'] = $location;
+        $task['deadline'] = $task['deadline']->format(Carbon::RFC3339);
         $this->post('/v1/tasks', $task);
         $task = json_decode($this->response->getContent(), true);
         $this->seeStatusCode(201);
@@ -41,12 +43,10 @@ class TasksTest extends \TestCase
     /** @test */
     public function a_guest_user_can_view_all_tasks()
     {
-        $task = create(Task::class);
         $this->get('/v1/tasks');
         $this->seeStatusCode(200);
         $this->seeJsonStructure([
             'data',
-            'links',
             'meta'
         ]);
 //        $this->seeJsonContains([

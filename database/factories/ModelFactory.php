@@ -31,7 +31,7 @@ $factory->define(App\Models\Task::class, function (Faker $faker) {
         'name' => $faker->realText(30),
         'description' => $faker->realText(400),
         'price' => $faker->numberBetween(0, 100),
-        'deadline' => Carbon::now(config('app.timezone'))->format(Carbon::DEFAULT_TO_STRING_FORMAT),
+        'deadline' => Carbon::now(config('app.timezone'))->addDays(rand(1, 100)),
         'online_or_phone' => $faker->boolean(),
         'specified_times' => [
             'morning' => true,

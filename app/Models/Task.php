@@ -9,6 +9,7 @@ use App\Traits\Commentable;
 use App\Traits\Rateable;
 use App\Traits\SluggableHelpers;
 use App\Traits\Attachable;
+use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -45,7 +46,7 @@ class Task extends Model
             ],
             'deadline' => [
                 'type' => 'date',
-                'format' => 'yyyy-MM-dd\'T\'HH:mm:ss'
+                'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd\'T\'HH:mm:ssZZ'
             ],
             'online_or_phone' => [
                 'type' => 'boolean'
@@ -66,15 +67,14 @@ class Task extends Model
             ],
             'created_at' => [
                 'type' => 'date',
-                'format' => 'yyyy-MM-dd\'T\'HH:mm:ss'
+                'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd\'T\'HH:mm:ssZZ'
             ],
             'updated_at' => [
                 'type' => 'date',
-                'format' => 'yyyy-MM-dd\'T\'HH:mm:ss'
+                'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd\'T\'HH:mm:ssZZ'
             ],
         ]
     ];
-
 
     /**
      * The attributes that should be cast to native types.
@@ -83,6 +83,7 @@ class Task extends Model
      */
     protected $casts = [
         'specified_times' => 'array',
+        'deadline' => 'datetime:Y-m-d\TH:i:sP',
     ];
 
     /**
@@ -109,7 +110,7 @@ class Task extends Model
 
         unset($array['location_id']);
         $array['location']['display_name'] = $this->location->display_name;
-        $array['location']['coordinate'] = [$this->location->latitude, $this->location->longitude];
+        $array['location']['coordinate'] = [$this->location->longitude, $this->location->latitude];
         return $array;
     }
 

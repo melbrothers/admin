@@ -7,6 +7,7 @@ use App\Events\TaskCreated;
 use App\Filters\TaskFilters;
 use App\Models\Location;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Http\Resources\Task as TaskResource;
 use App\Http\Resources\TaskCollection;
@@ -141,12 +142,10 @@ class TaskController extends Controller
      */
     public function index(Request $request)
     {
-        $searchTerm = $request->get('query', '*');
-
         $filters = new TaskFilters($request);
-        dd($filters->apply(Task::search($searchTerm))->buildPayload());exit;
+        //dd($filters->apply()->explain());exit;
         //return $filters->apply(Task::search($searchTerm))->paginate($request->get('limit'));
-        return new TaskCollection($filters->apply(Task::search($searchTerm))->get());
+        return new TaskCollection($filters->apply()->get());
     }
 
     /**
@@ -277,11 +276,12 @@ class TaskController extends Controller
 
         /** @var Location $location */
         $location = Location::firstOrCreate($data['default_location']);
+        $deadline = Carbon::createFromFormat(Carbon::RFC3339, $data['deadline']);
         $task = new Task;
         $task->name = $data['name'];
         $task->price = $data['price'];
         $task->description = $data['description'];
-        $task->deadline = $data['deadline'];
+        $task->deadline = $deadline;
         $task->online_or_phone = $data['online_or_phone'];
         $task->specified_times = $data['specified_times'];
         $task->location()->associate($location);

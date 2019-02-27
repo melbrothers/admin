@@ -34,16 +34,15 @@ abstract class Filters
     public function __construct(Request $request)
     {
         $this->request = $request;
+
     }
     /**
      * Apply the filters.
      *
-     * @param  FilterBuilder | SearchBuilder $builder
      * @return FilterBuilder | SearchBuilder
      */
-    public function apply($builder)
+    public function apply()
     {
-        $this->builder = $builder;
         foreach ($this->getFilters() as $filter => $value) {
             $method = Str::camel($filter);
             if (method_exists($this, $method)) {

@@ -112,7 +112,8 @@ class ElasticEngine extends Engine
                 ->setIfNotEmpty('body.explain', $options['explain'] ?? null)
                 ->setIfNotEmpty('body.profile', $options['profile'] ?? null)
                 ->setIfNotNull('body.from', $builder->offset)
-                ->setIfNotNull('body.size', $builder->limit);
+                ->setIfNotNull('body.size', $builder->limit)
+                ->setIfNotNull('body.search_after', $builder->searchAfter);
             foreach ($builder->wheres as $clause => $filters) {
                 $clauseKey = 'body.query.bool.filter.bool.' . $clause;
                 $clauseValue = array_merge(

@@ -8,19 +8,6 @@ use Illuminate\Http\Resources\Json\ResourceCollection;
 class TaskCollection extends ResourceCollection
 {
 
-   public function __construct($resource)
-   {
-       $this->resource = $resource;
-   }
-
-    /**
-     * @inheritDoc
-     */
-    protected function collectResource($resource)
-    {
-    }
-
-
     /**
      * Transform the resource collection into an array.
      *
@@ -29,6 +16,13 @@ class TaskCollection extends ResourceCollection
      */
     public function toArray($request)
     {
-        return ['data' => $this->collection,'meta' => 'paginate'];
+        return [
+            'data' => $this->collection,
+            'meta' => [
+                'total' => $this->collection->count(),
+                'latest_result' => $this->collection->last()->created_at,
+                'result_source' => 'elasticsearch',
+                'has_more' => true
+            ]];
     }
 }
