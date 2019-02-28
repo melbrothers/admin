@@ -62,7 +62,7 @@
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""
         ],
         "compile": [
-            "php artisan elastic:create-index App\\IndexConfigurator\\TaskIndexConfigurator",
+            "php artisan elastic:create-index App\\\\IndexConfigurator\\\\TaskIndexConfigurator",
             "php artisan migrate:fresh --seed"
         ]
     },
