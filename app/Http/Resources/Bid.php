@@ -5,6 +5,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\User as UserResource;
+use App\Http\Resources\Comment as CommentResource;
 
 class Bid extends JsonResource
 {
@@ -19,12 +20,11 @@ class Bid extends JsonResource
         return [
             'id' => $this->id,
             'task_id' => $this->task_id,
+            'comments' => CommentResource::collection($this->comments),
             'price' => $this->price,
-            'fee' => $this->fee,
-            'gst' => $this->gst,
-            'comments' => $this->comments,
             'created_at' => $this->created_at,
-            'runner' => new UserResource($this->runner)
+            'runner' => new UserResource($this->runner),
+            'accepted' => $this->accepted
         ];
     }
 }

@@ -9,7 +9,6 @@ use App\Traits\Commentable;
 use App\Traits\Rateable;
 use App\Traits\SluggableHelpers;
 use App\Traits\Attachable;
-use Carbon\Carbon;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
@@ -29,7 +28,7 @@ class Task extends Model
 
     const STATES = [self::STATE_POSTED, self::STATE_ASSIGNED, self::STATE_CLOSED, self::STATE_COMPLETED, self::STATE_OVERDUE, self::STATE_DRAFT, self::STATE_EXPIRED];
 
-    protected $with = ['sender', 'bids', 'comments', 'attachments'];
+    protected $with = ['sender'];
 
     protected $guarded = [];
 
@@ -99,10 +98,11 @@ class Task extends Model
     {
         parent::boot();
 
-        static::addGlobalScope('bidCount', function (Builder $builder) {
+        static::addGlobalScope('bidsCount', function (Builder $builder) {
            $builder->withCount('bids');
         });
     }
+
 
     public function toSearchableArray()
     {
@@ -119,6 +119,7 @@ class Task extends Model
         return '_doc';
     }
 
+    //Relations
     public function sender()
     {
         return $this->belongsTo(User::class, 'sender_id', 'id');
@@ -148,6 +149,13 @@ class Task extends Model
     {
         return $this->belongsTo(Location::class);
     }
+
+    public function getBidsCountAttribute()
+    {
+        return $this->bids()->count();
+    }
+
+
 
     /**
      * Return the sluggable configuration array for this model.

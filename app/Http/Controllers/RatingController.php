@@ -59,19 +59,13 @@ class RatingController extends Controller
     public function store(Request $request, Task $task)
     {
 
-        if ($request->user()->id == $task->sender->id) {
-            $task->rating([
-                'body' => $request->get('body'),
-                'rating' => $request->get('rating')
-            ], $request->user(), $task, 'runner_id');
-        } else if ($request->user()->id == $task->runner->id) {
-            $task->rating([
-                'body' => $request->get('body'),
-                'rating' => $request->get('rating')
-            ], $request->user(), $task, 'sender_id');
-        } else {
-            abort(403);
-        }
+//        if (!in_array($request->user()->id, [$task->sender->id, $task->runner->id])) {
+//            abort(403);
+//        }
+        $task->rating([
+            'body' => $request->get('body'),
+            'rating' => $request->get('rating')
+        ], $request->user());
 
         return response()->json();
     }

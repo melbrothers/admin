@@ -7,6 +7,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use App\Http\Resources\User as UserResource;
 use App\Http\Resources\Bid as BidResource;
 use App\Http\Resources\Location as LocationResource;
+use App\Http\Resources\Comment as CommentResouce;
 
 class Task extends JsonResource
 {
@@ -31,7 +32,9 @@ class Task extends JsonResource
             'sender' => new UserResource($this->sender),
             'runner' => new UserResource($this->runner),
             'state' => $this->state,
-            'bids' => BidResource::collection($this->whenLoaded('bids'))
+            'bids_count' => $this->bids_count,
+            'bids' => BidResource::collection($this->whenLoaded('bids')),
+            'comments' => CommentResouce::collection($this->whenLoaded('comments')),
         ];
     }
 }

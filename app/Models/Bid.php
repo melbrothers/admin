@@ -15,6 +15,10 @@ class Bid extends Model
 
     protected $with = ['runner'];
 
+    protected $casts = [
+        'accepted' => 'boolean'
+    ];
+
     /**
      * @var array
      */

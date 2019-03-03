@@ -38,6 +38,10 @@ class User extends Model implements
 
     protected $guarded = [];
 
+    protected $appends = [
+        'posted_tasks_count',
+        'run_tasks_count'
+    ];
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -47,12 +51,12 @@ class User extends Model implements
         'created_at', 'updated_at', 'password',
     ];
 
-    public function senderTasks()
+    public function postedTasks()
     {
         return $this->hasMany(Task::class, 'sender_id');
     }
 
-    public function runnerTasks()
+    public function runTasks()
     {
         return $this->hasMany(Task::class, 'runner_id');
     }
@@ -85,6 +89,16 @@ class User extends Model implements
     public function ratings()
     {
         return $this->morphMany(Rating::class, 'rateable');
+    }
+
+    public function getPostedTasksCountAttribute()
+    {
+        return $this->postedTasks()->count();
+    }
+
+    public function getRunTasksCountAttribute()
+    {
+        return $this->runTasks()->count();
     }
 
     public function reply(Comment $comment, string $body)

@@ -285,7 +285,7 @@ class TaskController extends Controller
         $task->online_or_phone = $data['online_or_phone'];
         $task->specified_times = $data['specified_times'];
         $task->location()->associate($location);
-        $user->senderTasks()->save($task);
+        $user->postedTasks()->save($task);
 
         event(new TaskCreated($task));
 
@@ -319,7 +319,7 @@ class TaskController extends Controller
      */
     public function show(Task $task)
     {
-        return new TaskResource($task);
+        return new TaskResource($task->load('bids', 'comments'));
     }
 
     /**
