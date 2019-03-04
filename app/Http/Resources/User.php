@@ -28,7 +28,7 @@ class User extends JsonResource
                 'rating_breakdown' => [],
                 'received_reviews' => 0,
             ],
-            'average_rating' => '',
+            'average_ratings' => $this->average_ratings,
             'run_tasks_count' => $this->run_tasks_count,
             'posted_tasks_count' => $this->posted_tasks_count,
             'location' => new LocationResource($this->location),

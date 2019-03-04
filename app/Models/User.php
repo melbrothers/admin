@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Notifications\ResetPassword as ResetPasswordNotification;
 use App\Notifications\VerifyEmail;
+use App\Traits\Rateable;
 use App\Traits\SluggableHelpers;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Auth\Authenticatable;
@@ -31,7 +32,8 @@ class User extends Model implements
         MustVerifyEmail,
         HasApiTokens,
         Sluggable,
-        SluggableHelpers;
+        SluggableHelpers,
+        Rateable;
 
     const ROLE_SENDER = 'ADMIN_USER';
     const ROLE_RUNNER = 'BASIC_USER';
@@ -40,7 +42,9 @@ class User extends Model implements
 
     protected $appends = [
         'posted_tasks_count',
-        'run_tasks_count'
+        'run_tasks_count',
+        'average_ratings'
+
     ];
     /**
      * The attributes excluded from the model's JSON form.
@@ -91,6 +95,7 @@ class User extends Model implements
         return $this->morphMany(Rating::class, 'rateable');
     }
 
+    //Mutators
     public function getPostedTasksCountAttribute()
     {
         return $this->postedTasks()->count();
@@ -99,6 +104,11 @@ class User extends Model implements
     public function getRunTasksCountAttribute()
     {
         return $this->runTasks()->count();
+    }
+
+    public function getAverageRatingsAttribute()
+    {
+        return $this->averageRating(1) ?: 0;
     }
 
     public function reply(Comment $comment, string $body)

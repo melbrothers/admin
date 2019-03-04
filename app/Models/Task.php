@@ -32,6 +32,10 @@ class Task extends Model
 
     protected $guarded = [];
 
+    protected $appends = [
+        'bids_count'
+    ];
+
     protected $indexConfigurator = TaskIndexConfigurator::class;
 
     // Here you can specify a mapping for a model fields.
@@ -94,13 +98,9 @@ class Task extends Model
         'deadline',
     ];
 
-    protected static function boot()
+    public function getBidsCountAttribute()
     {
-        parent::boot();
-
-        static::addGlobalScope('bidsCount', function (Builder $builder) {
-           $builder->withCount('bids');
-        });
+        return $this->bids()->count();
     }
 
 
@@ -149,12 +149,6 @@ class Task extends Model
     {
         return $this->belongsTo(Location::class);
     }
-
-    public function getBidsCountAttribute()
-    {
-        return $this->bids()->count();
-    }
-
 
 
     /**
