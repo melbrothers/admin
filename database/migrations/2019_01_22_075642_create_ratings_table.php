@@ -17,9 +17,11 @@ class CreateRatingsTable extends Migration
             $table->increments('id');
             $table->integer('rating');
             $table->morphs('rateable');
+            $table->unsignedInteger('task_id');
             $table->text('body');
             $table->unsignedInteger('author_id')->index();
             $table->timestamps();
+            $table->foreign('task_id')->references('id')->on('tasks');
             $table->foreign('author_id')->references('id')->on('users');
         });
     }

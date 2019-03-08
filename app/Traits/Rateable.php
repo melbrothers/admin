@@ -4,10 +4,20 @@ namespace App\Traits;
 
 
 use App\Models\Rating;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
 trait Rateable
 {
+
+    private $defaultRatingBreakdown = [
+        '1' => 0,
+        '2' => 0,
+        '3' => 0,
+        '4' => 0,
+        '5' => 0
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */
@@ -21,29 +31,35 @@ trait Rateable
      * @var $round
      * @return mixed
      */
-    public function averageRating($round= null)
+    public function averageRating($round = null)
     {
+        $rating = $this->ratings()->avg('rating');
+
         if ($round) {
-            return $this->ratings()
-                        ->selectRaw('ROUND(AVG(rating), '.$round.') as averageRateable')
-                        ->pluck('averageRateable');
+         return \round($rating, $round);
         }
-        return $this->ratings()
-                    ->selectRaw('AVG(rating) as averageRateable')
-                    ->pluck('averageRateable');
+
+        return $rating;
     }
 
-    /**
-     *
-     * @return mixed
-     */
-    public function countRating()
+
+    public function countReceivedReviews()
+    {
+        return $this->ratings()->count();
+    }
+
+    public function countSentReviews(User $user)
+    {
+        return $this->ratings()->where('author_id', $user->id)->count();
+    }
+
+    public function ratingBreakdown()
     {
         return $this->ratings()
-                    ->selectRaw('count(rating) as countRateable')
-                    ->pluck('countRateable');
+                    ->selectRaw('rating, COUNT(rating) as ratingCount')
+                    ->groupBy('rating')
+                    ->pluck('ratingCount', 'rating')->union($this->defaultRatingBreakdown);
     }
-
 
     /**
      * @param            $data

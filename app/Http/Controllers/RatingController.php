@@ -62,9 +62,10 @@ class RatingController extends Controller
 //        if (!in_array($request->user()->id, [$task->sender->id, $task->runner->id])) {
 //            abort(403);
 //        }
-        $task->rating([
+        $task->sender->rating([
             'body' => $request->get('body'),
-            'rating' => $request->get('rating')
+            'rating' => $request->get('rating'),
+            'task_id' => $task->id
         ], $request->user());
 
         return response()->json();

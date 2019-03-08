@@ -20,7 +20,7 @@ class TaskCollection extends ResourceCollection
             'data' => $this->collection,
             'meta' => [
                 'total' => $this->collection->count(),
-                'latest_result' => $this->collection->last()->created_at,
+                'latest_result' => $this->collection->count() ? $this->collection->last()->created_at : '',
                 'result_source' => 'elasticsearch',
                 'has_more' => true
             ]];

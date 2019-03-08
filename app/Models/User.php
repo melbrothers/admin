@@ -43,8 +43,10 @@ class User extends Model implements
     protected $appends = [
         'posted_tasks_count',
         'run_tasks_count',
-        'average_ratings'
-
+        'average_rating',
+        'received_reviews',
+        'sent_reviews',
+        'rating_breakdown'
     ];
     /**
      * The attributes excluded from the model's JSON form.
@@ -106,9 +108,24 @@ class User extends Model implements
         return $this->runTasks()->count();
     }
 
-    public function getAverageRatingsAttribute()
+    public function getAverageRatingAttribute()
     {
-        return $this->averageRating(1) ?: 0;
+        return $this->averageRating(1);
+    }
+
+    public function getRatingBreakdownAttribute()
+    {
+        return $this->ratingBreakdown();
+    }
+
+    public function getReceivedReviewsAttribute()
+    {
+        return $this->countReceivedReviews();
+    }
+
+    public function getSentReviewsAttribute()
+    {
+        return $this->countSentReviews($this);
     }
 
     public function reply(Comment $comment, string $body)

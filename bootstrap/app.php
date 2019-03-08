@@ -2,11 +2,9 @@
 
 require_once __DIR__.'/../vendor/autoload.php';
 
-try {
-    (new Dotenv\Dotenv(dirname(__DIR__)))->load();
-} catch (Dotenv\Exception\InvalidPathException $e) {
-    //
-}
+(new Laravel\Lumen\Bootstrap\LoadEnvironmentVariables(
+    dirname(__DIR__)
+))->bootstrap();
 
 /*
 |--------------------------------------------------------------------------
@@ -115,12 +113,12 @@ $app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
 $app->register(\SocialiteProviders\Manager\ServiceProvider::class);
 $app->register(\Propaganistas\LaravelPhone\PhoneServiceProvider::class);
-$app->register(\Propaganistas\LaravelIntl\IntlServiceProvider::class);
+//$app->register(\Propaganistas\LaravelIntl\IntlServiceProvider::class);
 $app->register(\Vluzrmos\Tinker\TinkerServiceProvider::class);
 $app->register(\Cviebrock\EloquentSluggable\ServiceProvider::class);
 $app->register(\Laravel\Scout\ScoutServiceProvider::class);
 $app->register(\App\Providers\ScoutElasticServiceProvider::class);
-$app->register(\Cartalyst\Stripe\Laravel\StripeServiceProvider::class,);
+$app->register(\Cartalyst\Stripe\Laravel\StripeServiceProvider::class);
 
 $app->register(\Hivokas\LaravelPassportSocialGrant\Providers\SocialGrantServiceProvider::class);
 $app->register(\SwaggerLume\ServiceProvider::class);

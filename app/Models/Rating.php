@@ -30,8 +30,6 @@ class Rating extends Model
      * @param             $data
      * @param Model       $author
      *
-     * @param Model|null  $rateableOnModel
-     * @param string|null $rateableOnModelColumn
      *
      * @return static
      */
