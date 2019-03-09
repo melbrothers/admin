@@ -11,7 +11,6 @@ use App\Traits\SluggableHelpers;
 use App\Traits\Attachable;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 
 class Task extends Model
@@ -149,6 +148,7 @@ class Task extends Model
     {
         return $this->belongsTo(Location::class);
     }
+
 
 
     /**

@@ -8,6 +8,7 @@ use App\ScoutElastic\Facades\ElasticClient;
 use App\ScoutElastic\Indexers\IndexerInterface;
 use App\ScoutElastic\Payloads\TypePayload;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Artisan;
 use Laravel\Scout\Builder;
@@ -252,7 +253,7 @@ class ElasticEngine extends Engine
             return Collection::make();
         }
         $primaryKey = $model->getKeyName();
-        $columns = array_get($results, '_payload.body._source');
+        $columns = Arr::get($results, '_payload.body._source');
         if (is_null($columns)) {
             $columns = ['*'];
         } else {

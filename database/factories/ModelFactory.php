@@ -150,15 +150,15 @@ $factory->state(App\Models\Comment::class, 'reply', function (Faker $faker) {
 $factory->define(\App\Models\Rating::class, function (Faker $faker) {
     $user = factory(User::class)->create();
     $task = factory(Task::class)->create([
+        'state' => 'completed',
         'runner_id' => $user->id
     ]);
 
     return [
         'author_id' => $user->id,
         'body' => $faker->paragraph,
-        'task_id' => $task->id,
-        'rateable_type' => User::class,
-        'rateable_id' => $task->sender_id,
+        'rateable_type' => Task::class,
+        'rateable_id' => $task->id,
         'rating' => rand(1, 5),
     ];
 });

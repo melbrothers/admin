@@ -144,7 +144,6 @@ class TaskController extends Controller
     {
         $filters = new TaskFilters($request);
         //dd($filters->apply()->explain());exit;
-        //return $filters->apply(Task::search($searchTerm))->paginate($request->get('limit'));
         return new TaskCollection($filters->apply()->get());
     }
 

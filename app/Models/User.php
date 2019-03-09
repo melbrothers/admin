@@ -32,8 +32,7 @@ class User extends Model implements
         MustVerifyEmail,
         HasApiTokens,
         Sluggable,
-        SluggableHelpers,
-        Rateable;
+        SluggableHelpers;
 
     const ROLE_SENDER = 'ADMIN_USER';
     const ROLE_RUNNER = 'BASIC_USER';
@@ -44,10 +43,11 @@ class User extends Model implements
         'posted_tasks_count',
         'run_tasks_count',
         'average_rating',
-        'received_reviews',
-        'sent_reviews',
-        'rating_breakdown'
+        'runner_review_statistics',
+        'sender_review_statistics',
+        'received_reviews_count'
     ];
+
     /**
      * The attributes excluded from the model's JSON form.
      *
@@ -90,42 +90,6 @@ class User extends Model implements
     public function location()
     {
         return $this->belongsTo(Location::class, 'default_location_id');
-    }
-
-    public function ratings()
-    {
-        return $this->morphMany(Rating::class, 'rateable');
-    }
-
-    //Mutators
-    public function getPostedTasksCountAttribute()
-    {
-        return $this->postedTasks()->count();
-    }
-
-    public function getRunTasksCountAttribute()
-    {
-        return $this->runTasks()->count();
-    }
-
-    public function getAverageRatingAttribute()
-    {
-        return $this->averageRating(1);
-    }
-
-    public function getRatingBreakdownAttribute()
-    {
-        return $this->ratingBreakdown();
-    }
-
-    public function getReceivedReviewsAttribute()
-    {
-        return $this->countReceivedReviews();
-    }
-
-    public function getSentReviewsAttribute()
-    {
-        return $this->countSentReviews($this);
     }
 
     public function reply(Comment $comment, string $body)
@@ -203,4 +167,118 @@ class User extends Model implements
         $this->notify(new VerifyEmail);
     }
 
+    public function senderRatings()
+    {
+        return $this->hasManyThrough(Rating::class, Task::class, 'sender_id', 'rateable_id', 'id', 'id')->where('rateable_type', Task::class);
+    }
+
+    public function runnerRatings()
+    {
+        return $this->hasManyThrough(Rating::class, Task::class, 'runner_id', 'rateable_id', 'id', 'id')->where('rateable_type', Task::class);
+    }
+
+    public function receivedRatings()
+    {
+        return $this->senderReceivedRatings()->union($this->runnerReceivedRatings()->select('rating'))->select('rating');
+    }
+
+    public function senderSentRatings()
+    {
+        return $this->senderRatings()->where('author_id', $this->id);
+    }
+
+    public function senderReceivedRatings()
+    {
+        return $this->senderRatings()->where('author_id', '!=', $this->id);
+    }
+
+    public function runnerSentRatings()
+    {
+        return $this->runnerRatings()->where('author_id', $this->id);
+    }
+
+    public function runnerReceivedRatings()
+    {
+        return $this->runnerRatings()->where('author_id', '!=', $this->id);
+    }
+
+    public function senderRatingBreakdown()
+    {
+        return $this->senderReceivedRatings()
+            ->selectRaw('rating, COUNT(rating) as ratingCount')
+            ->groupBy('rating')
+            ->pluck('ratingCount', 'rating')->union([
+                '1' => 0,
+                '2' => 0,
+                '3' => 0,
+                '4' => 0,
+                '5' => 0
+            ]);
+    }
+
+    public function runnerRatingBreakdown()
+    {
+        return $this->runnerReceivedRatings()
+                    ->selectRaw('rating, COUNT(rating) as ratingCount')
+                    ->groupBy('rating')
+                    ->pluck('ratingCount', 'rating')->union([
+                '1' => 0,
+                '2' => 0,
+                '3' => 0,
+                '4' => 0,
+                '5' => 0
+            ]);
+    }
+
+    public function senderAverageRating()
+    {
+        return (float) $this->senderReceivedRatings()->average('rating');
+    }
+
+    public function runnerAverageRating()
+    {
+        return (float) $this->runnerReceivedRatings()->average('rating');
+    }
+
+    public function getRunnerReviewStatisticsAttribute()
+    {
+        return [
+            'average_rating' => $this->runnerAverageRating(),
+            'rating_breakdown' => $this->runnerRatingBreakdown(),
+            'received_reviews' => $this->runnerReceivedRatings()->count(),
+            'sent_reviews' => $this->runnerSentRatings()->count(),
+        ];
+    }
+
+    public function getSenderReviewStatisticsAttribute()
+    {
+        return [
+            'average_rating' => $this->senderAverageRating(),
+            'rating_breakdown' => $this->senderRatingBreakdown(),
+            'received_reviews' => $this->senderReceivedRatings()->count(),
+            'sent_reviews' => $this->senderSentRatings()->count(),
+        ];
+    }
+
+    //Mutators
+    public function getPostedTasksCountAttribute()
+    {
+        return $this->postedTasks()->count();
+    }
+
+    public function getRunTasksCountAttribute()
+    {
+        return $this->runTasks()->count();
+    }
+
+
+    public function getAverageRatingAttribute()
+    {
+        return (float) $this->receivedRatings()->average('rating');
+    }
+
+    public function getReceivedReviewsCountAttribute()
+    {
+        return (float) $this->receivedRatings()->count();
+    }
 }

@@ -9,7 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 
 trait Rateable
 {
-
     private $defaultRatingBreakdown = [
         '1' => 0,
         '2' => 0,
@@ -19,7 +18,7 @@ trait Rateable
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return  \Illuminate\Database\Eloquent\Relations\MorphMany
      */
     public function ratings()
     {
@@ -40,25 +39,6 @@ trait Rateable
         }
 
         return $rating;
-    }
-
-
-    public function countReceivedReviews()
-    {
-        return $this->ratings()->count();
-    }
-
-    public function countSentReviews(User $user)
-    {
-        return $this->ratings()->where('author_id', $user->id)->count();
-    }
-
-    public function ratingBreakdown()
-    {
-        return $this->ratings()
-                    ->selectRaw('rating, COUNT(rating) as ratingCount')
-                    ->groupBy('rating')
-                    ->pluck('ratingCount', 'rating')->union($this->defaultRatingBreakdown);
     }
 
     /**
