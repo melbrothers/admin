@@ -21,13 +21,21 @@ use App\Http\Resources\Bid as BidResource;
  */
 class TaskController extends Controller
 {
+
     /**
      * Instantiate a new controller instance.
      *
+     * @param Request $request
      */
-    public function __construct()
+    public function __construct(Request $request)
     {
-        $this->middleware('auth:api', ['except' => ['index', 'show']]);
+        if ($request->has('my_tasks') || $request->has('role')) {
+            $except = ['show'];
+        } else {
+            $except = ['index', 'show'];
+        }
+
+        $this->middleware('auth:api', compact('except'));
     }
 
     /**

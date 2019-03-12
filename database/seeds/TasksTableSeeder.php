@@ -10,6 +10,7 @@ class TasksTableSeeder extends Seeder
     public function run()
     {
         factory(App\Models\User::class, 25)->create()->each(function (App\Models\User $user) {
+
             /** @var \App\Models\Task $task */
             $task = factory(App\Models\Task::class)->make();
             $user->postedTasks()->save($task);
@@ -23,11 +24,7 @@ class TasksTableSeeder extends Seeder
                 $bid->comments()->save(factory(\App\Models\Comment::class)->make());
             });
 
-        });
-
-        factory(App\Models\User::class, 25)->create()->each(function (App\Models\User $user) {
-            /** @var \App\Models\Task $task */
-
+            /** @var \App\Models\Task[] $tasks */
             $tasks = factory(App\Models\Task::class, 3)->create([
                 'state' => 'completed',
                 'sender_id' => $user->id,

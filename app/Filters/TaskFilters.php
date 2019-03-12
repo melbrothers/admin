@@ -9,13 +9,6 @@ use Illuminate\Support\Facades\Auth;
 
 class TaskFilters extends Filters
 {
-    public function __construct(Request $request)
-    {
-        parent::__construct($request);
-        $searchTerm = $request->get('query', '*');
-        $this->builder = Task::search($searchTerm);
-    }
-
     /**
      * Registered filters to operate upon.
      *
@@ -36,6 +29,13 @@ class TaskFilters extends Filters
         'limit',
         'after_time'
     ];
+
+    public function __construct(Request $request)
+    {
+        parent::__construct($request);
+        $searchTerm = $request->get('query', '*');
+        $this->builder = Task::search($searchTerm);
+    }
 
     public function sortBy($field)
     {
@@ -64,7 +64,7 @@ class TaskFilters extends Filters
 
     public function role($role)
     {
-        if (!Auth::user()) {
+        if (!Auth::check()) {
             abort(401);
         }
 
@@ -91,10 +91,10 @@ class TaskFilters extends Filters
     public function myTasks($myTasks)
     {
         if ($myTasks) {
-            if (!Auth::user()) {
+            if (!Auth::check()) {
                 abort(401);
             }
-            return $this->builder->where('sender_id', '<=', Auth::user()->id);
+            return $this->builder->where('sender_id', Auth::user()->id);
         }
 
         return $this->builder;

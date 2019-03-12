@@ -5,6 +5,7 @@ namespace Tests\Feature;
 
 use App\Models\Location;
 use App\Models\Task;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\UploadedFile;
 use Laravel\Lumen\Testing\DatabaseTransactions;
@@ -37,7 +38,6 @@ class TasksTest extends \TestCase
             'name' => $task['name'],
             'location' => $task['location']
         ]);
-
     }
 
     /** @test */
@@ -102,4 +102,20 @@ class TasksTest extends \TestCase
         $this->seeStatusCode(200);
     }
 
+    /** @test */
+    public function authenticated_user_can_view_his_tasks()
+    {
+        $user = User::find(1);
+        $this->signIn($user);
+        $task = Task::where('sender_id', $user->id)->first();
+        $this->call('GET','v1/tasks', [
+            'my_tasks' => 'true',
+        ]);
+        $this->seeStatusCode(200);
+        $this->seeJsonContains([
+            'name' => $task->name,
+        ]);
+        $response = json_decode($this->response->getContent(), true);
+        $this->assertCount(1, $response['data']);
+    }
 }

@@ -26,8 +26,6 @@ return [
         'region' => 'us-east-1',
     ],
     'stripe' => [
-        'model'  => App\Models\User::class,
-        'key'    => env('STRIPE_KEY'),
         'secret' => env('STRIPE_SECRET'),
     ],
 

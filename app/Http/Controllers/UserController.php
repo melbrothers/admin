@@ -70,6 +70,7 @@ class UserController extends Controller
      * @param User    $user
      *
      * @return UserResource
+     * @throws \Illuminate\Validation\ValidationException
      */
     public function update(Request $request, User $user)
     {
