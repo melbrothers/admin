@@ -107,15 +107,12 @@ class TasksTest extends \TestCase
     {
         $user = User::find(1);
         $this->signIn($user);
-        $task = Task::where('sender_id', $user->id)->first();
+        $tasks = Task::where('sender_id', $user->id)->get();
         $this->call('GET','v1/tasks', [
             'my_tasks' => 'true',
         ]);
         $this->seeStatusCode(200);
-        $this->seeJsonContains([
-            'name' => $task->name,
-        ]);
         $response = json_decode($this->response->getContent(), true);
-        $this->assertCount(1, $response['data']);
+        $this->assertCount($tasks->count(), $response['data']);
     }
 }
