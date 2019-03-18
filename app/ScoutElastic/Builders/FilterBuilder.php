@@ -12,7 +12,7 @@ class FilterBuilder extends Builder
      */
     public $wheres = [
         'must' => [],
-        'must_not' => []
+        'must_not' => [],
     ];
     /**
      * @var array|string
@@ -138,6 +138,18 @@ class FilterBuilder extends Builder
         ];
         return $this;
     }
+
+    public function orWhere($field, $value)
+    {
+        $this->wheres['must']['bool']['should'][] = [
+            'match' => [
+                $field => $value
+            ]
+        ];
+
+        return $this;
+    }
+
     /**
      * @see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html Terms query
      *

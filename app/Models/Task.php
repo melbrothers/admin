@@ -67,6 +67,12 @@ class Task extends Model
                 ],
                 'type' => 'nested'
             ],
+            'sender_id' => [
+                'type' => 'text'
+            ],
+            'runner_id' => [
+                'type' => 'text'
+            ],
             'created_at' => [
                 'type' => 'date',
                 'format' => 'yyyy-MM-dd HH:mm:ss||yyyy-MM-dd\'T\'HH:mm:ssZZ'

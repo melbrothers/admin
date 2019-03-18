@@ -30,6 +30,7 @@ class CreateUsersTable extends Migration
             $table->string('avatar')->nullable();
             $table->unsignedInteger('default_location_id')->nullable();
             $table->boolean('active')->default(true);
+            $table->string('stripe_customer_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

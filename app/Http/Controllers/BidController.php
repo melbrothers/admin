@@ -8,6 +8,8 @@ use App\Models\Bid;
 use App\Events\BidCreated;
 use App\Models\Task;
 use App\Models\User;
+use Cartalyst\Stripe\Exception\StripeException;
+use Cartalyst\Stripe\Stripe;
 use Illuminate\Http\Request;
 use App\Http\Resources\Bid as BidResource;
 
@@ -93,8 +95,6 @@ class BidController extends Controller
      *     )
      * )
      *
-     * @bodyParam price string required
-     * @bodyParam comment string required
      *
      * @param Request $request
      * @param Task    $task
@@ -132,7 +132,7 @@ class BidController extends Controller
      * Accept a bid
      *
      * @OA\Post(
-     *     path="/bids/{id}/approve",
+     *     path="/bids/{id}/accept",
      *     tags={"Bid"},
      *     summary="Accept a bid",
      *     @OA\Parameter(
@@ -158,7 +158,7 @@ class BidController extends Controller
      *
      * @return Bid
      */
-    public function approve(Bid $bid)
+    public function accept(Bid $bid)
     {
         $task = $bid->task;
 
@@ -166,14 +166,26 @@ class BidController extends Controller
             abort('400');
         }
 
-        $bid->accepted = true;
-        $bid->save();
-        $task->runner_id = $bid->runner->id;
-        $task->state = Task::STATE_ASSIGNED;
-        $task->save();
-        event(new BidApproved($bid));
+        $user = $bid->user;
+        if (!$user->stripe_customer_id) {
+            return false;
+        }
 
-        return $bid;
+        try {
+            $charge = Stripe::charges()->create([
+                'amount' => $task->price,
+                'currency' => $task->currency
+            ]);
+            $bid->accepted = true;
+            $bid->save();
+            $task->runner_id = $bid->runner->id;
+            $task->state = Task::STATE_ASSIGNED;
+            $task->save();
+            event(new BidApproved($bid));
+            return $bid;
+        } catch (StripeException $e) {
+            return abort($e->getCode(), $e->getMessage());
+        }
     }
 
     private function rules()

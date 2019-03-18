@@ -151,7 +151,7 @@ class TaskController extends Controller
     public function index(Request $request)
     {
         $filters = new TaskFilters($request);
-        //dd($filters->apply()->explain());exit;
+//        dd($filters->apply()->buildPayload());exit;
         return new TaskCollection($filters->apply()->get());
     }
 

@@ -65,7 +65,7 @@ class Handler extends ExceptionHandler
         }
 
         if ($exception instanceof HttpException) {
-            return response()->json((['status' => $exception->getStatusCode(), 'message' => 'You must login to access this feature']), $exception->getStatusCode());
+            return response()->json((['status' => $exception->getStatusCode(), 'message' => $exception->getMessage()]), $exception->getStatusCode());
         }
 
         return parent::render($request, $exception);

@@ -92,6 +92,21 @@ class User extends Model implements
         return $this->belongsTo(Location::class, 'default_location_id');
     }
 
+    public function paymentMethod()
+    {
+        return $this->hasOne(PaymentMethod::class);
+    }
+
+    public function disbursementMethod()
+    {
+        return $this->hasOne(DisbursementMethod::class);
+    }
+
+    public function billingAddress()
+    {
+        return $this->hasOne(BillingAddress::class);
+    }
+
     public function reply(Comment $comment, string $body)
     {
         $newComment = new Comment;
@@ -111,7 +126,11 @@ class User extends Model implements
      */
     public function getNameAttribute()
     {
-        return "{$this->first_name} {$this->last_name}";
+        if ($this->local == 'en') {
+            return "{$this->first_name} {$this->last_name}";
+        } else {
+            return "{$this->last_name}{$this->first_name}";
+        }
     }
 
     /**
@@ -167,6 +186,9 @@ class User extends Model implements
         $this->notify(new VerifyEmail);
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasManyThrough
+     */
     public function senderRatings()
     {
         return $this->hasManyThrough(Rating::class, Task::class, 'sender_id', 'rateable_id', 'id', 'id')->where('rateable_type', Task::class);

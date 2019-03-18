@@ -62,21 +62,6 @@ class TaskFilters extends Filters
         return $this->builder->where('price', '<=', $price);
     }
 
-    public function role($role)
-    {
-        if (!Auth::check()) {
-            abort(401);
-        }
-
-        if ($role == 'sender') {
-            return $this->builder->where('sender_id', Auth::user()->id);
-        } else if ($role == 'runner') {
-            return $this->builder->where('runner_id', Auth::user()->id);
-        }
-
-        return $this->builder;
-    }
-
     public function taskStates($taskStates)
     {
         $taskStates = explode(',', $taskStates);
@@ -94,7 +79,14 @@ class TaskFilters extends Filters
             if (!Auth::check()) {
                 abort(401);
             }
-            return $this->builder->where('sender_id', Auth::user()->id);
+            $role = $this->request->get('role');
+            if ('sender' == $role) {
+                return $this->builder->where('sender_id', Auth::user()->id);
+            } elseif ('runner' == $role) {
+                return $this->builder->where('runner_id', Auth::user()->id);
+            } else {
+                return $this->builder->orWhere('runner_id', Auth::user()->id)->orWhere('sender_id', Auth::user()->id);
+            }
         }
 
         return $this->builder;
