@@ -30,6 +30,35 @@ class AccountController extends Controller
     }
 
     /**
+     * @OA\Post(
+     *     path="/account/payment_methods",
+     *     tags={"Account"},
+     *     summary="Create a new payment method",
+     *     @OA\RequestBody(
+     *          description="create payment method",
+     *          required=true,
+     *          @OA\MediaType(
+     *              mediaType="application/json",
+     *              @OA\Schema(
+     *                  type="object",
+     *                  @OA\Property(
+     *                      property="token",
+     *                      description="Token form stripe",
+     *                      type="string",
+     *                      example="av12312vsdasd"
+     *                  ),
+     *              )
+     *          )
+     *      ),
+     *     @OA\Response(
+     *          response=200,
+     *          description="Createa a comment successfully"
+     *     ),
+     *     @OA\Response(
+     *          response=422,
+     *          description="Validation error"
+     *     )
+     * )
      * @param Request $request
      *
      * @return UserResource
