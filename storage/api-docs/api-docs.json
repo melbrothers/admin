@@ -24,6 +24,101 @@
         }
     ],
     "paths": {
+        "/account/payment_methods": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Create a new payment method",
+                "operationId": "App\\Http\\Controllers\\AccountController::paymentMethods",
+                "requestBody": {
+                    "description": "create payment method",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "token": {
+                                        "description": "Token form stripe",
+                                        "type": "string",
+                                        "example": "av12312vsdasd"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Createa a comment successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
+        "/account/billing-address": {
+            "post": {
+                "tags": [
+                    "Account"
+                ],
+                "summary": "Create a new billing-address",
+                "operationId": "App\\Http\\Controllers\\AccountController::postBillingAddress",
+                "requestBody": {
+                    "description": "Create data format",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "address_line_1": {
+                                        "description": "Billing address line 1",
+                                        "type": "string",
+                                        "example": "This is a bid comment"
+                                    },
+                                    "address_line_2": {
+                                        "description": "Billing address line 1",
+                                        "type": "string",
+                                        "example": ""
+                                    },
+                                    "country": {
+                                        "description": "Country",
+                                        "type": "string",
+                                        "example": "This is a bid comment"
+                                    },
+                                    "postcode": {
+                                        "description": "Post code",
+                                        "type": "string",
+                                        "example": "This is a bid comment"
+                                    },
+                                    "state": {
+                                        "description": "State",
+                                        "type": "string",
+                                        "example": "This is a bid comment"
+                                    },
+                                    "suburb": {
+                                        "description": "Suburb",
+                                        "type": "string",
+                                        "example": "This is a bid comment"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Createa a comment successfully"
+                    },
+                    "422": {
+                        "description": "Validation error"
+                    }
+                }
+            }
+        },
         "/comments/{id}/attachments": {
             "post": {
                 "tags": [
@@ -285,13 +380,13 @@
                 }
             }
         },
-        "/bids/{id}/approve": {
+        "/bids/{id}/accept": {
             "post": {
                 "tags": [
                     "Bid"
                 ],
                 "summary": "Accept a bid",
-                "operationId": "App\\Http\\Controllers\\BidController::approve",
+                "operationId": "App\\Http\\Controllers\\BidController::accept",
                 "parameters": [
                     {
                         "name": "id",
